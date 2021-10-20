@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/signup_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:textSize="@dimen/title"
+            android:textColor="@color/white"
+            android:text="@string/signup" />
+
+        <EditText
+            android:id="@+id/signup_fname"
+            android:inputType="text"
+            android:autofillHints="emailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:textSize="@dimen/field"
+            android:hint="@string/first_name"
+            />
+        <EditText
+            android:id="@+id/signup_lname"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_field"
+            android:imeOptions="actionNext"
+            android:textSize="@dimen/field"
+            android:hint="@string/last_name"
+            />
+        <EditText
+            android:id="@+id/signup_email"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:layout_marginTop="@dimen/margin_field"
+            android:textSize="@dimen/field"
+            android:hint="@string/email_address"
+            />
+        <EditText
+            android:id="@+id/signup_password"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:layout_marginTop="@dimen/margin_field"
+            android:textSize="@dimen/field"
+            android:hint="@string/password"
+            />
+        <EditText
+            android:id="@+id/signup_conf_password"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_field"
+            android:layout_marginBottom="@dimen/margin_field"
+            android:textSize="@dimen/field"
+            android:hint="@string/conf_password"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_field"
+            android:gravity="start"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/status"
+                android:textColor="@color/white"
+                android:textSize="@dimen/field" />
+
+            <RadioGroup
+                android:id="@+id/rad_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp">
+
+                <RadioButton
+                    android:id="@+id/rad_student"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:text="Student" />
+
+                <RadioButton
+                    android:id="@+id/rad_teacher"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:text="Teacher" />
+            </RadioGroup>
+
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/signup_btn"
+            android:layout_width="@dimen/button"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button"
+            android:textColor="@color/primary_purple"
+            android:textStyle="bold"
+            android:text="@string/create_acc"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:text="Already have an account?"/>
+
+            <Button
+                android:id="@+id/btn_to_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:textAllCaps="false"
+                android:text="Sign In"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

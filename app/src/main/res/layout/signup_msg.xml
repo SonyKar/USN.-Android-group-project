@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/thankyou_mess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="@dimen/margin_field"
+            android:gravity="center"
+            android:textSize="@dimen/title"
+            android:textColor="@color/white"
+            android:text="@string/successful_signup" />
+
+        <TextView
+            android:id="@+id/signup_mess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_field"
+            android:gravity="center"
+            android:textSize="@dimen/message"
+            android:textColor="@color/white"
+            android:text="@string/signup_message" />
+
+
+        <Button
+            android:id="@+id/to_courses"
+            android:layout_width="@dimen/button"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/button"
+            android:textColor="@color/primary_purple"
+            android:textStyle="bold"
+            android:text="@string/discover_courses"
+            />
+
+    </LinearLayout>
+
+</ScrollView>

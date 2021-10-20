@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title">39sp</dimen>
+    <dimen name="field">22sp</dimen>
+    <dimen name="button">150dp</dimen>
+    <dimen name="padding">25dp</dimen>
+    <dimen name="margin_field">16dp</dimen>
+    <dimen name="message">18dp</dimen>
+</resources>

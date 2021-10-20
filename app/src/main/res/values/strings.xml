@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">MobProject</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="create_acc">Create account</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="conf_password">Confirm Password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="status">Status</string>
+    <string name="student">Student</string>
+    <string name="teacher">Teacher</string>
+    <string name="email_error">INSERT email address!!</string>
+    <string name="error_invalid_email">INVALID email address!!</string>
+    <string name="password_error">INSERT password!!</string>
+    <string name="conf_password_error">CONFIRM password!!</string>
+    <string name="password_match_error">Passwords don\'t match!!</string>
+    <string name="first_name_error">INSERT first name!!</string>
+    <string name="last_name_error">INSERT last name!!</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="generate_password">New Password</string>
+    <string name="successful_signup">Thank you for registering!</string>
+    <string name="signup_message">Choose your favourite course and learn from the best teachers online!</string>
+    <string name="discover_courses">Discover Courses</string>
+</resources>

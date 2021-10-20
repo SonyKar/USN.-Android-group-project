@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/forgot_pass_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="120dp"
+            android:gravity="center"
+            android:textSize="@dimen/title"
+            android:textColor="@color/white"
+            android:text="@string/forgot_password" />
+
+        <EditText
+            android:id="@+id/send_email"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:textSize="@dimen/field"
+            android:hint="@string/email_address"
+            />
+
+
+        <Button
+            android:id="@+id/new_pass"
+            android:layout_width="@dimen/button"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/button"
+            android:textColor="@color/primary_purple"
+            android:textStyle="bold"
+            android:text="@string/generate_password"
+            />
+
+    </LinearLayout>
+
+</ScrollView>

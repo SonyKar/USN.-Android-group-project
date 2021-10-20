@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+   <style name="AppTheme" parent="Theme.AppCompat.NoActionBar" >
+       <!-- Customize your theme. -->
+       <item name="colorPrimary">@color/primary_purple</item>
+       <item name="colorPrimaryDark">@color/primary_dark_purple</item>
+       <item name="colorOnPrimary">@color/white</item>
+       <!-- Secondary brand color. -->
+       <item name="colorSecondary">@color/secondary_pink</item>
+       <item name="colorSecondaryVariant">@color/grey_purple</item>
+       <item name="colorOnSecondary">@color/white</item>
+   </style>
+
+</resources>
