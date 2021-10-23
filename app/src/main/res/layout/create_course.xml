@@ -45,17 +45,19 @@
             <TextView
                 android:id="@+id/category_txt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/category_txt"
-                android:textSize="@dimen/field" />
+                android:textSize="@dimen/field"
+                android:textStyle="bold"/>
 
             <Spinner
                 android:id="@+id/category_spn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:popupBackground="@color/secondary_pink"/>
+                android:popupBackground="@color/secondary_pink"
+                />
         </LinearLayout>
 
         <EditText
@@ -89,7 +91,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/start_date"
-                    android:textSize="@dimen/field" />
+                    android:textSize="@dimen/field"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/start_date"
@@ -126,7 +129,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/end_date"
-                    android:textSize="@dimen/field" />
+                    android:textSize="@dimen/field"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/end_date"
@@ -155,7 +159,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/field"
-            android:text="@string/meetings_txt" />
+            android:text="@string/meetings_txt"
+            android:textStyle="bold"/>
 
 
         <RelativeLayout
@@ -239,7 +244,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_field"
             android:textSize="@dimen/field"
-            android:text="@string/difficulty" />
+            android:text="@string/difficulty"
+            android:textStyle="bold"/>
 
         <RadioGroup
             android:id="@+id/difficulty_radgr"

@@ -87,7 +87,8 @@
                 android:layout_gravity="center"
                 android:text="@string/status"
                 android:textColor="@color/white"
-                android:textSize="@dimen/field" />
+                android:textSize="@dimen/field"
+                android:textStyle="bold"/>
 
             <RadioGroup
                 android:id="@+id/rad_status"
