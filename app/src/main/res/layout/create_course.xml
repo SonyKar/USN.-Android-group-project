@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/create_course_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:textSize="@dimen/title"
+            android:textColor="@color/white"
+            android:text="@string/create_edit_course_text" />
+
+        <EditText
+            android:id="@+id/create_course_name"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:textSize="@dimen/field"
+            android:hint="@string/name"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_field"
+            android:imeOptions="actionNext"
+            >
+
+            <TextView
+                android:id="@+id/category_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/category_txt"
+                android:textSize="@dimen/field" />
+
+            <Spinner
+                android:id="@+id/category_spn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:popupBackground="@color/secondary_pink"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/create_course_price"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_field"
+            android:imeOptions="actionNext"
+            android:textSize="@dimen/field"
+            android:hint="@string/price"
+            />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext">
+
+            <LinearLayout
+                android:id="@+id/start_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_field"
+                android:layout_marginBottom="@dimen/margin_field"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/start_date_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/start_date"
+                    android:textSize="@dimen/field" />
+
+                <TextView
+                    android:id="@+id/start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textSize="@dimen/field" />
+
+                <ImageButton
+                    android:id="@+id/start_date_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="fitEnd"
+                    android:stateListAnimator="@null"
+                    app:srcCompat="@drawable/ic_date"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/end_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_field"
+                android:layout_below="@+id/start_date_layout"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/end_date_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/end_date"
+                    android:textSize="@dimen/field" />
+
+                <TextView
+                    android:id="@+id/end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textSize="@dimen/field" />
+
+                <ImageButton
+                    android:id="@+id/end_date_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="fitEnd"
+                    app:srcCompat="@drawable/ic_date"
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/meetings_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/field"
+            android:text="@string/meetings_txt" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/days_row1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/monday_chck"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/monday" />
+
+                <CheckBox
+                    android:id="@+id/tuesday_chck"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/tuesday" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/days_row2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/days_row1"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/wedn_chck"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/wednesday" />
+
+                <CheckBox
+                    android:id="@+id/thurs_chck"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/thursday" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/days_row3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/days_row2"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/friday_chck"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/friday" />
+
+                <CheckBox
+                    android:id="@+id/saturday_chck"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/saturday" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/difficulty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_field"
+            android:textSize="@dimen/field"
+            android:text="@string/difficulty" />
+
+        <RadioGroup
+            android:id="@+id/difficulty_radgr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/beginner_rad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/beginner" />
+
+            <RadioButton
+                android:id="@+id/interm_rad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/intermediate" />
+
+            <RadioButton
+                android:id="@+id/advanced_rad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/advanced" />
+
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/description">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/description_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:scrollbars="vertical"
+                android:scrollbarStyle="insideInset"
+                android:scrollHorizontally="false"
+                android:overScrollMode="always"
+                android:lines="5"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/create_course_btn"
+            android:layout_width="@dimen/button"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button"
+            android:text="@string/create_course"
+            android:textColor="@color/primary_purple"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</ScrollView>

@@ -27,7 +27,6 @@
         <EditText
             android:id="@+id/signup_fname"
             android:inputType="text"
-            android:autofillHints="emailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"

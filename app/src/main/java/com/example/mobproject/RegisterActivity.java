@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -16,7 +17,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText signupEmail, signupFirstName, signupLastName, signupPass, signupConfPass;
     Button register, btnToLogin;
     RadioGroup status;
-    Boolean validSignUpEmail, validSignUpPassword, validSignUpFirstName, validSignUpLastName;
+    Boolean validSignUpEmail, validSignUpPassword, validSignUpFirstName, validSignUpLastName, validSignUpStatus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,12 @@ public class RegisterActivity extends AppCompatActivity {
         register = (Button) findViewById(R.id.signup_btn);
         status = (RadioGroup) findViewById(R.id.rad_status);
         btnToLogin = (Button) findViewById(R.id.btn_to_login);
+
+        /* get selected radio button from radioGroup
+        int selectedId = gender.getCheckedRadioButtonId();
+        // find the radiobutton by returned id
+        selectedRadioButton = (RadioButton)findViewById(selectedId);
+        Toast.makeText(getApplicationContext(), selectedRadioButton.getText().toString()+" is selected", Toast.LENGTH_SHORT).show();*/
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         Boolean passConfirm = signupPass.getText().toString().equals(
                 signupConfPass.getText().toString());
 
-        //Check signup first name
+        //validate signup FIRST NAME
         if(signupFirstName.getText().toString().isEmpty()){
             signupFirstName.setError(getResources().getString(R.string.first_name_error));
             validSignUpFirstName = false;
@@ -60,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         else
             validSignUpFirstName = true;
 
-        //Check signup last name
+        //validate signup LAST NAME
         if(signupLastName.getText().toString().isEmpty()){
             signupLastName.setError(getResources().getString(R.string.last_name_error));
             validSignUpLastName = false;
@@ -68,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         else
             validSignUpLastName = true;
 
-        //Check signup email address
+        //validate signup EMAIL ADDRESS
         if(signupEmail.getText().toString().isEmpty()){
             signupEmail.setError(getResources().getString(R.string.email_error));
             validSignUpEmail = false;
@@ -79,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
             validSignUpEmail = true;
         }
 
-        //Check signup password
+        //validate signup PASSWORD
         if(signupPass.getText().toString().isEmpty()){
             signupPass.setError(getResources().getString(R.string.password_error));
             validSignUpPassword = false;
@@ -95,8 +103,32 @@ public class RegisterActivity extends AppCompatActivity {
         else
             validSignUpPassword = true;
 
+        //validate STATUS
+        if (status.getCheckedRadioButtonId() == -1)
+        {
+            // no radio buttons are checked
+            Toast.makeText(getApplicationContext(),
+                    R.string.status_error,
+                    Toast.LENGTH_SHORT).show();
+            validSignUpStatus = false;
+        }
+        else
+        {
+            // one of the radio buttons is checked
+            validSignUpStatus = true;
 
-        if(validSignUpFirstName && validSignUpLastName && validSignUpEmail && validSignUpPassword){
+            // get selected radio button from radioGroup
+            int selectedStatusId = status.getCheckedRadioButtonId();
+
+            // find the radiobutton by returned id
+
+            //selectedStatus = (RadioButton)findViewById(selectedId);
+
+        }
+
+
+        if(validSignUpFirstName && validSignUpLastName && validSignUpEmail && validSignUpPassword
+                && validSignUpStatus){
             Toast.makeText(getApplicationContext(),
                     "Successful Signup!!",
                     Toast.LENGTH_SHORT).show();

@@ -10,6 +10,12 @@
        <item name="colorSecondary">@color/secondary_pink</item>
        <item name="colorSecondaryVariant">@color/grey_purple</item>
        <item name="colorOnSecondary">@color/white</item>
+       <item name="android:colorBackground">@color/secondary_pink</item>
    </style>
+
+    <style name="DatePicker" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/primary_light_purple</item>
+
+    </style>
 
 </resources>
