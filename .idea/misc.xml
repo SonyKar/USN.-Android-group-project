@@ -6,11 +6,14 @@
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/button.xml" value="0.19537037037037036" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/login_bg.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/course_list.xml" value="0.22" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/create_course.xml" value="0.25" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/forgot_pass.xml" value="0.25" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/login.xml" value="0.22" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/nav_header.xml" value="0.75" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/sign_up.xml" value="0.33" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/signup_msg.xml" value="0.33" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/menu/menu.xml" value="0.33" />
       </map>
     </option>
   </component>

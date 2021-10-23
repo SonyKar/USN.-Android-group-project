@@ -65,5 +65,12 @@
     <string name="difficulty_error">Select difficulty!</string>
     <string name="days_error">Select course days!</string>
     <string name="description_error">Add description!</string>
+    <string name="profile">Profile</string>
+    <string name="courses">Courses</string>
+    <string name="my_courses">My Courses</string>
+    <string name="favourites">Favourites</string>
+    <string name="create_course_nav">Create Course</string>
+    <string name="logout">Log Out</string>
+    <string name="insert_name">Insert Name</string>
 
 </resources>
