@@ -11,11 +11,22 @@
        <item name="colorSecondaryVariant">@color/grey_purple</item>
        <item name="colorOnSecondary">@color/white</item>
        <item name="android:colorBackground">@color/secondary_pink</item>
+
+       <item name="colorNavigationItem">@color/menu_item_color_state</item>
+       <item name="colorNavigationItemSelected">@color/white</item>
+       <item name="drawableNavigationItemBackground">@drawable/menu_background_color_state</item>
    </style>
 
     <style name="DatePicker" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="colorAccent">@color/primary_light_purple</item>
+    </style>
+
+    <style name="Widget.Custom.NavigationView" parent="Widget.Design.NavigationView">
+        <item name="itemIconTint">@color/white</item>
+        <item name="itemTextColor">@color/white</item>
+        <item name="itemBackground">@drawable/menu_background_color_state</item>
 
     </style>
+
 
 </resources>

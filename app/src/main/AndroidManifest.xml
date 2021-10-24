@@ -13,8 +13,10 @@
         <activity android:name=".ForgotPassword"></activity>
         <activity android:name=".SignUpMessage"></activity>
         <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".CreateCourse"></activity>
+
         <activity
-            android:name=".CreateCourse"
+            android:name=".CourseList"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -7,4 +7,7 @@
     <dimen name="margin_field">16dp</dimen>
     <dimen name="message">18dp</dimen>
     <dimen name="padding_menu">10dp</dimen>
+    <dimen name="shadow_toolbar">4dp</dimen>
+    <dimen name="nav_header_height">200dp</dimen>
+    <dimen name="avatar_size">100dp</dimen>
 </resources>

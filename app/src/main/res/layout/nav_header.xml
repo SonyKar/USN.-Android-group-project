@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
-    android:background="@android:color/transparent"
+    android:layout_height="@dimen/nav_header_height"
+
     android:gravity="bottom"
     android:padding="@dimen/margin_field"
     android:theme="@style/ThemeOverlay.AppCompat.Light"
     >
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/avatar_size"
+        android:layout_height="@dimen/avatar_size"
         android:layout_gravity="center"
-        android:src="@drawable/CosmiAvatar"/>
+        android:src="@drawable/cosmi_avatar"/>
 
     <TextView
         android:layout_width="wrap_content"
