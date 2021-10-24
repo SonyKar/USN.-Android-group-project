@@ -14,9 +14,10 @@
         <activity android:name=".SignUpMessage"></activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".CreateCourse"></activity>
+        <activity android:name=".CourseList"></activity>
 
         <activity
-            android:name=".CourseList"
+            android:name=".CourseProfile"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

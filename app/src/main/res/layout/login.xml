@@ -50,7 +50,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:layout_gravity="end"
         android:layout_marginBottom="@dimen/margin_field"
-        android:text="Forgot Password?"
+        android:text="@string/forgot_password_btn"
         android:textAllCaps="false"
         android:textStyle="normal" />
 
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
-            android:text="Don't have an account?"/>
+            android:text="@string/don_t_have_an_account"/>
 
         <Button
             android:id="@+id/btn_tosignup"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:textAllCaps="false"
-            android:text="Sign Up"/>
+            android:text="@string/sign_up"/>
 
     </LinearLayout>
 
