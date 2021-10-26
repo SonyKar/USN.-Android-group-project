@@ -13,15 +13,16 @@
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/menu_background_color_state.xml" value="0.13148148148148148" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/text_view_circle.xml" value="0.12037037037037036" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/course_list.xml" value="0.15185185185185185" />
-        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/course_page.xml" value="0.33" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/course_list.xml" value="0.22" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/course_page.xml" value="0.19808306709265175" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/create_course.xml" value="0.25" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/forgot_pass.xml" value="0.25" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/login.xml" value="0.25" />
-        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/nav_header.xml" value="0.25" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/nav_header.xml" value="0.2289156626506024" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/sign_up.xml" value="0.33" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/signup_msg.xml" value="0.33" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/menu/menu.xml" value="0.33" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/menu/menu_search.xml" value="0.29074074074074074" />
       </map>
     </option>
   </component>

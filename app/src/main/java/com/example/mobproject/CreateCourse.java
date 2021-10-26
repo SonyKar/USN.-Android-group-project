@@ -1,6 +1,7 @@
 package com.example.mobproject;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -35,6 +36,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
     private Spinner categorySpinner;
     private ImageButton startDateBtn, endDateBtn;
     private Integer StartEndContor, checkedID;
+    private String isEditString;
     private ArrayList<Integer> daysChecked = new ArrayList<Integer>();
     private Button createCourse;
     private Date date1, date2;
@@ -64,12 +66,23 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
         description = (EditText) findViewById(R.id.description_box);
 
 
+        Intent intent = getIntent();
+        int isEdit = intent.getIntExtra("EDIT_COURSE", 0);
+
+        if(isEdit == 1){
+            //get fields from DB
+            createCourseName.setText("myName");//it works
+        }
+
+
+
+
+
         startDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 StartEndContor = 1;
                 showDatePickerDialog();
-
             }
         });
 

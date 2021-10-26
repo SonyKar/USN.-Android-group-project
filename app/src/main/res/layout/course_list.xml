@@ -17,18 +17,25 @@
 
            <androidx.appcompat.widget.Toolbar
                android:layout_width="match_parent"
-               android:layout_height="?attr/actionBarSize"
+               android:layout_height="wrap_content"
                android:background="@drawable/login_bg"
-               app:title="Course List"
+               app:title="@string/courselist"
                android:id="@+id/toolbar"
                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-               android:elevation="@dimen/shadow_toolbar"/>
+               android:elevation="@dimen/shadow_toolbar">
+
+
+
+
+
+           </androidx.appcompat.widget.Toolbar>
 
            <FrameLayout
                android:id="@+id/fragment_container"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
+               android:background="@color/white"
                />
 
 

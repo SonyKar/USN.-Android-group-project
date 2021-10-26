@@ -1,6 +1,10 @@
 package com.example.mobproject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -10,7 +14,8 @@ public class CourseProfile extends AppCompatActivity {
 
     RatingBar rateEdit, finalRating;
     TextView ratingScore, finalRatingScore;
-    int totalRating;
+    int totalRating, isEdit = 0 ;
+    ImageButton editCourse;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +26,24 @@ public class CourseProfile extends AppCompatActivity {
         finalRating = (RatingBar) findViewById(R.id.final_rating);
         ratingScore = (TextView) findViewById(R.id.rating_score);
         finalRatingScore = (TextView) findViewById(R.id.final_rating_score);
+        editCourse = (ImageButton) findViewById(R.id.edit_btn);
+
+        //got to Edit Course
+        //1 - go to EditCourse; 0 - go to Create Course (same Activity)
+
+        editCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isEdit = 1;
+                Intent toEditCourse = new Intent(CourseProfile.this,
+                        CreateCourse.class);
+                toEditCourse.putExtra("EDIT_COURSE", isEdit);
+                startActivity(toEditCourse);
+            }
+        });
+
+
+
 
         rateEdit.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override

@@ -56,7 +56,7 @@
                         android:id="@+id/edit_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_marginTop="@dimen/padding"
                         android:layout_marginEnd="@dimen/padding"
                         android:background="?android:attr/selectableItemBackground"
@@ -276,7 +276,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView10"
+                    android:id="@+id/leave_a_comment_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding"

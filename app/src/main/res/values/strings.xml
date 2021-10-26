@@ -93,6 +93,8 @@
     <string name="default_final_rating_score">0/5</string>
     <string name="enroll_me">Enroll me</string>
     <string name="save">Save</string>
-    <string name="default_course_price">0$</string>
+    <string name="default_course_price">0 $</string>
+    <string name="courselist">CourseList</string>
+    <string name="search_a_course">Search a course...</string>
 
 </resources>
