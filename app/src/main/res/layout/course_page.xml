@@ -1,280 +1,430 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scroll_screen"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-   >
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/screen"
+
+    <LinearLayout
+        android:id="@+id/screen_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/footer"
+        android:orientation="vertical">
 
-        >
-
-
-        <ImageView
-            android:id="@+id/course_bg"
+        <ScrollView
+            android:id="@+id/scroll_screen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/math_course"
-             />
+            android:background="@color/white"
 
-        <ImageButton
-            android:id="@+id/back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_marginTop="@dimen/padding"
-            android:layout_marginStart="@dimen/padding"
-            app:srcCompat="@drawable/ic_back" />
+            >
 
-        <ImageButton
-            android:id="@+id/edit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_edit"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/padding"
-            android:layout_marginEnd="@dimen/padding"
-            android:background="?android:attr/selectableItemBackground"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/no_students"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="@dimen/padding"
-            android:layout_marginTop="@dimen/margin_Top_circle_shape"
-            android:background="@drawable/text_view_circle"
-            android:elevation="@dimen/elevation"
-            android:gravity="center"
-            android:text="@string/_32_students"
-            android:textColor="@color/white"
-            android:textSize="@dimen/circle_textview"
-            android:textStyle="bold" />
+                <RelativeLayout
+                    android:id="@+id/screen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/open_to_enroll_course_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/edit_btn"
 
-            android:layout_alignBottom="@+id/no_students"
-            android:text="@string/open_to_enroll"
-            android:textColor="@color/beginner_green"
-            android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/course_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/math_course" />
 
-    </RelativeLayout>
+                    <ImageButton
+                        android:id="@+id/back_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/padding"
+                        android:layout_marginTop="@dimen/padding"
+                        android:background="?android:attr/selectableItemBackground"
+                        app:srcCompat="@drawable/ic_back" />
 
-    <TextView
-        android:id="@+id/textView3"
+                    <ImageButton
+                        android:id="@+id/edit_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/padding"
+                        android:layout_marginEnd="@dimen/padding"
+                        android:background="?android:attr/selectableItemBackground"
+                        app:srcCompat="@drawable/ic_edit" />
+
+                    <TextView
+                        android:id="@+id/no_students"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="@dimen/padding"
+                        android:layout_marginTop="@dimen/margin_Top_circle_shape"
+                        android:background="@drawable/text_view_circle"
+                        android:elevation="@dimen/elevation"
+                        android:gravity="center"
+                        android:text="@string/_32_students"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/circle_textview"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/open_to_enroll_course_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@id/edit_btn"
+                        android:layout_alignBottom="@+id/no_students"
+                        android:layout_alignParentBottom="true"
+                        android:text="@string/open_to_enroll"
+                        android:textColor="@color/beginner_green"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginTop="@dimen/padding"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:text="@string/mathematics_for_computer_games_development"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/field"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/difficulty_course_page"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.2"
+                        android:gravity="center_vertical|start"
+                        android:text="@string/hard"
+                        android:textColor="@color/advanced_red"
+                        android:textStyle="bold" />
+
+                    <RatingBar
+                        android:id="@+id/final_rating"
+                        style="@style/RatingBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.65"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:stepSize="0.1"
+                        android:theme="@style/RatingBar" />
+
+                    <TextView
+                        android:id="@+id/final_rating_score"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.1"
+                        android:text="@string/default_final_rating_score"
+                        android:textColor="@color/primary_dark_purple"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/teacher_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginTop="@dimen/course_page_field_distance"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:text="@string/teacher_name_ex"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/descr_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginTop="@dimen/course_page_field_distance"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:text="Explore the evolution of the spa industry from ancient civilizations to new frontiers of convergence integrating spas, medicine, healthcare, tourism, and hospitality. Study the industry from an international perspective, with emphasis on current business models and positioning for future trends."
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/period_txt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.15"
+
+                        android:text="@string/period_txt"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/period_dates"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="start"
+                        android:text="10/10/2021 - 10/01/2022"
+                        android:textColor="@color/primary_purple"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/meetings_txt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+
+                        android:text="@string/meetings_every"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/meeting_days"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:gravity="start"
+                        android:text="Mon Th"
+                        android:textColor="@color/primary_purple"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginTop="@dimen/margin_field"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/rate_course_txt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.25"
+                        android:text="@string/rate_this_course"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/course_page_field_label"
+                        android:textStyle="bold" />
+
+                    <RatingBar
+                        android:id="@+id/rating_edit"
+                        style="@style/RatingBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.65"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:rating="2"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:stepSize="1"
+                        android:theme="@style/RatingBar"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/rating_score"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.1"
+                        android:text="0/5"
+                        android:textColor="@color/primary_dark_purple"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginTop="@dimen/course_page_field_distance"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:text="@string/leave_a_comment"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/course_page_field_label"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/comment_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginTop="@dimen/course_page_field_distance"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/comment_avatar"
+                        android:layout_width="@dimen/title"
+                        android:layout_height="@dimen/title"
+                        android:layout_gravity="center"
+                        android:src="@drawable/cosmi_avatar" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/course_page_field_label">
+
+                        <EditText
+                            android:id="@+id/comment_input"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:background="@drawable/comment_box"
+                            android:ems="10"
+                            android:hint="@string/add_a_comment"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey_purple"
+                            android:textStyle="normal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/post_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:text="@string/post"
+                            android:textAllCaps="false"
+                            android:textColor="@color/primary_light_purple"
+                            android:textStyle="normal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/no_comments_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginTop="@dimen/course_page_field_distance"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ic_no_comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        app:srcCompat="@drawable/ic_baseline_comment_24" />
+
+                    <TextView
+                        android:id="@+id/no_comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity=""
+                        android:text="@string/default_no_comments"
+                        android:textColor="@color/grey_purple" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/add_to_fav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding"
+        android:layout_above="@id/footer"
+        android:layout_below="@+id/screen_content"
+        android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/padding"
-        android:layout_marginTop="@dimen/padding"
-        android:text="@string/mathematics_for_computer_games_development"
-        android:textColor="@color/black"
-        android:textSize="@dimen/field"
-        android:textStyle="bold" />
+        android:layout_marginBottom="@dimen/margin_bottom"
+        android:background="?android:attr/selectableItemBackground"
+        app:srcCompat="@drawable/ic_favourite_purple" />
+
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/padding"
-        android:layout_marginEnd="@dimen/padding"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <TextView
-            android:id="@+id/difficulty_course_page"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            android:layout_gravity="center_vertical"
-            android:text="@string/hard"
-            android:textColor="@color/advanced_red"
-            android:textStyle="bold"
-            android:gravity="center_vertical|start"/>
-
-        <RatingBar
-            android:id="@+id/final_rating"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.65"
-            android:numStars="5"
-            android:stepSize="0.1"
-            android:theme="@style/RatingBar"
-            style="@style/RatingBar"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:isIndicator="true"
-            android:clickable="true"
-            android:focusable="true"
-            />
-
-        <TextView
-            android:id="@+id/final_rating_score"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:layout_gravity="center_vertical"
-            android:text="0/5"
-            android:textColor="@color/primary_dark_purple"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/teacher_name"
+        android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/teacher_name_ex"
-        android:layout_marginStart="@dimen/padding"
-        android:layout_marginEnd="@dimen/padding"
-        android:layout_marginTop="@dimen/course_page_field_distance"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/descr_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding"
-        android:layout_marginEnd="@dimen/padding"
-        android:layout_marginTop="@dimen/course_page_field_distance"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="Explore the evolution of the spa industry from ancient civilizations to new frontiers of convergence integrating spas, medicine, healthcare, tourism, and hospitality. Study the industry from an international perspective, with emphasis on current business models and positioning for future trends."
-        android:textColor="@color/black"
-        />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/padding"
-        android:layout_marginEnd="@dimen/padding"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <TextView
-            android:id="@+id/period_txt"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.15"
+            android:background="@color/grey_purple"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-            android:text="@string/period_txt"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:text="@string/default_course_price"
+                android:textColor="@color/primary_dark_purple"
+                android:textSize="@dimen/field"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/period_dates"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:gravity="start"
-            android:text="10/10/2021 - 10/01/2022"
-            android:textColor="@color/primary_purple"
-            android:textStyle="bold"/>
+            <Button
+                android:id="@+id/enroll_me_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@color/secondary_pink"
+                android:gravity="center"
+                android:text="@string/enroll_me"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/padding"
-        android:layout_marginEnd="@dimen/padding"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <TextView
-            android:id="@+id/meetings_txt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-
-            android:text="@string/meetings_every"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/meeting_days"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.7"
-            android:gravity="start"
-            android:text="Mon Th"
-            android:textColor="@color/primary_purple"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding"
-        android:layout_marginEnd="@dimen/padding"
-        android:layout_marginTop="@dimen/margin_field"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <TextView
-            android:id="@+id/rate_course_txt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:layout_gravity="center_vertical"
-            android:text="@string/rate_this_course"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/course_page_field_label"/>
-
-        <RatingBar
-            android:id="@+id/rating_edit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.65"
-            android:numStars="5"
-            android:stepSize="1"
-            android:theme="@style/RatingBar"
-            style="@style/RatingBar"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
-            android:isIndicator="false"
-            android:rating="2"
-
-            />
-
-        <TextView
-            android:id="@+id/rating_score"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:layout_gravity="center_vertical"
-            android:text="0/5"
-            android:textColor="@color/primary_dark_purple"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding"
-        android:layout_marginEnd="@dimen/padding"
-        android:layout_marginTop="@dimen/course_page_field_distance"
-        android:text="@string/leave_a_comment"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="@dimen/course_page_field_label"/>
-
-
-</LinearLayout>
-
-
-</ScrollView>
+</RelativeLayout>

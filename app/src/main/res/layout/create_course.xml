@@ -302,7 +302,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/button"
-            android:text="@string/create_course"
+            android:text="@string/save"
             android:textColor="@color/primary_purple"
             android:textStyle="bold" />
     </LinearLayout>

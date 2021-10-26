@@ -87,5 +87,12 @@
     <string name="meetings_every">Meetings every: </string>
     <string name="rate_this_course">RATE THIS COURSE</string>
     <string name="leave_a_comment">LEAVE A COMMENT</string>
+    <string name="post">Post</string>
+    <string name="add_a_comment">Add a comment...</string>
+    <string name="default_no_comments">0</string>
+    <string name="default_final_rating_score">0/5</string>
+    <string name="enroll_me">Enroll me</string>
+    <string name="save">Save</string>
+    <string name="default_course_price">0$</string>
 
 </resources>
