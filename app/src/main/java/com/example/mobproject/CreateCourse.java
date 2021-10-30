@@ -34,7 +34,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
     private boolean validCreateCourseName, validCreateCoursePrice, validCreateCourseDates,
             validCreateCourseDifficulty, validCreateCourseDays, validCreateCourseDescription;
     private Spinner categorySpinner;
-    private ImageButton startDateBtn, endDateBtn;
+    private ImageButton startDateBtn, endDateBtn, backBtn;
     private Integer StartEndContor, checkedID;
     private String isEditString;
     private ArrayList<Integer> daysChecked = new ArrayList<Integer>();
@@ -43,6 +43,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
     private RadioGroup difficulty;
     private RadioButton selectedDifficulty;
     private CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday;
+    int isEdit;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,18 +65,23 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
         Friday = (CheckBox) findViewById(R.id.friday_chck);
         Saturday = (CheckBox) findViewById(R.id.saturday_chck);
         description = (EditText) findViewById(R.id.description_box);
+        backBtn = (ImageButton) findViewById(R.id.back_to_main_btn);
 
 
         Intent intent = getIntent();
-        int isEdit = intent.getIntExtra("EDIT_COURSE", 0);
+        isEdit = intent.getIntExtra("EDIT_COURSE", 0);
 
         if(isEdit == 1){
             //get fields from DB
             createCourseName.setText("myName");//it works
         }
 
-
-
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backToMain();
+            }
+        });
 
 
         startDateBtn.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +117,17 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
                 createCourseValidation();
             }
         });
+
+    }
+
+    private void backToMain() {
+        if(isEdit == 1)
+            finish();
+        else{
+            Intent backToMain = new Intent(this, CourseList.class);
+            startActivity(backToMain);
+            finish();
+        }
 
     }
 

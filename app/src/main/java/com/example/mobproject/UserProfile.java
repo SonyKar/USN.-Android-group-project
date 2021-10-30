@@ -2,18 +2,14 @@ package com.example.mobproject;
 
 import static com.example.mobproject.R.menu.menu_search;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,95 +19,54 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-public class CourseList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class UserProfile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private DrawerLayout drawer;
-    private ArrayAdapter<String> arrayAdapter;
-    private SearchView searchBar;
-    private Spinner sortingCategory;
+    FloatingActionButton editProfile;
 
-
-    @SuppressLint("ResourceAsColor")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.course_list);
+        setContentView(R.layout.user_profile);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        drawer = findViewById(R.id.drawer_layout_profile);
+        editProfile = (FloatingActionButton) findViewById(R.id.edit_profile_fab);
+
+        NavigationView navigationView = findViewById(R.id.nav_view_profile);
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+
         toggle.syncState();
+        //change toggle color
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.primary_dark_purple));
 
-        //search bar filter
-        searchBar = (SearchView) findViewById(R.id.search_bar);
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
 
+        //go to Edit Profile
+        editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextChange(String newText) {
-                //arrayAdapter.getFilter().filter(newText);//looks for options in the course array
-                return false;
+            public void onClick(View view) {
+                switchToEditProfile();
+
             }
         });
 
-        //arrayAdapter = new ArrayAdapter<String>(this, //add list layout);
-        //listView.setAdapter(arrayAdapter);
-
-        sortingCategory = (Spinner) findViewById(R.id.sort_spn);
-        sortingCategory.getBackground().setColorFilter(getResources().getColor(R.color.primary_dark_purple), PorterDuff.Mode.SRC_ATOP);
-
-        ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(CourseList.this,
-                R.array.sorting_criteria,
-                R.layout.spinner_dropdwon_layout);
-        categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        sortingCategory.setAdapter(categoriesAdapter);
-
-
-        /*View v = sortingCategory.getSelectedView();
-        ((TextView)v).setTextColor(Integer.parseInt("4E0D3A"));*/
     }
 
-    //add Search Menu Item
-    @Override
-    /*public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(menu_search, menu);
+    private void switchToEditProfile() {
+        Intent toEditProfile = new Intent(this, UserEdit.class);
+        startActivity(toEditProfile);
+    }
 
-        MenuItem menuItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Find a course");
+    //color menu item
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                //arrayAdapter.getFilter().filter(newText);//looks for options in the course array
-
-
-
-                return false;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }*/
 
     public void onBackPressed(){
         if(drawer.isDrawerOpen(GravityCompat.START)){

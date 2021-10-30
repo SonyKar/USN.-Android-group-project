@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">MobProject</string>
-    <string name="login">Login</string>
+    <string name="signin">Sign In</string>
     <string name="signup">Sign Up</string>
     <string name="create_acc">Create account</string>
-    <string name="email_address"><b>Email address</b></string>
-    <string name="password"><b>Password</b></string>
-    <string name="conf_password"><b>Confirm Password</b></string>
-    <string name="first_name"><b>First Name</b></string>
-    <string name="last_name"><b>Last Name</b></string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="conf_password">Confirm Password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
     <string name="name"><b>Name</b></string>
     <string name="price"><b>Price</b></string>
     <string name="status">Status</string>
@@ -94,7 +94,21 @@
     <string name="enroll_me">Enroll me</string>
     <string name="save">Save</string>
     <string name="default_course_price">0 $</string>
-    <string name="courselist">CourseList</string>
+    <string name="courselist"><b>COURSES</b></string>
     <string name="search_a_course">Search a course...</string>
+    <string name="cannot_enroll">Cannot enroll</string>
+    <string name="student_status">Student</string>
+    <string name="sort_by">Sort by</string>
+
+    <string-array name="sorting_criteria">
+        <item>Last added</item>
+        <item>First added</item>
+        <item>Price: Low to High</item>
+        <item>Price: High to Low</item>
+        <item>Rating: Low to High</item>
+        <item>Rating: High to Low</item>
+        <item>Earliest to start</item>
+        <item>Latest to start</item>
+    </string-array>
 
 </resources>

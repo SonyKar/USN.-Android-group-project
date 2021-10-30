@@ -13,8 +13,10 @@
         <activity android:name=".ForgotPassword"></activity>
         <activity android:name=".SignUpMessage"></activity>
         <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".CreateCourse"></activity>
+        <activity android:name=".UserProfile"></activity>
         <activity android:name=".CourseProfile"></activity>
+        <activity android:name=".UserEdit"></activity>
+        <activity android:name=".CreateCourse"></activity>
 
         <activity
             android:name=".CourseList"

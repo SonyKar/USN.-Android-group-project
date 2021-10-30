@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/screen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,33 +62,42 @@
                         android:background="?android:attr/selectableItemBackground"
                         app:srcCompat="@drawable/ic_edit" />
 
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/no_std_enroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/padding"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
                     <TextView
                         android:id="@+id/no_students"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="@dimen/padding"
-                        android:layout_marginTop="@dimen/margin_Top_circle_shape"
-                        android:background="@drawable/text_view_circle"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:drawablePadding="@dimen/drawable_start_padding_2"
                         android:elevation="@dimen/elevation"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:text="@string/_32_students"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/circle_textview"
-                        android:textStyle="bold" />
+                        android:textColor="@color/dark_grey"
+                        android:textSize="@dimen/no_students_size"
+                        app:drawableStartCompat="@drawable/ic_no_students" />
 
                     <TextView
                         android:id="@+id/open_to_enroll_course_page"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignEnd="@id/edit_btn"
-                        android:layout_alignBottom="@+id/no_students"
-                        android:layout_alignParentBottom="true"
-                        android:text="@string/open_to_enroll"
-                        android:textColor="@color/beginner_green"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:gravity="right"
+                        android:text="@string/cannot_enroll"
+                        android:textColor="@color/advanced_red"
+                        android:textSize="@dimen/no_students_size"
                         android:textStyle="bold" />
-
-                </RelativeLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/textView3"
@@ -158,17 +167,21 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <EditText
+
+                <TextView
                     android:id="@+id/descr_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding"
                     android:layout_marginTop="@dimen/course_page_field_distance"
                     android:layout_marginEnd="@dimen/padding"
+                    android:layout_marginBottom="@dimen/course_page_field_distance"
                     android:gravity="start|top"
-                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:scrollbars="vertical"
                     android:text="Explore the evolution of the spa industry from ancient civilizations to new frontiers of convergence integrating spas, medicine, healthcare, tourism, and hospitality. Study the industry from an international perspective, with emphasis on current business models and positioning for future trends."
                     android:textColor="@color/black" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -320,6 +333,7 @@
                             android:inputType="text"
                             android:textColor="@color/black"
                             android:textColorHint="@color/grey_purple"
+                            android:textSize="@dimen/comment_text_size"
                             android:textStyle="normal"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -374,19 +388,28 @@
         </ScrollView>
 
 
-    </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_to_fav"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/padding"
+            android:layout_marginBottom="@dimen/fab_margin_bottom"
+            android:backgroundTint="@color/transparent_grey"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@drawable/ic_favourite_purple"
+            app:borderWidth="0dp"
+            app:elevation="0dp"
+            app:fabCustomSize="35dp"
+            app:maxImageSize="35dp"
+            app:pressedTranslationZ="0dp"
+            android:focusable="true" />
 
-    <ImageButton
-        android:id="@+id/add_to_fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/footer"
-        android:layout_below="@+id/screen_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/padding"
-        android:layout_marginBottom="@dimen/margin_bottom"
-        android:background="?android:attr/selectableItemBackground"
-        app:srcCompat="@drawable/ic_favourite_purple" />
+    </RelativeLayout>
+
+
 
 
     <LinearLayout

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/toolbar_transparent"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@color/white">
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <FrameLayout
+            android:id="@+id/fragment_container_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/padding"
+                        android:layout_marginEnd="@dimen/padding"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profile_avatar"
+                            android:layout_width="@dimen/profile_size"
+                            android:layout_height="@dimen/profile_size"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/padding"
+                            android:src="@drawable/cosmi_avatar" />
+
+                        <TextView
+                            android:id="@+id/profile_name"
+                            android:layout_width="@dimen/profile_size"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/profile_avatar"
+                            android:layout_alignStart="@+id/profile_avatar"
+                            android:layout_alignEnd="@+id/profile_avatar"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/field_padding_bottom"
+                            android:gravity="center"
+                            android:text="Cosmina Andreea Lucaci"
+                            android:textAllCaps="true"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/profile_name"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/user_status"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/profile_name"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/field_padding_start"
+                            android:gravity="center"
+                            android:text="@string/student_status"
+                            android:textAllCaps="true"
+                            android:textColor="@color/secondary_pink"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/profile_infos"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/user_status"
+                            android:layout_alignStart="@+id/profile_avatar"
+                            android:layout_alignEnd="@+id/profile_avatar"
+                            android:layout_marginTop="100dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+
+                            <TextView
+                                android:id="@+id/user_courses"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:drawablePadding="@dimen/drawable_padding"
+                                android:gravity="center_vertical"
+                                android:text="7"
+                                android:textColor="@color/primary_dark_purple"
+                                android:textSize="@dimen/profile_numbers"
+                                android:textStyle="bold"
+                                app:drawableStartCompat="@drawable/ic_baseline_menu_book_24" />
+
+                            <TextView
+                                android:id="@+id/favorite_courses"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:drawablePadding="@dimen/drawable_padding"
+                                android:gravity="center_vertical"
+                                android:text="12"
+                                android:textColor="@color/primary_dark_purple"
+                                android:textSize="@dimen/profile_numbers"
+                                android:textStyle="bold"
+                                app:drawableStartCompat="@drawable/ic_heart" />
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/profile_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/profile_infos"
+                            android:layout_alignStart="@+id/profile_avatar"
+                            android:layout_alignEnd="@+id/profile_avatar"
+                            android:layout_marginTop="@dimen/field_padding_bottom"
+                            android:layout_marginBottom="@dimen/margin_bottom"
+                            android:drawablePadding="@dimen/drawable_padding"
+                            android:gravity="center_vertical"
+                            android:text="cosmina_lucaci@yahoo.com"
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_email_black" />
+
+                    </RelativeLayout>
+                </ScrollView>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/edit_profile_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/field_padding_bottom"
+                    android:layout_marginEnd="@dimen/padding"
+                    android:layout_marginBottom="@dimen/padding"
+                    android:backgroundTint="@color/secondary_pink"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:scaleType="center"
+                    app:fabCustomSize="40dp"
+                    app:maxImageSize="30dp"
+                    app:pressedTranslationZ="0dp"
+                    app:srcCompat="@drawable/ic_edit_profile" />
+
+
+            </RelativeLayout>
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view_profile"
+        style="@style/Widget.Custom.NavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#10cbc3e3"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/menu" />
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

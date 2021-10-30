@@ -15,4 +15,8 @@
     <color name="intermediate_yellow">#F8C81C</color>
     <color name="advanced_red">#F61616</color>
     <color name="grey_purple">#CBC3E3</color>
+    <color name="transparent_purple">#904e0d3a</color>
+    <color name="transparent_grey">#00cbc3e3</color>
+    <color name="transparent_white">#70ffffff</color>
+    <color name="dark_grey">#919191</color>
 </resources>

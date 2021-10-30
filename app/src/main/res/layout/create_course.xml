@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg">
+    android:background="@drawable/background">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="@dimen/padding"
         android:orientation="vertical"
         android:gravity="center"
         >
+        <ImageButton
+            android:id="@+id/back_to_main_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="@dimen/drawable_padding"
+            android:layout_gravity="start"
+            android:background="?android:attr/selectableItemBackground"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
         <TextView
             android:id="@+id/create_course_text"
@@ -26,13 +36,18 @@
 
         <EditText
             android:id="@+id/create_course_name"
-            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:textSize="@dimen/field"
+            android:drawableStart="@drawable/ic_course_name"
+            android:drawablePadding="@dimen/drawable_padding_field"
             android:hint="@string/name"
-            />
+            android:imeOptions="actionNext"
+
+            android:inputType="text"
+            android:paddingStart="@dimen/field_padding_start"
+            android:paddingEnd="@dimen/field_padding_start"
+            android:paddingBottom="@dimen/field_padding_bottom"
+            android:textSize="@dimen/field" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,14 +77,18 @@
 
         <EditText
             android:id="@+id/create_course_price"
-            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_field"
-            android:imeOptions="actionNext"
-            android:textSize="@dimen/field"
+            android:drawableStart="@drawable/ic_course_price"
+            android:drawablePadding="@dimen/drawable_padding_field"
             android:hint="@string/price"
-            />
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:paddingStart="@dimen/field_padding_start"
+            android:paddingEnd="@dimen/field_padding_start"
+            android:paddingBottom="@dimen/field_padding_bottom"
+            android:textSize="@dimen/field" />
 
 
         <RelativeLayout
@@ -291,7 +310,8 @@
                 android:scrollbarStyle="insideInset"
                 android:scrollHorizontally="false"
                 android:overScrollMode="always"
-                android:lines="5"/>
+                android:lines="5"
+                android:maxLines="5"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

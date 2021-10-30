@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@color/primary_light_purple"
+        android:drawable="@color/transparent_purple"
         android:state_checked="true"/>
     <item
-        android:drawable="@color/primary_dark_purple"
+        android:drawable="@color/transparent_grey"
         android:state_checked="false"/>
 </selector>
