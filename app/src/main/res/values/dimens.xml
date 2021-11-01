@@ -28,4 +28,8 @@
     <dimen name="drawable_padding">10dp</dimen>
     <dimen name="fab_margin_bottom">15dp</dimen>
     <dimen name="toolbar_title">20sp</dimen>
+    <dimen name="card_view_infos">15sp</dimen>
+    <dimen name="card_view_price_size">17sp</dimen>
+    <dimen name="card_view_enroll">13sp</dimen>
+    <dimen name="card_view_shadow">10dp</dimen>
 </resources>

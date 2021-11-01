@@ -72,8 +72,10 @@
                    android:weightSum="1">
 
                    <LinearLayout
+                       android:id="@+id/sorting_layout"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
+                       android:layout_marginBottom="@dimen/drawable_padding"
                        android:orientation="horizontal"
                        android:weightSum="1">
 
@@ -82,9 +84,10 @@
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:layout_weight="0.7"
-                           android:text="TextView" />
+                            />
 
                        <LinearLayout
+
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:layout_weight="0.3"
@@ -101,7 +104,8 @@
                                android:text="@string/sort_by"
                                android:textColor="@color/primary_dark_purple"
                                android:textStyle="bold"
-                               app:drawableStartCompat="@drawable/ic_sort" />
+                               app:drawableStartCompat="@drawable/ic_sort"
+                               tools:ignore="NestedWeights" />
 
                            <Spinner
                                    android:id="@+id/sort_spn"
@@ -115,15 +119,15 @@
 
                    </LinearLayout>
 
-                   <ScrollView
+
+
+                   <androidx.recyclerview.widget.RecyclerView
+                       android:id="@+id/course_list"
+                       android:layout_below="@+id/sorting_layout"
                        android:layout_width="match_parent"
-                       android:layout_height="wrap_content">
+                       android:layout_height="wrap_content"/>
 
-                       <androidx.recyclerview.widget.RecyclerView
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"/>
 
-                   </ScrollView>
 
                    <com.google.android.material.floatingactionbutton.FloatingActionButton
                        android:id="@+id/edit_profile_fab"

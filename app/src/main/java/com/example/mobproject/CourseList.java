@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,15 +23,24 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
 
 public class CourseList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private ArrayAdapter<String> arrayAdapter;
     private SearchView searchBar;
     private Spinner sortingCategory;
+    private RecyclerView courseList;
+    private CourseAdapter adapter;
+    private ArrayList<String> items;
+    private Button addToFav;
+
 
 
     @SuppressLint("ResourceAsColor")
@@ -82,6 +92,45 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 
         /*View v = sortingCategory.getSelectedView();
         ((TextView)v).setTextColor(Integer.parseInt("4E0D3A"));*/
+
+
+        //create RecyclerView
+
+        items = new ArrayList<>();
+        items.add("Mathematics");
+        items.add("Advanced English");
+        items.add("Crypto");
+        items.add("Spanish Literature");
+        items.add("Emotional Intelligence");
+
+        courseList = (RecyclerView) findViewById(R.id.course_list);
+        courseList.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new CourseAdapter(this, items);
+        courseList.setAdapter(adapter);
+
+
+       /* //add course to Favourites -> addedToFav variable for each course
+        addToFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //change color
+
+                //get addedToFav from DB (is already in Favourites?)
+
+                if(addedToFav == 0){
+                    addedToFav = 1;//add to Favourites
+                    addToFav.setImageResource(R.drawable.ic_favourite_purple);
+                }
+                else {
+                    //is already in Favourites => delete from Favourites
+                    addedToFav = 0;
+                    addToFav.setImageResource(R.drawable.ic_favourite_red);
+                }
+
+            }
+        });*/
+
+
     }
 
     //add Search Menu Item

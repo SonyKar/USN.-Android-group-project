@@ -130,6 +130,7 @@
                             android:layout_below="@+id/password_edit"
                             android:layout_centerInParent="true"
                             android:layout_marginTop="@dimen/padding"
+                            android:layout_marginBottom="@dimen/padding"
                             android:background="@drawable/button_pink"
                             android:text="@string/save"
                             android:textColor="@color/white"
