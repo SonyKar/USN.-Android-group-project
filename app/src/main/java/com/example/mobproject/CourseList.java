@@ -3,12 +3,18 @@ package com.example.mobproject;
 import static com.example.mobproject.R.menu.menu_search;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -27,6 +33,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -40,6 +48,8 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     private CourseAdapter adapter;
     private ArrayList<String> items;
     private Button addToFav;
+    private FloatingActionButton filterBtn;
+
 
 
 
@@ -130,7 +140,17 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
             }
         });*/
 
+        //filter Fab Button
+        filterBtn = findViewById(R.id.filter_fab);
+        filterBtn.setOnClickListener(view -> showDialog());
 
+    }
+
+    private void showDialog() {
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.filter_drawer);
+
+        bottomSheetDialog.show();
     }
 
     //add Search Menu Item

@@ -129,7 +129,7 @@
 
 
                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                       android:id="@+id/edit_profile_fab"
+                       android:id="@+id/filter_fab"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_alignParentEnd="true"

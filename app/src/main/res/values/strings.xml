@@ -99,6 +99,9 @@
     <string name="cannot_enroll">Cannot enroll</string>
     <string name="student_status">Student</string>
     <string name="sort_by">Sort by</string>
+    <string name="filters">Filters</string>
+    <string name="price_range">Price range</string>
+    <string name="category">Category</string>
 
     <string-array name="sorting_criteria">
         <item>Last added</item>
