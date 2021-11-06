@@ -64,7 +64,7 @@
 
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/difficulty"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -140,7 +140,10 @@
                         android:layout_gravity="bottom"
                         android:layout_weight="0.2"
                         android:backgroundTint="@color/transparent_grey"
-                        app:srcCompat="@drawable/ic_favourite_black" />
+                        app:srcCompat="@drawable/ic_favourite_black"
+                        android:paddingBottom="1dp"
+                        android:paddingTop="1dp"
+                        />
                 </LinearLayout>
 
             </RelativeLayout>

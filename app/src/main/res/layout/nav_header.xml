@@ -5,7 +5,7 @@
     android:background="#10cbc3e3"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:padding="@dimen/margin_field"
+    android:paddingHorizontal="@dimen/margin_field"
     android:theme="@style/ThemeOverlay.AppCompat.Light">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -13,6 +13,7 @@
         android:layout_width="@dimen/avatar_size"
         android:layout_height="@dimen/avatar_size"
         android:layout_gravity="center"
+        android:paddingTop="5dp"
         android:src="@drawable/cosmi_avatar" />
 
     <TextView

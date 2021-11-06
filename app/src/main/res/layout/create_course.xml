@@ -64,6 +64,7 @@
                 android:layout_weight="1"
                 android:text="@string/category_txt"
                 android:textSize="@dimen/field"
+                android:layout_gravity="bottom"
                 android:textStyle="bold"/>
 
             <Spinner
@@ -197,14 +198,15 @@
                 <CheckBox
                     android:id="@+id/monday_chck"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="0.5"
-                    android:text="@string/monday" />
+                    android:text="@string/monday"
+                    />
 
                 <CheckBox
                     android:id="@+id/tuesday_chck"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="0.5"
                     android:text="@string/tuesday" />
 
@@ -220,14 +222,14 @@
                 <CheckBox
                     android:id="@+id/wedn_chck"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="0.5"
                     android:text="@string/wednesday" />
 
                 <CheckBox
                     android:id="@+id/thurs_chck"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="0.5"
                     android:text="@string/thursday" />
             </LinearLayout>
@@ -242,14 +244,14 @@
                 <CheckBox
                     android:id="@+id/friday_chck"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="0.5"
                     android:text="@string/friday" />
 
                 <CheckBox
                     android:id="@+id/saturday_chck"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="0.5"
                     android:text="@string/saturday" />
             </LinearLayout>
@@ -275,21 +277,21 @@
             <RadioButton
                 android:id="@+id/beginner_rad"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="1"
                 android:text="@string/beginner" />
 
             <RadioButton
                 android:id="@+id/interm_rad"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="1"
                 android:text="@string/intermediate" />
 
             <RadioButton
                 android:id="@+id/advanced_rad"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="1"
                 android:text="@string/advanced" />
 
@@ -298,7 +300,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/description">
+            android:hint="@string/description"
+            android:layout_marginTop="@dimen/padding"
+        >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description_box"

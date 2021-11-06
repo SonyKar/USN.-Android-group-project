@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="title">35sp</dimen>
-    <dimen name="field">20sp</dimen>
-    <dimen name="button">150dp</dimen>
+    <dimen name="field">17sp</dimen>
+    <dimen name="button">165dp</dimen>
     <dimen name="padding">25dp</dimen>
-    <dimen name="margin_field">16dp</dimen>
+    <dimen name="margin_field">20dp</dimen>
     <dimen name="message">18dp</dimen>
     <dimen name="padding_menu">10dp</dimen>
     <dimen name="shadow_toolbar">4dp</dimen>
@@ -28,7 +28,7 @@
     <dimen name="drawable_padding">10dp</dimen>
     <dimen name="fab_margin_bottom">15dp</dimen>
     <dimen name="toolbar_title">20sp</dimen>
-    <dimen name="card_view_infos">15sp</dimen>
+    <dimen name="card_view_infos">12sp</dimen>
     <dimen name="card_view_price_size">17sp</dimen>
     <dimen name="card_view_enroll">13sp</dimen>
     <dimen name="card_view_shadow">10dp</dimen>

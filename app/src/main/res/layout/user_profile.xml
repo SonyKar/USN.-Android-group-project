@@ -156,7 +156,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:scaleType="center"
-                    app:fabCustomSize="40dp"
+                    app:fabCustomSize="50dp"
                     app:maxImageSize="30dp"
                     app:pressedTranslationZ="0dp"
                     app:srcCompat="@drawable/ic_edit_profile" />

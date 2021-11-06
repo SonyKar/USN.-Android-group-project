@@ -26,13 +26,17 @@
 
         <EditText
             android:id="@+id/send_email"
-            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:textSize="@dimen/field"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="@dimen/drawable_padding_field"
             android:hint="@string/email_address"
-            />
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:paddingStart="@dimen/field_padding_start"
+            android:paddingEnd="@dimen/field_padding_start"
+            android:paddingBottom="@dimen/field_padding_bottom"
+            android:textSize="@dimen/field" />
 
 
         <Button

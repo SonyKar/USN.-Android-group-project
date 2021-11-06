@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class CourseList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private ArrayAdapter<String> arrayAdapter;
-    private SearchView searchBar;
+//    private SearchView searchBar;
     private Spinner sortingCategory;
     private RecyclerView courseList;
     private CourseAdapter adapter;
@@ -62,19 +62,19 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         toggle.syncState();
 
         //search bar filter
-        searchBar = (SearchView) findViewById(R.id.search_bar);
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //arrayAdapter.getFilter().filter(newText);//looks for options in the course array
-                return false;
-            }
-        });
+//        searchBar = (SearchView) findViewById(R.id.search_bar);
+//        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                //arrayAdapter.getFilter().filter(newText);//looks for options in the course array
+//                return false;
+//            }
+//        });
 
         //arrayAdapter = new ArrayAdapter<String>(this, //add list layout);
         //listView.setAdapter(arrayAdapter);

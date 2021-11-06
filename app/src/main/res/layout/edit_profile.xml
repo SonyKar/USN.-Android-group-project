@@ -17,10 +17,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/toolbar_purple"
+            android:background="@drawable/toolbar_transparent"
             android:theme="@style/ThemeOverlay.AppCompat.Light"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            >
+            app:titleTextColor="@color/white">
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -61,6 +61,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/profile_avatar_edit"
                             android:layout_marginTop="@dimen/padding"
+                            android:background="@drawable/edittext_bottom_line"
                             android:drawableStart="@drawable/ic_account_edit"
                             android:drawablePadding="@dimen/drawable_padding_field"
                             android:hint="@string/first_name"
@@ -69,7 +70,7 @@
                             android:paddingStart="@dimen/field_padding_start"
                             android:paddingEnd="@dimen/field_padding_start"
                             android:paddingBottom="@dimen/field_padding_bottom"
-                            android:textColor="@color/black"
+                            android:textColor="@color/primary_light_purple"
                             android:textColorHint="@color/grey_purple"
                             android:textSize="@dimen/field" />
 
@@ -79,14 +80,16 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/fname_edit"
                             android:drawableStart="@drawable/ic_account_edit"
+                            android:background="@drawable/edittext_bottom_line"
                             android:drawablePadding="@dimen/drawable_padding_field"
                             android:hint="@string/last_name"
                             android:imeOptions="actionNext"
                             android:inputType="text"
+                            android:layout_marginTop="@dimen/margin_field"
                             android:paddingStart="@dimen/field_padding_start"
                             android:paddingEnd="@dimen/field_padding_start"
                             android:paddingBottom="@dimen/field_padding_bottom"
-                            android:textColor="@color/black"
+                            android:textColor="@color/primary_light_purple"
                             android:textColorHint="@color/grey_purple"
                             android:textSize="@dimen/field" />
 
@@ -96,14 +99,16 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/lname_edit"
                             android:drawableStart="@drawable/ic_email_edit"
+                            android:background="@drawable/edittext_bottom_line"
                             android:drawablePadding="@dimen/drawable_padding_field"
                             android:hint="@string/email_address"
                             android:imeOptions="actionNext"
                             android:inputType="textEmailAddress"
+                            android:layout_marginTop="@dimen/margin_field"
                             android:paddingStart="@dimen/field_padding_start"
                             android:paddingEnd="@dimen/field_padding_start"
                             android:paddingBottom="@dimen/field_padding_bottom"
-                            android:textColor="@color/black"
+                            android:textColor="@color/primary_light_purple"
                             android:textColorHint="@color/grey_purple"
                             android:textSize="@dimen/field" />
 
@@ -113,13 +118,15 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/email_edit"
                             android:drawableStart="@drawable/ic_password_edit"
+                            android:background="@drawable/edittext_bottom_line"
                             android:drawablePadding="@dimen/drawable_padding_field"
                             android:hint="@string/password"
                             android:inputType="textPassword"
+                            android:layout_marginTop="@dimen/margin_field"
                             android:paddingStart="@dimen/field_padding_start"
                             android:paddingEnd="@dimen/field_padding_start"
                             android:paddingBottom="@dimen/field_padding_bottom"
-                            android:textColor="@color/black"
+                            android:textColor="@color/primary_light_purple"
                             android:textColorHint="@color/grey_purple"
                             android:textSize="@dimen/field" />
 

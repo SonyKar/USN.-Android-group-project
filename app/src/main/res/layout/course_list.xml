@@ -17,10 +17,11 @@
 
            <androidx.appcompat.widget.Toolbar
                android:layout_width="match_parent"
-               android:layout_height="80dp"
+               android:layout_height="wrap_content"
                android:background="@drawable/toolbar_purple"
                app:titleTextColor="@color/white"
                android:minHeight="?attr/actionBarSize"
+               android:paddingBottom="5dp"
                android:id="@+id/toolbar"
                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -42,13 +43,18 @@
                        android:textSize="@dimen/toolbar_title"
                        />
 
-                   <androidx.appcompat.widget.SearchView
+                   <EditText
                        android:id="@+id/search_bar"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:layout_below="@+id/main_page_title"
+                       android:layout_marginEnd="@dimen/padding"
+                       android:drawableStart="@drawable/ic_search"
+                       android:drawablePadding="@dimen/drawable_padding"
+                       android:hint="Find a course..."
 
-                       app:queryHint="Find a course..."/>
+                       android:minHeight="40dp"
+                       android:paddingBottom="@dimen/drawable_padding" />
 
                </RelativeLayout>
            </androidx.appcompat.widget.Toolbar>
@@ -59,8 +65,7 @@
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                android:background="@color/white"
-
-               >
+           >
 
                <RelativeLayout
                    android:layout_width="match_parent"
@@ -80,53 +85,47 @@
                        android:weightSum="1">
 
                        <TextView
-                           android:id="@+id/textView2"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:layout_weight="0.7"
-                            />
+                           android:id="@+id/sort_txt"
+                           android:layout_width="0dp"
+                           android:layout_height="match_parent"
+                           android:layout_weight="0.3"
+                           android:gravity="center_vertical"
+                           android:text="@string/sort_by"
+                           android:textColor="@color/primary_dark_purple"
+                           android:textStyle="bold"
+                           app:drawableStartCompat="@drawable/ic_sort"
+                           tools:ignore="NestedWeights" />
 
                        <LinearLayout
-
-                           android:layout_width="match_parent"
+                           android:layout_width="0dp"
                            android:layout_height="wrap_content"
-                           android:layout_weight="0.3"
+                           android:paddingStart="15dp"
+                           android:layout_weight="0.7"
                            android:background="@drawable/sorting_container"
-                           android:weightSum="1"
                            android:orientation="horizontal">
 
-                           <TextView
-                               android:id="@+id/sort_txt"
-                               android:layout_width="0dp"
-                               android:layout_height="match_parent"
-                               android:layout_weight="0.35"
-                               android:gravity="center_vertical"
-                               android:text="@string/sort_by"
-                               android:textColor="@color/primary_dark_purple"
-                               android:textStyle="bold"
-                               app:drawableStartCompat="@drawable/ic_sort"
-                               tools:ignore="NestedWeights" />
-
+<!--TODO android:popupBackground="@color/light_grey"-->
                            <Spinner
-                                   android:id="@+id/sort_spn"
-                                   android:layout_width="0dp"
-                                   android:layout_height="wrap_content"
-                                   android:layout_gravity="end"
-                                   android:layout_weight="0.65"
-                                   android:popupBackground="@color/secondary_pink"
-                               android:entries="@array/sorting_criteria"/>
+                               android:id="@+id/sort_spn"
+                               android:layout_width="match_parent"
+                               android:layout_height="40dp"
+                               android:layout_gravity="end"
+                               android:popupBackground="@color/primary_light_purple"
+                               android:overlapAnchor="false"
+                               android:dropDownWidth="match_parent"
+                               android:entries="@array/sorting_criteria"
+                           />
                        </LinearLayout>
 
                    </LinearLayout>
-
 
 
                    <androidx.recyclerview.widget.RecyclerView
                        android:id="@+id/course_list"
                        android:layout_below="@+id/sorting_layout"
                        android:layout_width="match_parent"
-                       android:layout_height="wrap_content"/>
-
+                       android:layout_height="wrap_content"
+                   />
 
 
                    <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -136,12 +135,14 @@
                        android:layout_alignParentEnd="true"
                        android:layout_alignParentBottom="true"
                        android:layout_marginTop="@dimen/field_padding_bottom"
-                       android:layout_marginBottom="@dimen/padding"
+                       android:layout_marginBottom="35dp"
                        android:backgroundTint="@color/secondary_pink"
                        android:clickable="true"
                        android:focusable="true"
+                       android:minWidth="48dp"
+                       android:minHeight="48dp"
                        android:scaleType="center"
-                       app:fabCustomSize="40dp"
+                       app:fabCustomSize="50dp"
                        app:maxImageSize="30dp"
                        app:pressedTranslationZ="0dp"
                        app:srcCompat="@drawable/ic_filter" />
@@ -158,7 +159,7 @@
         android:layout_height="match_parent"
 
         android:layout_gravity="start"
-        android:background="#10cbc3e3"
+        android:background="@color/primary_dark_purple"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/menu" />
 
