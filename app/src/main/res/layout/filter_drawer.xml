@@ -48,6 +48,15 @@
         android:valueFrom="0.0"
         android:valueTo="6000"
         android:stepSize="10.0"
+        app:labelBehavior="floating"
+        app:tickColor="@color/primary_dark_purple"
+        app:tickColorActive="@color/primary_dark_purple"
+        app:tickColorInactive="@color/primary_dark_purple"
+        app:haloColor="@color/secondary_pink"
+        app:thumbColor="@color/primary_dark_purple"
+        app:thumbStrokeColor="@color/primary_dark_purple"
+        app:trackColor="@color/primary_dark_purple"
+        style="@style/mySlider"
         />
 
     <LinearLayout
@@ -74,7 +83,8 @@
             android:layout_height="48dp"
             android:layout_weight="0.75"
             android:popupBackground="@color/secondary_pink"
-            android:entries="@array/categories"
+
+            android:entries="@array/categories_filter"
             />
 
     </LinearLayout>
@@ -101,8 +111,8 @@
             android:id="@+id/beginner_checkbox"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_weight="0.33"
-            android:buttonTint="@color/grey_purple"
+            android:layout_weight="0.30"
+            android:buttonTint="@color/secondary_pink"
             android:text="@string/beginner"
             android:textColor="@color/primary_dark_purple"
             android:textStyle="bold" />
@@ -111,8 +121,8 @@
             android:id="@+id/intermediate_checkbox"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_weight="0.33"
-            android:buttonTint="@color/grey_purple"
+            android:layout_weight="0.36"
+            android:buttonTint="@color/secondary_pink"
             android:text="@string/intermediate"
             android:textColor="@color/primary_dark_purple"
             android:textStyle="bold" />
@@ -122,7 +132,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="0.33"
-            android:buttonTint="@color/grey_purple"
+            android:buttonTint="@color/secondary_pink"
             android:text="@string/advanced"
             android:textColor="@color/primary_dark_purple"
             android:textStyle="bold" />
@@ -131,7 +141,7 @@
     </LinearLayout>
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/enroll_switch"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="@dimen/padding"
@@ -139,7 +149,41 @@
             android:textColor="@color/grey_purple"
             android:textSize="@dimen/toolbar_title"
             android:textStyle="bold"
+            android:theme="@style/mySwitch"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/reset_btn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:layout_marginBottom="@dimen/padding"
+            android:layout_marginEnd="@dimen/padding"
+            android:background="@drawable/button_pink"
+            android:text="@string/reset"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/apply_btn"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:layout_marginBottom="@dimen/padding"
+            android:layout_marginStart="@dimen/padding"
+            android:background="@drawable/button_pink"
+            android:text="@string/apply"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

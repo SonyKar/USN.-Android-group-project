@@ -215,7 +215,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
             checkedID = 5;
             daysChecked.add(checkedID);
         }
-        else if(Tuesday.isChecked()){
+        else if(Saturday.isChecked()){
             checkedID = 6;
             daysChecked.add(checkedID);
         }

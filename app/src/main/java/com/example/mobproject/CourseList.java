@@ -17,7 +17,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,10 +40,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.slider.LabelFormatter;
+import com.google.android.material.slider.RangeSlider;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.List;
 
-public class CourseList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class CourseList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SelectCourseListener {
     private DrawerLayout drawer;
     private ArrayAdapter<String> arrayAdapter;
 //    private SearchView searchBar;
@@ -47,9 +57,15 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     private RecyclerView courseList;
     private CourseAdapter adapter;
     private ArrayList<String> items;
-    private Button addToFav;
+    private Button addToFav, applyFilters, resetFilters;
     private FloatingActionButton filterBtn;
-
+    private Switch enrollSwitch;
+    private Spinner categoryFilter;
+    private ArrayList<Integer> difficultyChecked = new ArrayList<Integer>();
+    private CheckBox Beginner, Intermediate, Advanced;
+    private Integer diffCheckedID;
+    private RangeSlider priceRange;
+    private CardView courseCard;
 
 
 
@@ -115,8 +131,12 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 
         courseList = (RecyclerView) findViewById(R.id.course_list);
         courseList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CourseAdapter(this, items);
+        adapter = new CourseAdapter(this, items, this);//3rd parameter-> refers to interface SelectCourseListener
         courseList.setAdapter(adapter);
+
+        //go to selected Course
+
+
 
 
        /* //add course to Favourites -> addedToFav variable for each course
@@ -146,11 +166,129 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
+    private void goToCourseProfile() {
+        Intent toCourseProfile = new Intent(this, CourseProfile.class);
+        startActivity(toCourseProfile);
+    }
+
+    //generate filter drawer
     private void showDialog() {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.filter_drawer);
 
+        //switch button
+        enrollSwitch = bottomSheetDialog.findViewById(R.id.enroll_switch);
+
+        //category Spinner
+        categoryFilter = bottomSheetDialog.findViewById(R.id.category_spn);
+        //after APPLY button
+
+
+        //take difficulty - CheckBox
+        Beginner = (CheckBox) bottomSheetDialog.findViewById(R.id.beginner_checkbox);
+        Intermediate = (CheckBox) bottomSheetDialog.findViewById(R.id.intermediate_checkbox);
+        Advanced = (CheckBox) bottomSheetDialog.findViewById(R.id.advanced_checkbox);
+
+
+        //price Range
+        priceRange = bottomSheetDialog.findViewById(R.id.price_range);
+
+        //add "$" label
+        priceRange.setLabelFormatter(new LabelFormatter() {
+            @NonNull
+            @Override
+            public String getFormattedValue(float value) {
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+                currencyFormat.setCurrency(Currency.getInstance("USD"));
+
+                return currencyFormat.format(value);
+            }
+        });
+
+
+        //APPLY changes button
+        applyFilters = bottomSheetDialog.findViewById(R.id.apply_btn);
+        applyFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filterCourses();
+            }
+        });
+
+        //RESET button
+        resetFilters = bottomSheetDialog.findViewById(R.id.reset_btn);
+        resetFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetCourses();
+            }
+        });
+
         bottomSheetDialog.show();
+    }
+
+    private void resetCourses() {
+        //reset priceRange
+        priceRange.setValues(0.0F, 6000.0F);
+
+        //reset Category spinner
+        categoryFilter.setSelection(0);
+
+        //reset Difficulty checkbox
+        Beginner.setChecked(false);
+        Intermediate.setChecked(false);
+        Advanced.setChecked(false);
+
+        //reset Enroll Switch
+        enrollSwitch.setChecked(false);
+
+    }
+
+    private void filterCourses() {
+        //PRICE RANGE
+        List<Float> priceValues = priceRange.getValues();
+        float minPrice = Collections.min(priceValues);
+        float maxPrice = Collections.max(priceValues);
+        //send price values to DB
+
+
+        //CATEGORY SPINNER
+        String chosenCategory = categoryFilter.getSelectedItem().toString();
+        //send to DB - when "ALL" => no filter
+
+        //DIFFICULTY CHECKBOX
+        if(Beginner.isChecked()) {
+            diffCheckedID = 1;
+            difficultyChecked.add(diffCheckedID);
+        }
+        else if(Intermediate.isChecked()){
+            diffCheckedID = 2;
+            difficultyChecked.add(diffCheckedID);
+        }
+        else if(Advanced.isChecked()){
+            diffCheckedID = 3;
+            difficultyChecked.add(diffCheckedID);
+        }
+        //send  difficultyChecked array to DB
+
+        //ENROLL SWITCH
+        enrollSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                if(isChecked == true){
+                    //send "open to enroll courses"
+                    Toast.makeText(getApplicationContext(),
+                            "SWITCH ON", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    //send "all courses""
+                    Toast.makeText(getApplicationContext(),
+                            "SWITCH OFF", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     //add Search Menu Item
@@ -233,5 +371,14 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 
         drawer.closeDrawer(GravityCompat.START);
         return true;//the item was selected
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        items.get(position);
+        Intent toCourseProfile = new Intent(this, CourseProfile.class);
+        toCourseProfile.putExtra("COURSE_ID", items.get(position));
+        startActivity(toCourseProfile);
+
     }
 }

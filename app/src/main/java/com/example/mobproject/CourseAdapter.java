@@ -15,19 +15,20 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     private LayoutInflater layoutInflater;
     private List<String> data;
+    private SelectCourseListener myselectCourseListener;
 
 
-    CourseAdapter(Context context, List<String> data){
+    CourseAdapter(Context context, List<String> data, SelectCourseListener selectCourseListener){
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
-
+        this.myselectCourseListener = selectCourseListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.card_view, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, myselectCourseListener);
     }
 
     @Override
@@ -45,13 +46,22 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView courseTitle;
+        SelectCourseListener selectCourseListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, SelectCourseListener selectCourseListener) {
             super(itemView);
             courseTitle = itemView.findViewById(R.id.course_title);
+            this.selectCourseListener = selectCourseListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            selectCourseListener.onItemClicked(getAdapterPosition());
         }
     }
 

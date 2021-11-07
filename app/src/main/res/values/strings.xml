@@ -39,6 +39,15 @@
          <item>Miscellaneous</item>
     </string-array>
 
+    <string-array name = "categories_filter">
+        <item>All</item>
+        <item>Literature</item>
+        <item>Physics</item>
+        <item>Artificial Intelligence</item>
+        <item>Miscellaneous</item>
+        <item>Math</item>
+    </string-array>
+
     <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
     <string name="pick_date">Choose Date!</string>
@@ -102,6 +111,8 @@
     <string name="filters">Filters</string>
     <string name="price_range">Price range</string>
     <string name="category">Category</string>
+    <string name="reset">Reset</string>
+    <string name="apply">Apply</string>
 
     <string-array name="sorting_criteria">
         <item>Last added</item>

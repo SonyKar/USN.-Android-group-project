@@ -8,6 +8,7 @@
     >
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/course_card"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:backgroundTint="@color/light_grey"

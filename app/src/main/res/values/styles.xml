@@ -18,6 +18,8 @@
 
        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
 
+       <!--<item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>-->
+
    </style>
 
     <style name="DatePicker" parent="Theme.AppCompat.DayNight.Dialog">
@@ -43,5 +45,19 @@
     <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">@color/primary_dark_purple</item>
     </style>
+
+    <style name="mySwitch">
+        <item name="android:colorControlActivated">@color/secondary_pink</item>
+    </style>
+
+    <!--<style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/filter_bg</item>
+    </style>-->
 
 </resources>
