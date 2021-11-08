@@ -2,6 +2,7 @@ package com.example.mobproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -12,27 +13,30 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mobproject.validations.UserValidation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class RegisterActivity extends AppCompatActivity {
 
     EditText signupEmail, signupFirstName, signupLastName, signupPass, signupConfPass;
     Button register, btnToLogin;
     RadioGroup status;
-    Boolean validSignUpEmail, validSignUpPassword, validSignUpFirstName, validSignUpLastName, validSignUpStatus;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
 
-        signupFirstName = (EditText) findViewById(R.id.signup_fname);
-        signupLastName = (EditText) findViewById(R.id.signup_lname);
-        signupEmail = (EditText) findViewById(R.id.signup_email);
-        signupPass = (EditText) findViewById(R.id.signup_password);
-        signupConfPass = (EditText) findViewById(R.id.signup_conf_password);
-        register = (Button) findViewById(R.id.signup_btn);
-        status = (RadioGroup) findViewById(R.id.rad_status);
-        btnToLogin = (Button) findViewById(R.id.btn_to_login);
+        signupFirstName = findViewById(R.id.signup_fname);
+        signupLastName = findViewById(R.id.signup_lname);
+        signupEmail = findViewById(R.id.signup_email);
+        signupPass = findViewById(R.id.signup_password);
+        signupConfPass = findViewById(R.id.signup_conf_password);
+        register = findViewById(R.id.signup_btn);
+        status = findViewById(R.id.rad_status);
+        btnToLogin = findViewById(R.id.btn_to_login);
 
         /* get selected radio button from radioGroup
         int selectedId = gender.getCheckedRadioButtonId();
@@ -40,70 +44,53 @@ public class RegisterActivity extends AppCompatActivity {
         selectedRadioButton = (RadioButton)findViewById(selectedId);
         Toast.makeText(getApplicationContext(), selectedRadioButton.getText().toString()+" is selected", Toast.LENGTH_SHORT).show();*/
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signupValidation();
-            }
-        });
+        register.setOnClickListener(signupValidation);
 
-        btnToLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        btnToLogin.setOnClickListener(view -> finish());
     }
 
-    public void signupValidation(){
-
+    public View.OnClickListener signupValidation = view -> {
+        Boolean validSignUpEmail = true, validSignUpPassword = true, validSignUpFirstName = true, validSignUpLastName = true, validSignUpStatus = true;
         Boolean passConfirm = signupPass.getText().toString().equals(
                 signupConfPass.getText().toString());
 
-        //validate signup FIRST NAME
-        if(signupFirstName.getText().toString().isEmpty()){
+        String fName = signupFirstName.getText().toString();
+        String lName = signupLastName.getText().toString();
+        String email = signupEmail.getText().toString();
+        String password = signupPass.getText().toString();
+
+        // validate signup FIRST NAME
+        if(fName.isEmpty()){
             signupFirstName.setError(getResources().getString(R.string.first_name_error));
             validSignUpFirstName = false;
         }
-        else
-            validSignUpFirstName = true;
 
         //validate signup LAST NAME
-        if(signupLastName.getText().toString().isEmpty()){
+        if(lName.isEmpty()){
             signupLastName.setError(getResources().getString(R.string.last_name_error));
             validSignUpLastName = false;
         }
-        else
-            validSignUpLastName = true;
 
         //validate signup EMAIL ADDRESS
-        if(signupEmail.getText().toString().isEmpty()){
+        if (email.isEmpty()) {
             signupEmail.setError(getResources().getString(R.string.email_error));
             validSignUpEmail = false;
-        } else if(!Patterns.EMAIL_ADDRESS.matcher(signupEmail.getText().toString()).matches()){
+        } else if (UserValidation.isEmail(email)) {
             signupEmail.setError(getResources().getString(R.string.error_invalid_email));
             validSignUpEmail = false;
-        } else{
-            validSignUpEmail = true;
         }
 
         //validate signup PASSWORD
-        if(signupPass.getText().toString().isEmpty()){
+        if(password.isEmpty()){
             signupPass.setError(getResources().getString(R.string.password_error));
             validSignUpPassword = false;
-        }
-        else if(signupConfPass.getText().toString().isEmpty()){
-            signupConfPass.setError(getResources().getString(R.string.conf_password_error));
-            validSignUpPassword = false;
-        }
-        else if (!passConfirm) {
+        } else if (!passConfirm) {
                 signupConfPass.setError(getResources().getString(R.string.password_match_error));
                 validSignUpPassword = false;
-            }
-        else
-            validSignUpPassword = true;
+        }
 
-        //validate STATUS
+        // TODO to make a radio button selected by default
+        // validate STATUS
         if (status.getCheckedRadioButtonId() == -1)
         {
             // no radio buttons are checked
@@ -115,7 +102,6 @@ public class RegisterActivity extends AppCompatActivity {
         else
         {
             // one of the radio buttons is checked
-            validSignUpStatus = true;
 
             // get selected radio button from radioGroup
             int selectedStatusId = status.getCheckedRadioButtonId();
@@ -128,15 +114,22 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         if(validSignUpFirstName && validSignUpLastName && validSignUpEmail && validSignUpPassword
-                && validSignUpStatus){
-            Toast.makeText(getApplicationContext(),
-                    "Successful Signup!!",
-                    Toast.LENGTH_SHORT).show();
+                && validSignUpStatus) {
 
-            //go to SignUpMessage
-            switchToMessagePage();
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            switchToMessagePage();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("Sign up", "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
-    }
+    };
 
     private void switchToMessagePage(){
         Intent toMessagePage = new Intent(this, SignUpMessage.class);

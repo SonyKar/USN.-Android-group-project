@@ -42,6 +42,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.RangeSlider;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -362,6 +363,7 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
                 finish();
                 break;
             case R.id.nav_log_out:
+                FirebaseAuth.getInstance().signOut();
                 Intent toLogin = new Intent(this, LoginActivity.class);
                 startActivity(toLogin);
                 finish();
