@@ -4,86 +4,102 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.example.mobproject.validations.UserValidation;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-     Button loginBtn, forgotPass, btnToSignUp;
-     EditText loginEmail, loginPass;
-     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-     boolean validLoginEmail, validLoginPassword;
+    // TODO after initiating log in process add a drawable to log in button and disable it so the person know that the application is not blocked.
+    private EditText loginEmail, loginPass;
+    private Button loginBtn;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            switchToCourseList();
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        loginBtn = (Button) findViewById(R.id.login_btn);
-        loginEmail = (EditText) findViewById(R.id.login_email);
-        forgotPass = (Button) findViewById(R.id.btn_forgot_pass);
-        btnToSignUp = (Button) findViewById(R.id.btn_tosignup);
+        Button forgotPass = findViewById(R.id.btn_forgot_pass);
+        Button btnToSignUp = findViewById(R.id.btn_tosignup);
+        loginBtn = findViewById(R.id.login_btn);
+        loginEmail = findViewById(R.id.login_email);
         loginPass = findViewById(R.id.login_password);
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loginValidation();
-            }
-        });
+        loginBtn.setOnClickListener(loginValidation);
 
-        btnToSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                 switchToSignUp();
-            }
-        });
+        btnToSignUp.setOnClickListener(switchToSignUp);
 
-        forgotPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switchToNewPass();
-            }
-        });
+        forgotPass.setOnClickListener(switchToNewPass);
     }
 
-    private void loginValidation() {
+    private final View.OnClickListener loginValidation = view -> {
+        boolean validLoginEmail = true, validLoginPassword = true;
+        final String email = loginEmail.getText().toString();
+        final String password = loginPass.getText().toString();
+
         //Check login email address
-        if(loginEmail.getText().toString().isEmpty()){
+        if(email.isEmpty()){
             loginEmail.setError(getResources().getString(R.string.email_error));
             validLoginEmail = false;
-        } else if(!Patterns.EMAIL_ADDRESS.matcher(loginEmail.getText().toString()).matches()){
+        } else if(UserValidation.isEmail(email)){
             loginEmail.setError(getResources().getString(R.string.error_invalid_email));
             validLoginEmail = false;
-        } else{
-            validLoginEmail = true;
         }
 
         //Check login password
-        if(loginPass.getText().toString().isEmpty()){
+        if(password.isEmpty()){
             loginPass.setError(getResources().getString(R.string.password_error));
             validLoginPassword = false;
         }
-        else
-            validLoginPassword = true;
 
-        if(validLoginEmail && validLoginPassword)
-            Toast.makeText(getApplicationContext(),
-                    "Successful Login!",
-                    Toast.LENGTH_SHORT).show();
+        if(validLoginEmail && validLoginPassword) {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+
+            auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            switchToCourseList();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("Sign in", "signInWithEmail:failure", task.getException());
+                            // TODO outputError() to show the error message if something went wrong!
+                        }
+                    });
+        }
+    };
+
+    private void switchToCourseList() {
+        Intent toCourseList = new Intent(this, CourseList.class);
+        startActivity(toCourseList);
+        finish();
     }
 
-
-    private void switchToSignUp(){
+    private final View.OnClickListener switchToSignUp = view -> {
         Intent toSignUp = new Intent(this, RegisterActivity.class);
         startActivity(toSignUp);
-    }
+        finish();
+    };
 
-    private void switchToNewPass(){
+    private final View.OnClickListener switchToNewPass = view -> {
         Intent toNewPass = new Intent(this, ForgotPassword.class);
         startActivity(toNewPass);
-    }
+        finish();
+    };
 }
