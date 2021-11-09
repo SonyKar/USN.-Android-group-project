@@ -126,7 +126,9 @@
                     android:layout_height="48dp"
                     android:text="Student"
                     android:textAllCaps="true"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:checked="true"
+                    android:buttonTint="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/rad_teacher"
@@ -134,7 +136,8 @@
                     android:layout_height="48dp"
                     android:text="Teacher"
                     android:textAllCaps="true"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:buttonTint="@color/white"/>
             </RadioGroup>
 
 

@@ -57,7 +57,7 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     private Spinner sortingCategory;
     private RecyclerView courseList;
     private CourseAdapter adapter;
-    private ArrayList<String> items;
+    private ArrayList<String> items;//-> <Course>
     private Button addToFav, applyFilters, resetFilters;
     private FloatingActionButton filterBtn;
     private Switch enrollSwitch;
@@ -130,9 +130,9 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         items.add("Spanish Literature");
         items.add("Emotional Intelligence");
 
-        courseList = (RecyclerView) findViewById(R.id.course_list);
+        courseList = findViewById(R.id.course_list);
         courseList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CourseAdapter(this, items, this);//3rd parameter-> refers to interface SelectCourseListener
+        adapter = new CourseAdapter(this, items, this);//3rd parameter-> refers to the interface SelectCourseListener
         courseList.setAdapter(adapter);
 
         //go to selected Course

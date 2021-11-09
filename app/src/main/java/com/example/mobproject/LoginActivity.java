@@ -54,14 +54,15 @@ public class LoginActivity extends AppCompatActivity {
         final String email = loginEmail.getText().toString();
         final String password = loginPass.getText().toString();
 
+
         //Check login email address
         if(email.isEmpty()){
             loginEmail.setError(getResources().getString(R.string.email_error));
             validLoginEmail = false;
-        } else if(UserValidation.isEmail(email)){
+        } else if(!UserValidation.isEmail(email)){
             loginEmail.setError(getResources().getString(R.string.error_invalid_email));
             validLoginEmail = false;
-        }
+        }//TODO - email validation doesn't work
 
         //Check login password
         if(password.isEmpty()){
@@ -70,6 +71,10 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if(validLoginEmail && validLoginPassword) {
+
+            //loading drawable to appear onClick
+            loginBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_loading_purple, 0, 0, 0);
+
             FirebaseAuth auth = FirebaseAuth.getInstance();
 
             auth.signInWithEmailAndPassword(email, password)

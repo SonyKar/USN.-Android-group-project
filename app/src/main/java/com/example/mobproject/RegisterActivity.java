@@ -20,9 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText signupEmail, signupFirstName, signupLastName, signupPass, signupConfPass;
-    Button register, btnToLogin;
-    RadioGroup status;
+    private EditText signupEmail, signupFirstName, signupLastName, signupPass, signupConfPass;
+    private Button register, btnToLogin;
+    private RadioGroup status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         register.setOnClickListener(signupValidation);
 
-        btnToLogin.setOnClickListener(view -> finish());
+        btnToLogin.setOnClickListener(switchBackToSignIn);
     }
 
     public View.OnClickListener signupValidation = view -> {
@@ -91,26 +91,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         // TODO to make a radio button selected by default
         // validate STATUS
-        if (status.getCheckedRadioButtonId() == -1)
-        {
-            // no radio buttons are checked
-            Toast.makeText(getApplicationContext(),
-                    R.string.status_error,
-                    Toast.LENGTH_SHORT).show();
-            validSignUpStatus = false;
-        }
-        else
-        {
+
             // one of the radio buttons is checked
 
             // get selected radio button from radioGroup
-            int selectedStatusId = status.getCheckedRadioButtonId();
+            String selectedStatusId = Integer.toString(status.getCheckedRadioButtonId());//0 - STUDENT; 1 - TEACHER
 
             // find the radiobutton by returned id
 
             //selectedStatus = (RadioButton)findViewById(selectedId);
 
-        }
+
 
 
         if(validSignUpFirstName && validSignUpLastName && validSignUpEmail && validSignUpPassword
@@ -135,5 +126,11 @@ public class RegisterActivity extends AppCompatActivity {
         Intent toMessagePage = new Intent(this, SignUpMessage.class);
                 startActivity(toMessagePage);
     }
+
+    private final View.OnClickListener switchBackToSignIn = view -> {
+        Intent backToSignIn = new Intent(this, LoginActivity.class);
+        startActivity(backToSignIn);
+        finish();
+    };
 
 }
