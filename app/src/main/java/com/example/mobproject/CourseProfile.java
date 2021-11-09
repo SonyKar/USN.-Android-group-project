@@ -14,16 +14,23 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class CourseProfile extends AppCompatActivity {
 
-    RatingBar rateEdit, finalRating;
-    TextView ratingScore, finalRatingScore, courseEnroll, courseDescription;
-    int totalRating, isEdit = 0, addedToFav ;
-    ImageButton editCourse, backToMain;
-    FloatingActionButton addToFav;
+    private RatingBar rateEdit, finalRating;
+    private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription;
+    private int totalRating, isEdit = 0, addedToFav ;
+    private ImageButton editCourse, backToMain;
+    private FloatingActionButton addToFav;
+    private RecyclerView commentsList;
+    private ArrayList<String> items;//-> <Comment>
+    private CommentAdapter adapter;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,20 @@ public class CourseProfile extends AppCompatActivity {
             }
         });
 
+
+        //create RecyclerView
+
+        items = new ArrayList<>();
+        items.add("Anne Marie");
+        items.add("Greta Sasha");
+        items.add("Erik Stivulescu");
+        items.add("Nicolae Ceausescu");
+        items.add("Esteban Julio Ricardo Montoya Dela Rosa Ramirez");
+
+        commentsList = findViewById(R.id.comments_list);
+        commentsList.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new CommentAdapter(this, items);
+        commentsList.setAdapter(adapter);
 
 
         //check course availability - open to enroll?

@@ -65,7 +65,7 @@
 
 
                     <TextView
-                        android:id="@+id/difficulty"
+                        android:id="@+id/course_difficulty"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
@@ -76,7 +76,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/final_score"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"

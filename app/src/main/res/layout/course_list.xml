@@ -124,8 +124,7 @@
                        android:id="@+id/course_list"
                        android:layout_below="@+id/sorting_layout"
                        android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                   />
+                       android:layout_height="wrap_content" />
 
 
                    <com.google.android.material.floatingactionbutton.FloatingActionButton

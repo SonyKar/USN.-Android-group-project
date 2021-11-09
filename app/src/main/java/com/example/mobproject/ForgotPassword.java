@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ForgotPassword extends AppCompatActivity {
 
-    EditText sendEmail;
-    Button newPass;
-    Boolean validSendEmail;
+    private EditText sendEmail;
+    private Button newPass;
+    private Boolean validSendEmail;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

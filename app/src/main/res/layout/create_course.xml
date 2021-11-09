@@ -279,7 +279,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:text="@string/beginner" />
+                android:text="@string/beginner"
+                />
 
             <RadioButton
                 android:id="@+id/interm_rad"
