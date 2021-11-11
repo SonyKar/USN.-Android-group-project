@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -58,7 +59,8 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     private RecyclerView courseList;
     private CourseAdapter adapter;
     private ArrayList<String> items;//-> <Course>
-    private Button addToFav, applyFilters, resetFilters;
+    private Button applyFilters, resetFilters;
+    private ImageButton addToFav;
     private FloatingActionButton filterBtn;
     private Switch enrollSwitch;
     private Spinner categoryFilter;
@@ -140,11 +142,12 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 
 
 
-       /* //add course to Favourites -> addedToFav variable for each course
+       /*//add course to Favourites -> addedToFav variable for each course
         addToFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //change color
+                
+               //change color
 
                 //get addedToFav from DB (is already in Favourites?)
 
