@@ -61,11 +61,20 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
 
+    <string-array name = "meeting_days">
+        <item>Mon</item>
+        <item>Tu</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+
     <string name="difficulty">Difficulty</string>
 
-    <string name="beginner">Beginner</string>
-    <string name="intermediate">Intermediate</string>
-    <string name="advanced">Advanced</string>
+    <string name="beginner">BEGINNER</string>
+    <string name="intermediate">INTERMEDIATE</string>
+    <string name="advanced">ADVANCED</string>
     <string-array name="difficulties">
         <item>@string/beginner</item>
         <item>@string/intermediate</item>
@@ -121,6 +130,7 @@
     <string name="category">Category</string>
     <string name="reset">Reset</string>
     <string name="apply">Apply</string>
+    <string name="course_id">COURSE_ID</string>
 
     <string-array name="sorting_criteria">
         <item>Last added</item>

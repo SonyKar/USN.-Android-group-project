@@ -17,41 +17,110 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.db.Database;
+import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class CourseProfile extends AppCompatActivity {
 
     private RatingBar rateEdit, finalRating;
-    private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription;
+    private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
+    courseDifficulty, coursePeriod, coursemeetingDays;
     private int totalRating, isEdit = 0, addedToFav ;
     private ImageButton editCourse, backToMain;
+    private Button enrollMe;
     private FloatingActionButton addToFav;
     private RecyclerView commentsList;
     private ArrayList<String> items;//-> <Comment>
     private CommentAdapter adapter;
+    private String courseID, meetingDaysString;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_page);
 
-        rateEdit = (RatingBar) findViewById(R.id.rating_edit);
-        finalRating = (RatingBar) findViewById(R.id.final_rating);
-        ratingScore = (TextView) findViewById(R.id.rating_score);
-        finalRatingScore = (TextView) findViewById(R.id.final_rating_score);
-        editCourse = (ImageButton) findViewById(R.id.edit_btn);
-        addToFav = (FloatingActionButton) findViewById(R.id.add_to_fav);
-        courseEnroll = (TextView) findViewById(R.id.open_to_enroll_course_page);
-        courseDescription = (TextView) findViewById(R.id.descr_field);
-        backToMain = (ImageButton) findViewById(R.id.back_btn);
+        rateEdit = findViewById(R.id.rating_edit);
+        finalRating = findViewById(R.id.final_rating);
+        ratingScore = findViewById(R.id.rating_score);
+        finalRatingScore = findViewById(R.id.final_rating_score);
+        editCourse = findViewById(R.id.edit_btn);
+        addToFav = findViewById(R.id.add_to_fav);
+        courseEnroll = findViewById(R.id.open_to_enroll_course_page);
+        courseDescription = findViewById(R.id.course_descr);
+        backToMain = findViewById(R.id.back_btn);
+        courseName = findViewById(R.id.course_name);
+        coursePrice = findViewById(R.id.course_price);
+        courseDifficulty = findViewById(R.id.difficulty_course_page);
+        coursePeriod = findViewById(R.id.course_period);
+        coursemeetingDays = findViewById(R.id.meeting_days);
+        enrollMe = findViewById(R.id.enroll_me_btn);
+
 
         backToMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switchToMain();
             }
+        });
+
+        //get course ID
+        Intent intent = getIntent();
+        courseID= intent.getStringExtra("COURSE_ID");
+
+        //set values for all fields
+        FirebaseFirestore.getInstance().collection(DatabaseCollections.COURSES_COLLECTION).document(courseID).
+                get().addOnSuccessListener(documentSnapshot -> {
+                Course course = documentSnapshot.toObject(Course.class);
+                courseName.setText(course.getName());
+                coursePrice.setText("$" + Double.toString(course.getPrice()));
+
+                int difficulty = course.getDifficulty();
+                courseDifficulty.setText(getResources().getStringArray(R.array.difficulties)[difficulty]);
+
+                //set difficulty color
+                if(difficulty == 0)
+                    courseDifficulty.setTextColor(getResources().getColor(R.color.beginner_green));
+                else if (difficulty == 1)
+                    courseDifficulty.setTextColor(getResources().getColor(R.color.intermediate_yellow));
+                else
+                    courseDifficulty.setTextColor(getResources().getColor(R.color.advanced_red));
+
+                if(course.isOpenEnroll())
+                {
+                    courseEnroll.setText(R.string.open_to_enroll);
+                    courseEnroll.setTextColor(getResources().getColor(R.color.beginner_green));
+                }
+                else {
+                    courseEnroll.setText(R.string.cannot_enroll);
+                    courseEnroll.setTextColor(getResources().getColor(R.color.advanced_red));
+                }
+
+
+
+                courseDescription.setText(course.getDescription());
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+                coursePeriod.setText(sdf.format(course.getStartDate()) + " - " + sdf.format(course.getEndDate()));
+
+                meetingDaysString = "";
+                List<Integer> meetDays = course.getMeetDays();
+                for(int day : course.getMeetDays()){
+                    meetingDaysString = meetingDaysString + " " + getResources().getStringArray(R.array.meeting_days)[day];
+                }
+                coursemeetingDays.setText(meetingDaysString);
+
+                //TODO isOpenToEnroll()
+
         });
 
 
@@ -71,6 +140,8 @@ public class CourseProfile extends AppCompatActivity {
 
 
         //check course availability - open to enroll?
+        //if user is already enrolled or currentDate > startDate
+        //enrollMe.setEnabled(false);
 
         /*if(//id open to enroll//) {
             courseEnroll.setTextColor(Color.GREEN);
