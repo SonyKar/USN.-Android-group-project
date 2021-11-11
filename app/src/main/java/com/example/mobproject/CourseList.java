@@ -1,9 +1,12 @@
 package com.example.mobproject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,12 +50,15 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     private CheckBox Beginner, Intermediate, Advanced;
     private RangeSlider priceRange;
     final ArrayList<Course> courseList = new ArrayList<>();
+    private SharedPreferences sharedPref;
 
     @SuppressLint("ResourceAsColor")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_list);
 
+//        sharedPref = getApplicationContext().getSharedPreferences("com.example.mobproject", Context.MODE_PRIVATE);
+//        Log.d("prefCheck", sharedPref.getString("userType","NoIdFound"));
         actionBarInit();
         sortBarInit();
 
@@ -63,6 +69,8 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 
         FloatingActionButton filterBtn = findViewById(R.id.filter_fab);
         filterBtn.setOnClickListener(view -> showFilterDialog());
+
+
     }
 
     private void fillCourses() {

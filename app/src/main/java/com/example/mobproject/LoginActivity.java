@@ -3,15 +3,29 @@ package com.example.mobproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.constants.Other;
+import com.example.mobproject.db.CourseDatabase;
+import com.example.mobproject.db.Database;
+import com.example.mobproject.models.Course;
 import com.example.mobproject.validations.UserValidation;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -20,9 +34,13 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginBtn;
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
+    private SharedPreferences sharedPref;
+
+
     @Override
     protected void onStart() {
         super.onStart();
+
 
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
@@ -31,10 +49,23 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    //TA2bAr5CjTeWQg2gNGlv
+    private final CourseDatabase db = new CourseDatabase();
+    private Course cursulet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        //int[] days= {1, 3};
+        //FirebaseFirestore.getInstance().collection("Categories").document("6VacuZlpCY1KGmhEykyr")
+//        cursulet = new Course("Ancient Modded Art", FirebaseFirestore.getInstance().collection("Categories").document("6VacuZlpCY1KGmhEykyr"), 500.0, 1,
+//                FirebaseFirestore.getInstance().collection("Users").document("sJIJn2M32jgZrBO3LogvR16Ulp93"), new Date("November 15, 2021"), new Date("December 15, 2021"), days, "Daca merge cursul asta, e o minune");
+
+        //Log.d("testiing", "ok");
+
+        sharedPref = getSharedPreferences(Other.sharedPrefFile, MODE_PRIVATE);
+
 
         Button forgotPass = findViewById(R.id.btn_forgot_pass);
         Button btnToSignUp = findViewById(R.id.btn_tosignup);
@@ -80,7 +111,17 @@ public class LoginActivity extends AppCompatActivity {
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            switchToCourseList();
+                            sharedPref.edit().putString("id", auth.getUid()).apply();
+                            FirebaseFirestore.getInstance()
+                                    .collection(DatabaseCollections.USER_COLLECTION)
+                                    .document(Objects.requireNonNull(auth.getUid()))
+                                    .get()
+                                    .addOnSuccessListener(documentSnapshot -> {
+                                        DocumentReference userType = (DocumentReference) documentSnapshot.get("userType");
+                                        String userTypeId = userType.getId();
+                                        sharedPref.edit().putString("userType", userTypeId).apply();
+                                        switchToCourseList();
+                                    });
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("Sign in", "signInWithEmail:failure", task.getException());
@@ -108,3 +149,4 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     };
 }
+
