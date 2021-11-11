@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,6 +61,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
 
 
+
     }
 
     @Override
@@ -71,7 +73,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
         TextView courseTitle, courseDifficulty, courseFinalScore, coursePeriod, coursePrice, courseEnroll;
         ImageView courseImage;
+        ImageButton addToFav;
         SelectCourseListener selectCourseListener;
+        Integer addedToFav;
 
         public ViewHolder(@NonNull View itemView, SelectCourseListener selectCourseListener) {
             super(itemView);
@@ -82,8 +86,29 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             coursePrice = itemView.findViewById(R.id.card_view_price);
             courseEnroll = itemView.findViewById(R.id.card_view_enroll);
             courseImage = itemView.findViewById(R.id.course_img);
+            addToFav = itemView.findViewById(R.id.add_to_fav_cardview);
 
             this.selectCourseListener = selectCourseListener;
+
+            //activate addToFav button
+            addedToFav = 0;
+            addToFav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //check for addedToFav for each Course from DB
+                    if(addedToFav == 0)//it is not a favourite Course
+                    {
+                        addedToFav = 1;
+                        addToFav.setImageResource(R.drawable.ic_favourite_red);
+                    }
+                    else //it is already a favourite (addedToFav == 1)
+                    {
+                        addedToFav = 0;
+                        addToFav.setImageResource(R.drawable.ic_favourite_black);
+                     }
+                }
+            });
 
             itemView.setOnClickListener(this);
         }
