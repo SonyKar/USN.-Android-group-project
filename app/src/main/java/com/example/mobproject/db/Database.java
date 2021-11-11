@@ -10,10 +10,10 @@ public abstract class Database<T> {
 //    protected final FirebaseDatabase database = FirebaseDatabase.getInstance();
     protected final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    abstract T getItem(String id);
-    abstract ArrayList<T> getItems();
-    abstract Error insertItem(T item);
-    abstract Error updateItem(String id, T item);
-    abstract Error removeItem(String id);
-    abstract Error validateItem(T item);
+    public abstract T getItem(String id);
+    public abstract ArrayList<T> getItems();
+    public abstract Error insertItem(T item);
+    public abstract Error updateItem(String id, T item);
+    public abstract Error removeItem(String id);
+    public abstract Error validateItem(T item);
 }

@@ -1,30 +1,31 @@
 package com.example.mobproject.models;
 
-import com.example.mobproject.constants.WeekDay;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Course {
     private String id;
     private String name;
     private double rating;
-    private ArrayList<String> categoryId = new ArrayList<>();
+    private DocumentReference categoryId;
     private double price;
     private int difficulty;
-    private String ownerId;
+    private DocumentReference ownerId;
     private boolean openEnroll;
     private Date startDate;
     private Date endDate;
     private int rateCounter;
     private int studentCounter;
-    private ArrayList <WeekDay> meetDays = new ArrayList<>();
+    private List<Integer> meetDays = new ArrayList<>();
     private String description;
     private ArrayList <Comment> comments = new ArrayList<>();
 
-    public Course(String name, ArrayList<String> categoryId, double price,
-                  int difficulty, String ownerId, Date startDate, Date endDate,
-                  ArrayList<WeekDay> meetDays, String description) {
+    public Course(String name, DocumentReference categoryId, double price,
+                  int difficulty, DocumentReference ownerId, Date startDate, Date endDate,
+                  int[] meetDays, String description) {
         this.name = name;
         this.categoryId = categoryId;
         this.price = price;
@@ -32,12 +33,19 @@ public class Course {
         this.ownerId = ownerId;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.meetDays = meetDays;
+
+        for (int i: meetDays) {
+            this.meetDays.add(i);
+        }
+
         this.description = description;
     }
 
     public Course(String id) {
         this.id = id;
+    }
+
+    public Course() {
     }
 
     public void setId(String id) {
@@ -56,7 +64,7 @@ public class Course {
         return rating;
     }
 
-    public ArrayList<String> getCategoryId() {
+    public DocumentReference getCategoryId() {
         return categoryId;
     }
 
@@ -68,7 +76,7 @@ public class Course {
         return difficulty;
     }
 
-    public String getOwnerId() {
+    public DocumentReference getOwnerId() {
         return ownerId;
     }
 
@@ -92,7 +100,7 @@ public class Course {
         return studentCounter;
     }
 
-    public ArrayList<WeekDay> getMeetDays() {
+    public List<Integer> getMeetDays() {
         return meetDays;
     }
 
@@ -112,7 +120,7 @@ public class Course {
         this.rating = rating;
     }
 
-    public void setCategoryId(ArrayList<String> categoryId) {
+    public void setCategoryId(DocumentReference categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -124,7 +132,7 @@ public class Course {
         this.difficulty = difficulty;
     }
 
-    public void setOwnerId(String ownerId) {
+    public void setOwnerId(DocumentReference ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -140,7 +148,7 @@ public class Course {
         this.endDate = endDate;
     }
 
-    public void setMeetDays(ArrayList<WeekDay> meetDays) {
+    public void setMeetDays(List<Integer> meetDays) {
         this.meetDays = meetDays;
     }
 

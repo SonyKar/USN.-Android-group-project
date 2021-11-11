@@ -2,16 +2,13 @@ package com.example.mobproject.db;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.constants.ErrorCodes;
+import com.example.mobproject.constants.ErrorMessages;
 import com.example.mobproject.models.Course;
 import com.example.mobproject.models.Error;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,7 +16,7 @@ import java.util.Objects;
 public class CourseDatabase extends Database<Course> {
 
     @Override
-    Course getItem(String id) {
+    public Course getItem(String id) {
         final Course[] course = new Course[1];
 
         DocumentReference docRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document(id);
@@ -34,7 +31,7 @@ public class CourseDatabase extends Database<Course> {
     }
 
     @Override
-    ArrayList<Course> getItems() {
+    public ArrayList<Course> getItems() {
         final ArrayList<Course> coursesList = new ArrayList<>();
 
         db.collection(DatabaseCollections.COURSES_COLLECTION).get().addOnCompleteListener(task -> {
@@ -53,9 +50,9 @@ public class CourseDatabase extends Database<Course> {
     }
 
     @Override
-    Error insertItem(Course item) {
+    public Error insertItem(Course item) {
         Error error;
-        DocumentReference newCourseRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document();
+        DocumentReference newCourseRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document(    );
 
         if ((error = validateItem(item)) != null) {
             return error;
@@ -67,22 +64,54 @@ public class CourseDatabase extends Database<Course> {
     }
 
     @Override
-    Error updateItem(String id, Course item) {
+    public Error updateItem(String id, Course item) {
+        Error error;
+        DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document(id);
+
+        if ((error = validateItem(item)) != null) {
+            return error;
+        }
+
+        courseRef.set(item);
+
         return null;
     }
 
     @Override
-    Error removeItem(String id) {
+    public Error removeItem(String id) {
+        final Error[] error = { null };
+
+        DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document(id);
+        courseRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (!documentSnapshot.exists()) {
+                error[0] = new Error(ErrorCodes.INVALID_ID, ErrorMessages.INVALID_ID);
+            }
+        });
+
+        if (error[0] != null) {
+            return error[0];
+        }
+
+        courseRef.delete();
+
         return null;
     }
 
     @Override
-    Error validateItem(Course item) {
-        Error error = null;
+    public Error validateItem(Course item) {
+        if (item.getName().trim().isEmpty() ||
+            item.getStartDate().toString().isEmpty() || item.getEndDate().toString().isEmpty() ||
+            item.getMeetDays().isEmpty() || item.getDescription().isEmpty()) {
 
-        // All the fields are completed (name, category, price, starDate, endDate, Meetings, Difficulty, Description)
-        // startDate before endDate
-        // price is not negative
+            return new Error(ErrorCodes.EMPTY_FIELDS, ErrorMessages.EMPTY_FIELDS);
+        }
+
+        if (!item.getStartDate().before(item.getEndDate())) {
+            return new Error(ErrorCodes.INVALID_DATE, ErrorMessages.INVALID_DATE);
+        }
+        if (item.getPrice() < 0) {
+            return new Error(ErrorCodes.INVALID_PRICE, ErrorMessages.INVALID_PRICE);
+        }
 
         return null;
     }

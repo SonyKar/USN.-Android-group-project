@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     // TODO after initiating log in process add a drawable to log in button and disable it so the person know that the application is not blocked.
     private EditText loginEmail, loginPass;
     private Button loginBtn;
-    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
     protected void onStart() {
