@@ -1,6 +1,11 @@
 package com.example.mobproject;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,26 +16,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import com.example.mobproject.models.Course;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
     private final LayoutInflater layoutInflater;
-    private final List<String> data;//change to List<Course>
-    private final SelectCourseListener myselectCourseListener;
+    private final ArrayList<Course> data;//change to List<Course>
+    private final String[] difficulties;
 
 
-    CourseAdapter(Context context, List<String> data, SelectCourseListener selectCourseListener){
+    CourseAdapter(Context context, ArrayList<Course> data){
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
-        this.myselectCourseListener = selectCourseListener;
+        this.difficulties = context.getResources().getStringArray(R.array.difficulties);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.card_view, parent, false);
-        return new ViewHolder(view, myselectCourseListener);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -38,29 +46,29 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
         //bind the textview with data received
 
-        String title = data.get(position);
+        String title = data.get(position).getName();
         holder.courseTitle.setText(title);
 
-        String difficulty = data.get(position);
-        holder.courseDifficulty.setText(difficulty);
+        int difficulty = data.get(position).getDifficulty();
 
-        String finalScore = data.get(position) + "/5.00";//function to calculate final score
+        holder.courseDifficulty.setText(difficulties[difficulty]);
+
+        String finalScore = data.get(position).getRating() + "/5.00";//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
-        String period = data.get(position);//startDate + " - " + endDate
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        String period = sdf.format(data.get(position).getStartDate()) + " - " + sdf.format(data.get(position).getEndDate());//startDate + " - " + endDate
         holder.coursePeriod.setText(period);
 
-        String price = data.get(position);
-        holder.coursePrice.setText(price);
+        Double price = data.get(position).getPrice();
+        holder.coursePrice.setText(String.valueOf(price));
 
-        String enroll = data.get(position);
-        holder.courseEnroll.setText(enroll);
+        // TODO to set all the hardcoded values to a variable
+        boolean enroll = data.get(position).isOpenEnroll();
+        holder.courseEnroll.setText(enroll ? "Open to enroll" : "Close to enroll");
 
         /*ImageView image = data.get(position);//get from DB
         holder.courseImage.setImageResource(image);*/
-
-
-
 
     }
 
@@ -74,10 +82,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         TextView courseTitle, courseDifficulty, courseFinalScore, coursePeriod, coursePrice, courseEnroll;
         ImageView courseImage;
         ImageButton addToFav;
-        SelectCourseListener selectCourseListener;
         Integer addedToFav;
 
-        public ViewHolder(@NonNull View itemView, SelectCourseListener selectCourseListener) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             courseTitle = itemView.findViewById(R.id.course_title);
             courseDifficulty = itemView.findViewById(R.id.course_difficulty);
@@ -88,26 +95,21 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             courseImage = itemView.findViewById(R.id.course_img);
             addToFav = itemView.findViewById(R.id.add_to_fav_cardview);
 
-            this.selectCourseListener = selectCourseListener;
-
             //activate addToFav button
             addedToFav = 0;
-            addToFav.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            addToFav.setOnClickListener(view -> {
 
-                    //check for addedToFav for each Course from DB
-                    if(addedToFav == 0)//it is not a favourite Course
-                    {
-                        addedToFav = 1;
-                        addToFav.setImageResource(R.drawable.ic_favourite_red);
-                    }
-                    else //it is already a favourite (addedToFav == 1)
-                    {
-                        addedToFav = 0;
-                        addToFav.setImageResource(R.drawable.ic_favourite_black);
-                     }
+                //check for addedToFav for each Course from DB
+                if(addedToFav == 0)//it is not a favourite Course
+                {
+                    addedToFav = 1;
+                    addToFav.setImageResource(R.drawable.ic_favourite_red);
                 }
+                else //it is already a favourite (addedToFav == 1)
+                {
+                    addedToFav = 0;
+                    addToFav.setImageResource(R.drawable.ic_favourite_black);
+                 }
             });
 
             itemView.setOnClickListener(this);
@@ -115,7 +117,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-            selectCourseListener.onItemClicked(getAdapterPosition());
+            Intent toCourseProfile = new Intent(view.getContext(), CourseProfile.class);
+            toCourseProfile.putExtra("COURSE_ID", data.get(getAdapterPosition()).getId());
+            startActivity(view.getContext() , toCourseProfile, new Bundle());
         }
     }
 

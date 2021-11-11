@@ -1,53 +1,42 @@
 package com.example.mobproject.db;
 
-import android.util.Log;
-
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.ErrorCodes;
 import com.example.mobproject.constants.ErrorMessages;
 import com.example.mobproject.models.Course;
 import com.example.mobproject.models.Error;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class CourseDatabase extends Database<Course> {
+    //private final ArrayList<Course> coursesList = new ArrayList<>();
 
-    @Override
-    public Course getItem(String id) {
-        final Course[] course = new Course[1];
-
-        DocumentReference docRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document(id);
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            course[0] = documentSnapshot.toObject(Course.class);
-            if (course[0] != null) {
-                course[0].setId(documentSnapshot.getId());
-            }
-        });
-
-        return course[0];
-    }
-
-    @Override
-    public ArrayList<Course> getItems() {
-        final ArrayList<Course> coursesList = new ArrayList<>();
-
-        db.collection(DatabaseCollections.COURSES_COLLECTION).get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                            Course tmp = document.toObject(Course.class);
-                            tmp.setId(document.getId());
-                            coursesList.add(tmp);
-                        }
-                    } else {
-                        Log.d("Collections retrieval", "Error getting documents: ", task.getException());
-                    }
-        });
-
-        return coursesList;
-    }
+//    @Override
+//    public Course getItem(String id) {
+//        final Course[] course = new Course[1];
+//
+//        DocumentReference docRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document(id);
+//        docRef.get().addOnSuccessListener(documentSnapshot -> {
+//            course[0] = documentSnapshot.toObject(Course.class);
+//            if (course[0] != null) {
+//                course[0].setId(documentSnapshot.getId());
+//            }
+//        });
+//
+//        return course[0];
+//    }
+//
+//    @Override
+//    public ArrayList<Course> getItems() {
+//        db.collection(DatabaseCollections.COURSES_COLLECTION).get().addOnSuccessListener(snapshots -> {
+//            for (QueryDocumentSnapshot document : snapshots) {
+//                Course tmp = document.toObject(Course.class);
+//                tmp.setId(document.getId());
+//                coursesList.add(tmp);
+//            }
+//        });
+//
+//        return coursesList;
+//    }
 
     @Override
     public Error insertItem(Course item) {

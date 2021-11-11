@@ -1,82 +1,99 @@
 package com.example.mobproject;
 
-import static com.example.mobproject.R.menu.menu_search;
-
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.models.Course;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
+import java.util.Objects;
 
-public class CourseList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SelectCourseListener {
+public class CourseList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
-    private ArrayAdapter<String> arrayAdapter;
-//    private SearchView searchBar;
-    private Spinner sortingCategory;
-    private RecyclerView courseList;
-    private CourseAdapter adapter;
-    private ArrayList<String> items;//-> <Course>
-    private Button applyFilters, resetFilters;
-    private ImageButton addToFav;
-    private FloatingActionButton filterBtn;
     private Switch enrollSwitch;
     private Spinner categoryFilter;
-    private ArrayList<Integer> difficultyChecked = new ArrayList<Integer>();
+    private final ArrayList<Integer> difficultyChecked = new ArrayList<>();
     private CheckBox Beginner, Intermediate, Advanced;
-    private Integer diffCheckedID;
     private RangeSlider priceRange;
-    private CardView courseCard;
-
-
+    final ArrayList<Course> courseList = new ArrayList<>();
 
     @SuppressLint("ResourceAsColor")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_list);
 
+        actionBarInit();
+        sortBarInit();
+
+        /*View v = sortingCategory.getSelectedView();
+        ((TextView)v).setTextColor(Integer.parseInt("4E0D3A"));*/
+
+        fillCourses();
+
+        FloatingActionButton filterBtn = findViewById(R.id.filter_fab);
+        filterBtn.setOnClickListener(view -> showFilterDialog());
+    }
+
+    private void fillCourses() {
+        FirebaseFirestore.getInstance().collection(DatabaseCollections.COURSES_COLLECTION).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                    Course tmp = document.toObject(Course.class);
+                    tmp.setId(document.getId());
+                    courseList.add(tmp);
+                }
+                RecyclerView courseListRecyclerView = findViewById(R.id.course_list);
+                courseListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                CourseAdapter adapter = new CourseAdapter(this, courseList);
+                courseListRecyclerView.setAdapter(adapter);
+            }
+        });
+    }
+
+    private void sortBarInit() {
+        Spinner sortingCategory = (Spinner) findViewById(R.id.sort_spn);
+        sortingCategory.getBackground().setColorFilter(getResources().getColor(R.color.primary_dark_purple), PorterDuff.Mode.SRC_ATOP);
+
+        ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(CourseList.this,
+                R.array.sorting_criteria,
+                R.layout.spinner_dropdwon_layout);
+        categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        sortingCategory.setAdapter(categoriesAdapter);
+    }
+
+    private void actionBarInit() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -89,94 +106,10 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        //search bar filter
-//        searchBar = (SearchView) findViewById(R.id.search_bar);
-//        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                //arrayAdapter.getFilter().filter(newText);//looks for options in the course array
-//                return false;
-//            }
-//        });
-
-        //arrayAdapter = new ArrayAdapter<String>(this, //add list layout);
-        //listView.setAdapter(arrayAdapter);
-
-        sortingCategory = (Spinner) findViewById(R.id.sort_spn);
-        sortingCategory.getBackground().setColorFilter(getResources().getColor(R.color.primary_dark_purple), PorterDuff.Mode.SRC_ATOP);
-
-        ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(CourseList.this,
-                R.array.sorting_criteria,
-                R.layout.spinner_dropdwon_layout);
-        categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        sortingCategory.setAdapter(categoriesAdapter);
-
-
-        /*View v = sortingCategory.getSelectedView();
-        ((TextView)v).setTextColor(Integer.parseInt("4E0D3A"));*/
-
-
-        //create RecyclerView
-
-        items = new ArrayList<>();
-        items.add("Mathematics");
-        items.add("Advanced English");
-        items.add("Crypto");
-        items.add("Spanish Literature");
-        items.add("Emotional Intelligence");
-
-        courseList = findViewById(R.id.course_list);
-        courseList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CourseAdapter(this, items, this);//3rd parameter-> refers to the interface SelectCourseListener
-        courseList.setAdapter(adapter);
-
-        //go to selected Course
-
-
-
-
-       /*//add course to Favourites -> addedToFav variable for each course
-        addToFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                
-               //change color
-
-                //get addedToFav from DB (is already in Favourites?)
-
-                if(addedToFav == 0){
-                    addedToFav = 1;//add to Favourites
-                    addToFav.setImageResource(R.drawable.ic_favourite_purple);
-                }
-                else {
-                    //is already in Favourites => delete from Favourites
-                    addedToFav = 0;
-                    addToFav.setImageResource(R.drawable.ic_favourite_red);
-                }
-
-            }
-        });*/
-
-        //filter Fab Button
-        filterBtn = findViewById(R.id.filter_fab);
-        filterBtn.setOnClickListener(view -> showDialog());
-
-    }
-
-    private void goToCourseProfile() {
-        Intent toCourseProfile = new Intent(this, CourseProfile.class);
-        startActivity(toCourseProfile);
     }
 
     //generate filter drawer
-    private void showDialog() {
+    private void showFilterDialog() {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.filter_drawer);
 
@@ -198,40 +131,29 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         priceRange = bottomSheetDialog.findViewById(R.id.price_range);
 
         //add "$" label
-        priceRange.setLabelFormatter(new LabelFormatter() {
-            @NonNull
-            @Override
-            public String getFormattedValue(float value) {
-                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
-                currencyFormat.setCurrency(Currency.getInstance("USD"));
+        assert priceRange != null;
+        priceRange.setLabelFormatter(value -> {
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+            currencyFormat.setCurrency(Currency.getInstance("USD"));
 
-                return currencyFormat.format(value);
-            }
+            return currencyFormat.format(value);
         });
 
 
         //APPLY changes button
-        applyFilters = bottomSheetDialog.findViewById(R.id.apply_btn);
-        applyFilters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                filterCourses();
-            }
-        });
+        Button applyFilters = bottomSheetDialog.findViewById(R.id.apply_btn);
+        assert applyFilters != null;
+        applyFilters.setOnClickListener(view -> filterCourses());
 
         //RESET button
-        resetFilters = bottomSheetDialog.findViewById(R.id.reset_btn);
-        resetFilters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resetCourses();
-            }
-        });
+        Button resetFilters = bottomSheetDialog.findViewById(R.id.reset_btn);
+        assert resetFilters != null;
+        resetFilters.setOnClickListener(view -> resetFilters());
 
         bottomSheetDialog.show();
     }
 
-    private void resetCourses() {
+    private void resetFilters() {
         //reset priceRange
         priceRange.setValues(0.0F, 6000.0F);
 
@@ -261,6 +183,7 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         //send to DB - when "ALL" => no filter
 
         //DIFFICULTY CHECKBOX
+        int diffCheckedID;
         if(Beginner.isChecked()) {
             diffCheckedID = 1;
             difficultyChecked.add(diffCheckedID);
@@ -276,20 +199,17 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         //send  difficultyChecked array to DB
 
         //ENROLL SWITCH
-        enrollSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        enrollSwitch.setOnCheckedChangeListener((compoundButton, isChecked) -> {
 
-                if(isChecked == true){
-                    //send "open to enroll courses"
-                    Toast.makeText(getApplicationContext(),
-                            "SWITCH ON", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    //send "all courses""
-                    Toast.makeText(getApplicationContext(),
-                            "SWITCH OFF", Toast.LENGTH_SHORT).show();
-                }
+            if(isChecked){
+                //send "open to enroll courses"
+                Toast.makeText(getApplicationContext(),
+                        "SWITCH ON", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                //send "all courses""
+                Toast.makeText(getApplicationContext(),
+                        "SWITCH OFF", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -376,14 +296,5 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 
         drawer.closeDrawer(GravityCompat.START);
         return true;//the item was selected
-    }
-
-    @Override
-    public void onItemClicked(int position) {
-        items.get(position);
-        Intent toCourseProfile = new Intent(this, CourseProfile.class);
-        toCourseProfile.putExtra("COURSE_ID", items.get(position));
-        startActivity(toCourseProfile);
-
     }
 }

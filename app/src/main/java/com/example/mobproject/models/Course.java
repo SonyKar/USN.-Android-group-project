@@ -1,7 +1,9 @@
 package com.example.mobproject.models;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,15 +26,17 @@ public class Course {
     private ArrayList <Comment> comments = new ArrayList<>();
 
     public Course(String name, DocumentReference categoryId, double price,
-                  int difficulty, DocumentReference ownerId, Date startDate, Date endDate,
+                  int difficulty, DocumentReference ownerId, Timestamp startDate, Timestamp endDate,
                   int[] meetDays, String description) {
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
         this.name = name;
         this.categoryId = categoryId;
         this.price = price;
         this.difficulty = difficulty;
         this.ownerId = ownerId;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = startDate.toDate();
+        this.endDate = endDate.toDate();
 
         for (int i: meetDays) {
             this.meetDays.add(i);
