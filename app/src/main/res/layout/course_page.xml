@@ -101,7 +101,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/course_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding"
@@ -129,7 +129,8 @@
                         android:gravity="center_vertical|start"
                         android:text="@string/hard"
                         android:textColor="@color/advanced_red"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="12dp"/>
 
                     <RatingBar
                         android:id="@+id/final_rating"
@@ -170,7 +171,7 @@
 
 
                 <TextView
-                    android:id="@+id/descr_field"
+                    android:id="@+id/course_descr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding"
@@ -203,10 +204,10 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/period_dates"
+                        android:id="@+id/course_period"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.85"
                         android:gravity="start"
                         android:text="10/10/2021 - 10/01/2022"
                         android:textColor="@color/primary_purple"
@@ -438,7 +439,7 @@
             android:weightSum="1">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/course_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"

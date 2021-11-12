@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,23 +24,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mobproject.constants.DatabaseCollections;
-import com.example.mobproject.constants.Other;
+import com.example.mobproject.db.CourseDatabase;
+import com.example.mobproject.db.Database;
+import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
-import java.util.Objects;
 
 public class CourseList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -50,7 +47,6 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     private final ArrayList<Integer> difficultyChecked = new ArrayList<>();
     private CheckBox Beginner, Intermediate, Advanced;
     private RangeSlider priceRange;
-    final ArrayList<Course> courseList = new ArrayList<>();
     private SharedPreferences sharedPref;
 
     @SuppressLint("ResourceAsColor")
@@ -58,7 +54,7 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_list);
 
-//        sharedPref = getApplicationContext().getSharedPreferences(Other.sharedPrefFile, Context.MODE_PRIVATE);
+//        sharedPref = getApplicationContext().getSharedPreferences("com.example.mobproject", Context.MODE_PRIVATE);
 //        Log.d("prefCheck", sharedPref.getString("userType","NoIdFound"));
         actionBarInit();
         sortBarInit();
@@ -75,19 +71,19 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     }
 
     private void fillCourses() {
-        FirebaseFirestore.getInstance().collection(DatabaseCollections.COURSES_COLLECTION).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                    Course tmp = document.toObject(Course.class);
-                    tmp.setId(document.getId());
-                    courseList.add(tmp);
-                }
+        Context context = this;
+        Callback<Course> recyclerViewCallback = new Callback<Course>() {
+            @Override
+            public void OnFinish(ArrayList<Course> arrayList) {
                 RecyclerView courseListRecyclerView = findViewById(R.id.course_list);
-                courseListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                CourseAdapter adapter = new CourseAdapter(this, courseList);
+                courseListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                CourseAdapter adapter = new CourseAdapter(context, arrayList);
                 courseListRecyclerView.setAdapter(adapter);
             }
-        });
+        };
+
+        Database<Course> database = new CourseDatabase();
+        database.getItems(recyclerViewCallback);
     }
 
     private void sortBarInit() {
@@ -265,6 +261,8 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
+
+
 
             case R.id.nav_profile:
                 Toast.makeText(getApplicationContext(), "Profile clicked", Toast.LENGTH_SHORT).show();

@@ -3,19 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/course_page.xml" value="0.22" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/button.xml" value="0.19537037037037036" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/ic_favourite_black.xml" value="0.2520833333333333" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/ic_favourite_red.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/login_bg.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/card_view.xml" value="0.25" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/comments_card_view.xml" value="0.67" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/course_list.xml" value="0.1" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/course_page.xml" value="0.33" />
-        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/create_course.xml" value="0.2359375" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/create_course.xml" value="0.25" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/edit_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/forgot_pass.xml" value="0.25" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/login.xml" value="0.22" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/sign_up.xml" value="0.33" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/signup_msg.xml" value="0.33" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/user_profile.xml" value="0.2907692307692308" />
         <entry key="..\:/Users/sa_ca/AndroidStudioProjects/GroupProject/app/src/main/res/drawable/button.xml" value="0.15989583333333332" />
         <entry key="..\:/Users/sa_ca/AndroidStudioProjects/GroupProject/app/src/main/res/drawable/button_pink.xml" value="0.290625" />
         <entry key="..\:/Users/sa_ca/AndroidStudioProjects/GroupProject/app/src/main/res/drawable/comment_box.xml" value="0.290625" />

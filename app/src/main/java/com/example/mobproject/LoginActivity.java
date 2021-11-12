@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Other;
@@ -104,13 +105,19 @@ public class LoginActivity extends AppCompatActivity {
         if(validLoginEmail && validLoginPassword) {
 
             //loading drawable to appear onClick
-            loginBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_loading_purple, 0, 0, 0);
+           /* loginBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_loading_purple, 0, 0, 0);
+            loginBtn.setEnabled(false);*/
 
+            //sharedPreference
             FirebaseAuth auth = FirebaseAuth.getInstance();
 
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
+                            //disable loginBtn
+                            loginBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_loading_purple, 0, 0, 0);
+                            loginBtn.setEnabled(false);
+
                             sharedPref.edit().putString("id", auth.getUid()).apply();
                             FirebaseFirestore.getInstance()
                                     .collection(DatabaseCollections.USER_COLLECTION)
@@ -123,7 +130,9 @@ public class LoginActivity extends AppCompatActivity {
                                         switchToCourseList();
                                     });
                         } else {
+
                             // If sign in fails, display a message to the user.
+                            Toast.makeText(getApplicationContext(), "Email or Password incorrect!", Toast.LENGTH_SHORT).show();
                             Log.w("Sign in", "signInWithEmail:failure", task.getException());
                             // TODO outputError() to show the error message if something went wrong!
                         }

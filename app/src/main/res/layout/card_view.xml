@@ -91,7 +91,7 @@
 
                 <TextView
                     android:id="@+id/card_view_period"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/card_view_last_row"
                     android:layout_below="@+id/card_view_row2"

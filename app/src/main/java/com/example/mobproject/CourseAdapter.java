@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.constants.Intents;
 import com.example.mobproject.models.Course;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +34,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
+        Log.d("Testttt", "asd");
     }
 
     @NonNull
@@ -118,7 +121,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         @Override
         public void onClick(View view) {
             Intent toCourseProfile = new Intent(view.getContext(), CourseProfile.class);
-            toCourseProfile.putExtra("COURSE_ID", data.get(getAdapterPosition()).getId());
+            toCourseProfile.putExtra(Intents.COURSE_ID, data.get(getAdapterPosition()).getId());
             startActivity(view.getContext() , toCourseProfile, new Bundle());
         }
     }

@@ -1,11 +1,7 @@
 package com.example.mobproject;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,47 +9,68 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.constants.Intents;
+import com.example.mobproject.db.CourseDatabase;
+import com.example.mobproject.db.Database;
+import com.example.mobproject.interfaces.Callback;
+import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class CourseProfile extends AppCompatActivity {
 
     private RatingBar rateEdit, finalRating;
-    private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription;
+    private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
+    courseDifficulty, coursePeriod, courseMeetingDays;
     private int totalRating, isEdit = 0, addedToFav ;
     private ImageButton editCourse, backToMain;
+    private Button enrollMe;
     private FloatingActionButton addToFav;
     private RecyclerView commentsList;
     private ArrayList<String> items;//-> <Comment>
     private CommentAdapter adapter;
-
+    private String courseID, meetingDaysString;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_page);
 
-        rateEdit = (RatingBar) findViewById(R.id.rating_edit);
-        finalRating = (RatingBar) findViewById(R.id.final_rating);
-        ratingScore = (TextView) findViewById(R.id.rating_score);
-        finalRatingScore = (TextView) findViewById(R.id.final_rating_score);
-        editCourse = (ImageButton) findViewById(R.id.edit_btn);
-        addToFav = (FloatingActionButton) findViewById(R.id.add_to_fav);
-        courseEnroll = (TextView) findViewById(R.id.open_to_enroll_course_page);
-        courseDescription = (TextView) findViewById(R.id.descr_field);
-        backToMain = (ImageButton) findViewById(R.id.back_btn);
+        rateEdit = findViewById(R.id.rating_edit);
+        finalRating = findViewById(R.id.final_rating);
+        ratingScore = findViewById(R.id.rating_score);
+        finalRatingScore = findViewById(R.id.final_rating_score);
+        editCourse = findViewById(R.id.edit_btn);
+        addToFav = findViewById(R.id.add_to_fav);
+        courseEnroll = findViewById(R.id.open_to_enroll_course_page);
+        courseDescription = findViewById(R.id.course_descr);
+        backToMain = findViewById(R.id.back_btn);
+        courseName = findViewById(R.id.course_name);
+        coursePrice = findViewById(R.id.course_price);
+        courseDifficulty = findViewById(R.id.difficulty_course_page);
+        coursePeriod = findViewById(R.id.course_period);
+        courseMeetingDays = findViewById(R.id.meeting_days);
+        enrollMe = findViewById(R.id.enroll_me_btn);
 
-        backToMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switchToMain();
-            }
-        });
+        backToMain.setOnClickListener(switchToMain);
+        addToFav.setOnClickListener(onFavouriteHandler);
+        editCourse.setOnClickListener(onEditHandler);
+        rateEdit.setOnRatingBarChangeListener(onVoteHandler);
 
+        //get course ID
+        Intent intent = getIntent();
+        courseID = intent.getStringExtra(Intents.COURSE_ID);
+
+        //set values for all fields
+        Database<Course> database = new CourseDatabase();
+        database.getItem(courseID, profileCallback);
+
+        //get final rating score and show it
+        finalRatingScore.setText(totalRating + R.string.ratingOutOf);
 
         //create RecyclerView
 
@@ -71,68 +88,86 @@ public class CourseProfile extends AppCompatActivity {
 
 
         //check course availability - open to enroll?
+        //if user is already enrolled or currentDate > startDate
+        //enrollMe.setEnabled(false);
 
         /*if(//id open to enroll//) {
             courseEnroll.setTextColor(Color.GREEN);
             courseEnroll.setText(R.string.open_to_enroll);
         else courseEnroll.setTextColor(Color.RED);*/
 
-
-        //add course to Favourites
-        addToFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //change color
-
-                //get addedToFav from DB (is already in Favourites?)
-
-                if(addedToFav == 0){
-                    addedToFav = 1;//add to Favourites
-                    addToFav.setImageResource(R.drawable.ic_favourite_purple);
-                }
-                else {
-                    //is already in Favourites => delete from Favourites
-                    addedToFav = 0;
-                    addToFav.setImageResource(R.drawable.ic_favourite_red);
-                }
-
-            }
-        });
-
-
         //go to Edit Course
         //1 - go to EditCourse; 0 - go to Create Course (same Activity)
-
-        editCourse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isEdit = 1;
-                Intent toEditCourse = new Intent(CourseProfile.this,
-                        CreateCourse.class);
-                toEditCourse.putExtra("EDIT_COURSE", isEdit);
-                startActivity(toEditCourse);
-            }
-        });
-
-
-
-
-        rateEdit.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float givenScore, boolean b) {
-                int rating = (int) givenScore;//to be sent
-                ratingScore.setText(rating + "/5") ;
-            }
-        });
-
-        //get final rating score and show it
-        finalRatingScore.setText(totalRating + "/5");
-
     }
 
-    private void switchToMain() {
+    private final RatingBar.OnRatingBarChangeListener onVoteHandler = (ratingBar, givenScore, b) -> {
+        int rating = (int) givenScore;//to be sent
+        ratingScore.setText(rating + R.string.ratingOutOf) ;
+    };
+
+    private final View.OnClickListener onEditHandler = view -> {
+        isEdit = 1;
+        Intent toEditCourse = new Intent(CourseProfile.this,
+                CreateCourse.class);
+        toEditCourse.putExtra("EDIT_COURSE", isEdit);
+        startActivity(toEditCourse);
+    };
+
+    private final View.OnClickListener onFavouriteHandler = view -> {
+        //change color
+
+        //get addedToFav from DB (is already in Favourites?)
+
+        if(addedToFav == 0){
+            addedToFav = 1;//add to Favourites
+            addToFav.setImageResource(R.drawable.ic_favourite_purple);
+        }
+        else {
+            //is already in Favourites => delete from Favourites
+            addedToFav = 0;
+            addToFav.setImageResource(R.drawable.ic_favourite_red);
+        }
+
+    };
+
+    private final Callback<Course> profileCallback = new Callback<Course>() {
+        @Override
+        public void OnFinish(ArrayList<Course> arrayList) {
+            Course course = arrayList.get(0);
+            courseName.setText(course.getName());
+            coursePrice.setText(R.string.dollars + Double.toString(course.getPrice()));
+
+            int difficulty = course.getDifficulty();
+            courseDifficulty.setText(getResources().getStringArray(R.array.difficulties)[difficulty]);
+
+            //set difficulty color
+            courseDifficulty.setTextColor(getResources().getIntArray(R.array.difficultyColors)[difficulty]);
+
+            if(course.isOpenEnroll())
+            {
+                courseEnroll.setText(R.string.open_to_enroll);
+                courseEnroll.setTextColor(getResources().getColor(R.color.beginner_green));
+            }
+            else {
+                courseEnroll.setText(R.string.cannot_enroll);
+                courseEnroll.setTextColor(getResources().getColor(R.color.advanced_red));
+            }
+
+            courseDescription.setText(course.getDescription());
+
+            coursePeriod.setText(SimpleDateFormat.getDateInstance().format(course.getStartDate()) + " - " + SimpleDateFormat.getDateInstance().format(course.getEndDate()));
+
+            meetingDaysString = "";
+            for(int day : course.getMeetDays()){
+                meetingDaysString += " " + getResources().getStringArray(R.array.meeting_days)[day];
+            }
+            courseMeetingDays.setText(meetingDaysString);
+        }
+    };
+
+    private View.OnClickListener switchToMain = view -> {
         Intent toMain = new Intent(this, CourseList.class);
         startActivity(toMain);
         finish();
-    }
+    };
 }

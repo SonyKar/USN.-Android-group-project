@@ -13,6 +13,8 @@ public class User {
     private DocumentReference userType;
 
 
+
+
     // Constructor to create the user
     public User(String name, String email, DocumentReference userType) {
         this.name = name;
