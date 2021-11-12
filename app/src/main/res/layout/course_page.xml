@@ -207,7 +207,7 @@
                         android:id="@+id/course_period"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.85"
                         android:gravity="start"
                         android:text="10/10/2021 - 10/01/2022"
                         android:textColor="@color/primary_purple"

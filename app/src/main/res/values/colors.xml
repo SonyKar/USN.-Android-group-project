@@ -20,5 +20,11 @@
     <color name="transparent_white">#70ffffff</color>
     <color name="dark_grey">#919191</color>
     <color name="light_grey">#F7F7F7</color>
+    
+    <array name="difficultyColors">
+        <item>@color/beginner_green</item>
+        <item>@color/intermediate_yellow</item>
+        <item>@color/advanced_red</item>
+    </array>
 
 </resources>

@@ -131,6 +131,7 @@
     <string name="reset">Reset</string>
     <string name="apply">Apply</string>
     <string name="course_id">COURSE_ID</string>
+    <string name="ratingOutOf">"/5"</string>
 
     <string-array name="sorting_criteria">
         <item>Last added</item>
@@ -142,5 +143,8 @@
         <item>Earliest to start</item>
         <item>Latest to start</item>
     </string-array>
+
+<!-- Currencies -->
+    <string name="dollars">$</string>
 
 </resources>
