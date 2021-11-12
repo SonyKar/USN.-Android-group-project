@@ -18,6 +18,7 @@
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/login.xml" value="0.22" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/sign_up.xml" value="0.33" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/signup_msg.xml" value="0.33" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/user_profile.xml" value="0.2907692307692308" />
         <entry key="..\:/Users/sa_ca/AndroidStudioProjects/GroupProject/app/src/main/res/drawable/button.xml" value="0.15989583333333332" />
         <entry key="..\:/Users/sa_ca/AndroidStudioProjects/GroupProject/app/src/main/res/drawable/button_pink.xml" value="0.290625" />
         <entry key="..\:/Users/sa_ca/AndroidStudioProjects/GroupProject/app/src/main/res/drawable/comment_box.xml" value="0.290625" />
@@ -55,7 +56,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

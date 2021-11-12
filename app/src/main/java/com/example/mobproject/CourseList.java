@@ -262,6 +262,8 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
 
+
+
             case R.id.nav_profile:
                 Toast.makeText(getApplicationContext(), "Profile clicked", Toast.LENGTH_SHORT).show();
                 Intent toProfile = new Intent(this, UserProfile.class);

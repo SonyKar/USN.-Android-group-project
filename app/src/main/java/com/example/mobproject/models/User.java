@@ -6,6 +6,8 @@ public class User {
     private String email;
     private int userType;
 
+
+
     // Constructor to create the user
     public User(String name, String email, int userType) {
         this.name = name;
