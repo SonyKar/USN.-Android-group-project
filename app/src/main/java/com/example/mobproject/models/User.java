@@ -1,20 +1,27 @@
 package com.example.mobproject.models;
 
+import com.google.firebase.firestore.DocumentReference;
+
+import org.w3c.dom.Document;
+
 public class User {
     private String id;
     private String name;
     private String email;
-    private int userType;
+
+
+    private DocumentReference userType;
+
 
     // Constructor to create the user
-    public User(String name, String email, int userType) {
+    public User(String name, String email, DocumentReference userType) {
         this.name = name;
         this.email = email;
         this.userType = userType;
     }
 
     // Constructor to read the user from the db
-    public User(String id, String name, String email, int userType) {
+    public User(String id, String name, String email, DocumentReference userType) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -45,11 +52,9 @@ public class User {
         this.email = email;
     }
 
-    public int getUserType() {
-        return userType;
-    }
+    public int getUserType() { return Integer.valueOf(userType.getId()); }
 
-    public void setUserType(int userType) {
-        this.userType = userType;
-    }
+    public void setUserType(DocumentReference userType) { this.userType = userType; }
+
+
 }

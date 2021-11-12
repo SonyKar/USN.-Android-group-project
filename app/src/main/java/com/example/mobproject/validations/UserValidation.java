@@ -1,5 +1,7 @@
 package com.example.mobproject.validations;
 
+import android.util.Log;
+
 import com.example.mobproject.constants.UserType;
 import com.example.mobproject.models.User;
 
@@ -13,9 +15,12 @@ public class UserValidation {
 
         return m.find();*/
 
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        if(email.matches(emailPattern))
+        //alternate regex:  "[a-zA-Z0-9._-]+@[a-z]+\.+[a-z]+"
+        String emailPattern = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+        if(email.matches(emailPattern)) {
+            Log.d("Email", "email matches");
             return true;
+        }
         return false;
 
 

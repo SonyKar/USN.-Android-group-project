@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.constants.Other;
 import com.example.mobproject.models.Course;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -57,7 +58,7 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_list);
 
-//        sharedPref = getApplicationContext().getSharedPreferences("com.example.mobproject", Context.MODE_PRIVATE);
+//        sharedPref = getApplicationContext().getSharedPreferences(Other.sharedPrefFile, Context.MODE_PRIVATE);
 //        Log.d("prefCheck", sharedPref.getString("userType","NoIdFound"));
         actionBarInit();
         sortBarInit();

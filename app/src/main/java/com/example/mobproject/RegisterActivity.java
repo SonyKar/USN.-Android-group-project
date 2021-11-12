@@ -3,7 +3,6 @@ package com.example.mobproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,18 +10,31 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.models.User;
 import com.example.mobproject.validations.UserValidation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText signupEmail, signupFirstName, signupLastName, signupPass, signupConfPass;
     private Button register, btnToLogin;
     private RadioGroup status;
+
+
+    //private static final String USER = "Users";
+    private User user;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
         register = findViewById(R.id.signup_btn);
         status = findViewById(R.id.rad_status);
         btnToLogin = findViewById(R.id.btn_to_login);
+
+
 
         /* get selected radio button from radioGroup
         int selectedId = gender.getCheckedRadioButtonId();
@@ -59,6 +73,9 @@ public class RegisterActivity extends AppCompatActivity {
         String email = signupEmail.getText().toString();
         String password = signupPass.getText().toString();
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+
         // validate signup FIRST NAME
         if(fName.isEmpty()){
             signupFirstName.setError(getResources().getString(R.string.first_name_error));
@@ -75,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (email.isEmpty()) {
             signupEmail.setError(getResources().getString(R.string.email_error));
             validSignUpEmail = false;
-        } else if (UserValidation.isEmail(email)) {
+        } else if (!UserValidation.isEmail(email)) {
             signupEmail.setError(getResources().getString(R.string.error_invalid_email));
             validSignUpEmail = false;
         }
@@ -93,32 +110,46 @@ public class RegisterActivity extends AppCompatActivity {
         // validate STATUS
 
             // one of the radio buttons is checked
-
             // get selected radio button from radioGroup
-            String selectedStatusId = Integer.toString(status.getCheckedRadioButtonId());//0 - STUDENT; 1 - TEACHER
-
             // find the radiobutton by returned id
-
             //selectedStatus = (RadioButton)findViewById(selectedId);
 
+            int radioBtnId = status.getCheckedRadioButtonId();
+            RadioButton radioBtn = findViewById(radioBtnId);
+            int selectedStatusId = status.indexOfChild(radioBtn); //0 - STUDENT; 1 - TEACHER
+            String refPath = FirebaseFirestore.getInstance()
+                    .collection(DatabaseCollections.USERTYPES_COLLECTION)
+                    .document(String.valueOf(selectedStatusId)).getPath();
+            DocumentReference userType = FirebaseFirestore.getInstance().document(refPath);
+            Log.d("userType", refPath);
 
-
+            //TODO SharedPreferences also in SignUp?
 
         if(validSignUpFirstName && validSignUpLastName && validSignUpEmail && validSignUpPassword
                 && validSignUpStatus) {
 
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+            auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+                            DocumentReference docRef = FirebaseFirestore.getInstance().
+                                    collection(DatabaseCollections.USER_COLLECTION).
+                                    document(userId);
+                            user = new User(fName+" "+lName, email, userType);
+                            docRef.set(user).addOnSuccessListener( (OnSuccessListener) (aVoid)->{
+                            } ).addOnFailureListener(e -> Log.d("addUserData","onFailure: "+e.toString()));
+
                             switchToMessagePage();
+
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // If sign up fails, display a message to the user.
                             Log.w("Sign up", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
+
         }
     };
 
@@ -132,5 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(backToSignIn);
         finish();
     };
+
+
 
 }
