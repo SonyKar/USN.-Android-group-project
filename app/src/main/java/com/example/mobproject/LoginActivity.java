@@ -12,20 +12,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mobproject.constants.DatabaseCollections;
-import com.example.mobproject.constants.Other;
 import com.example.mobproject.db.CourseDatabase;
-import com.example.mobproject.db.Database;
 import com.example.mobproject.models.Course;
 import com.example.mobproject.validations.UserValidation;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
@@ -65,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //Log.d("testiing", "ok");
 
-        sharedPref = getSharedPreferences(Other.sharedPrefFile, MODE_PRIVATE);
+
 
 
         Button forgotPass = findViewById(R.id.btn_forgot_pass);
@@ -118,7 +112,8 @@ public class LoginActivity extends AppCompatActivity {
                             loginBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_loading_purple, 0, 0, 0);
                             loginBtn.setEnabled(false);
 
-                            sharedPref.edit().putString("id", auth.getUid()).apply();
+                            UserInfo userInfo = new UserInfo(this);
+                            userInfo.setUserId(auth.getUid());
                             FirebaseFirestore.getInstance()
                                     .collection(DatabaseCollections.USER_COLLECTION)
                                     .document(Objects.requireNonNull(auth.getUid()))
@@ -126,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                                     .addOnSuccessListener(documentSnapshot -> {
                                         DocumentReference userType = (DocumentReference) documentSnapshot.get("userType");
                                         String userTypeId = userType.getId();
-                                        sharedPref.edit().putString("userType", userTypeId).apply();
+                                        userInfo.setUserType(userTypeId);
                                         switchToCourseList();
                                     });
                         } else {

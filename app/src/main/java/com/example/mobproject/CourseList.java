@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -53,7 +54,8 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_list);
-
+            UserInfo userInfo = new UserInfo(this);
+        Log.d("prefCheck", userInfo.getUserType());
 //        sharedPref = getApplicationContext().getSharedPreferences("com.example.mobproject", Context.MODE_PRIVATE);
 //        Log.d("prefCheck", sharedPref.getString("userType","NoIdFound"));
         actionBarInit();

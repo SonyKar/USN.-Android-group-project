@@ -123,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
             DocumentReference userType = FirebaseFirestore.getInstance().document(refPath);
             Log.d("userType", refPath);
 
-            //TODO SharedPreferences also in SignUp?
+            //TODO SharedPreferences also in RegisterActivity?
 
         if(validSignUpFirstName && validSignUpLastName && validSignUpEmail && validSignUpPassword
                 && validSignUpStatus) {
@@ -137,6 +137,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     collection(DatabaseCollections.USER_COLLECTION).
                                     document(userId);
                             user = new User(fName+" "+lName, email, userType);
+                            UserInfo userInfo = new UserInfo(this);
+                            userInfo.setUserId(auth.getUid());
                             docRef.set(user).addOnSuccessListener( (OnSuccessListener) (aVoid)->{
                             } ).addOnFailureListener(e -> Log.d("addUserData","onFailure: "+e.toString()));
 
