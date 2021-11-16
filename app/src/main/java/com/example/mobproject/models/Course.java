@@ -19,7 +19,7 @@ public class Course {
     private boolean openEnroll;
     private Date startDate;
     private Date endDate;
-    private int rateCounter;
+    private float rateCounter;
     private int studentCounter;
     private List<Integer> meetDays = new ArrayList<>();
     private String description;
@@ -96,7 +96,7 @@ public class Course {
         return endDate;
     }
 
-    public int getRateCounter() {
+    public float getRateCounter() {
         return rateCounter;
     }
 

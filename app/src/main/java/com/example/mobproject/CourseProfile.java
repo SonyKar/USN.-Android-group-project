@@ -1,5 +1,7 @@
 package com.example.mobproject;
 
+import static java.lang.Float.*;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,8 +21,10 @@ import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CourseProfile extends AppCompatActivity {
 
@@ -70,7 +74,7 @@ public class CourseProfile extends AppCompatActivity {
         database.getItem(courseID, profileCallback);
 
         //get final rating score and show it
-        finalRatingScore.setText(totalRating + R.string.ratingOutOf);
+        //finalRatingScore.setText(totalRating + R.string.ratingOutOf);
 
         //create RecyclerView
 
@@ -104,6 +108,7 @@ public class CourseProfile extends AppCompatActivity {
         int rating = (int) givenScore;//to be sent
         ratingScore.setText(rating + R.string.ratingOutOf) ;
     };
+    //TODO finalRating!!!
 
     private final View.OnClickListener onEditHandler = view -> {
         isEdit = 1;
@@ -135,7 +140,10 @@ public class CourseProfile extends AppCompatActivity {
         public void OnFinish(ArrayList<Course> arrayList) {
             Course course = arrayList.get(0);
             courseName.setText(course.getName());
-            coursePrice.setText(R.string.dollars + Double.toString(course.getPrice()));
+
+            NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
+            String currency = format.format(course.getPrice());
+            coursePrice.setText(currency);
 
             int difficulty = course.getDifficulty();
             courseDifficulty.setText(getResources().getStringArray(R.array.difficulties)[difficulty]);
@@ -162,6 +170,12 @@ public class CourseProfile extends AppCompatActivity {
                 meetingDaysString += " " + getResources().getStringArray(R.array.meeting_days)[day];
             }
             courseMeetingDays.setText(meetingDaysString);
+
+
+            //TODO fix rating
+            /*String finalRatingString = String.valueOf(course.getRateCounter()) ;
+            finalRatingScore.setText(finalRatingString);
+            finalRating.setRating(course.getRateCounter());*/
         }
     };
 

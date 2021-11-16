@@ -20,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobproject.constants.Intents;
 import com.example.mobproject.models.Course;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
@@ -63,8 +65,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         String period = sdf.format(data.get(position).getStartDate()) + " - " + sdf.format(data.get(position).getEndDate());//startDate + " - " + endDate
         holder.coursePeriod.setText(period);
 
-        Double price = data.get(position).getPrice();
-        holder.coursePrice.setText(String.valueOf(price));
+        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
+        String currency = format.format(data.get(position).getPrice());
+        holder.coursePrice.setText(currency);
 
         // TODO to set all the hardcoded values to a variable
         boolean enroll = data.get(position).isOpenEnroll();
