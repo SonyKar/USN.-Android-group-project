@@ -1,9 +1,6 @@
 package com.example.mobproject;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,9 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.mobproject.constants.DatabaseCollections;
-import com.example.mobproject.db.CourseDatabase;
-import com.example.mobproject.models.Course;
 import com.example.mobproject.validations.UserValidation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
 
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
@@ -64,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         final String email = loginEmail.getText().toString();
         final String password = loginPass.getText().toString();
 
-
         //Check login email address
         if(email.isEmpty()){
             loginEmail.setError(getResources().getString(R.string.email_error));
@@ -87,8 +82,6 @@ public class LoginActivity extends AppCompatActivity {
             loginBtn.setEnabled(false);*/
 
             //sharedPreference
-            FirebaseAuth auth = FirebaseAuth.getInstance();
-
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
@@ -104,16 +97,17 @@ public class LoginActivity extends AppCompatActivity {
                                     .get()
                                     .addOnSuccessListener(documentSnapshot -> {
                                         DocumentReference userType = (DocumentReference) documentSnapshot.get("userType");
-                                        String userTypeId = userType.getId();
-                                        userInfo.setUserType(userTypeId);
-                                        switchToCourseList();
+                                        if (userType != null) {
+                                            String userTypeId = userType.getId();
+                                            userInfo.setUserType(userTypeId);
+                                            switchToCourseList();
+                                        }
                                     });
                         } else {
 
                             // If sign in fails, display a message to the user.
                             Toast.makeText(getApplicationContext(), "Email or Password incorrect!", Toast.LENGTH_SHORT).show();
                             Log.w("Sign in", "signInWithEmail:failure", task.getException());
-                            // TODO outputError() to show the error message if something went wrong!
                         }
                     });
         }

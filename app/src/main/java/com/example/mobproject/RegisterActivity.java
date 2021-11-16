@@ -10,16 +10,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.models.User;
 import com.example.mobproject.validations.UserValidation;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -28,11 +24,8 @@ import java.util.Objects;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText signupEmail, signupFirstName, signupLastName, signupPass, signupConfPass;
-    private Button register, btnToLogin;
     private RadioGroup status;
 
-
-    //private static final String USER = "Users";
     private User user;
     private String userId;
 
@@ -46,25 +39,22 @@ public class RegisterActivity extends AppCompatActivity {
         signupEmail = findViewById(R.id.signup_email);
         signupPass = findViewById(R.id.signup_password);
         signupConfPass = findViewById(R.id.signup_conf_password);
-        register = findViewById(R.id.signup_btn);
+        Button register = findViewById(R.id.signup_btn);
         status = findViewById(R.id.rad_status);
-        btnToLogin = findViewById(R.id.btn_to_login);
+        Button btnToLogin = findViewById(R.id.btn_to_login);
 
-
+        register.setOnClickListener(signupValidation);
+        btnToLogin.setOnClickListener(switchBackToSignIn);
 
         /* get selected radio button from radioGroup
         int selectedId = gender.getCheckedRadioButtonId();
         // find the radiobutton by returned id
         selectedRadioButton = (RadioButton)findViewById(selectedId);
         Toast.makeText(getApplicationContext(), selectedRadioButton.getText().toString()+" is selected", Toast.LENGTH_SHORT).show();*/
-
-        register.setOnClickListener(signupValidation);
-
-        btnToLogin.setOnClickListener(switchBackToSignIn);
     }
 
     public View.OnClickListener signupValidation = view -> {
-        Boolean validSignUpEmail = true, validSignUpPassword = true, validSignUpFirstName = true, validSignUpLastName = true, validSignUpStatus = true;
+        Boolean validSignUpEmail = true, validSignUpPassword = true, validSignUpFirstName = true, validSignUpLastName = true;
         Boolean passConfirm = signupPass.getText().toString().equals(
                 signupConfPass.getText().toString());
 
@@ -74,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity {
         String password = signupPass.getText().toString();
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
 
         // validate signup FIRST NAME
         if(fName.isEmpty()){
@@ -117,18 +106,13 @@ public class RegisterActivity extends AppCompatActivity {
             int radioBtnId = status.getCheckedRadioButtonId();
             RadioButton radioBtn = findViewById(radioBtnId);
             int selectedStatusId = status.indexOfChild(radioBtn); //0 - STUDENT; 1 - TEACHER
+
             String refPath = FirebaseFirestore.getInstance()
                     .collection(DatabaseCollections.USERTYPES_COLLECTION)
                     .document(String.valueOf(selectedStatusId)).getPath();
             DocumentReference userType = FirebaseFirestore.getInstance().document(refPath);
 
-            Log.d("userType", refPath);
-
-            //TODO SharedPreferences also in RegisterActivity?
-
-        if(validSignUpFirstName && validSignUpLastName && validSignUpEmail && validSignUpPassword
-                && validSignUpStatus) {
-
+        if(validSignUpFirstName && validSignUpLastName && validSignUpEmail && validSignUpPassword) {
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
@@ -140,11 +124,9 @@ public class RegisterActivity extends AppCompatActivity {
                             user = new User(fName+" "+lName, email, userType);
                             UserInfo userInfo = new UserInfo(this);
                             userInfo.setUserId(auth.getUid());
-                            docRef.set(user).addOnSuccessListener( (OnSuccessListener) (aVoid)->{
-                            } ).addOnFailureListener(e -> Log.d("addUserData","onFailure: "+e.toString()));
+                            docRef.set(user).addOnFailureListener(e -> Log.d("addUserData","onFailure: "+e.toString()));
 
                             switchToMessagePage();
-
                         } else {
                             // If sign up fails, display a message to the user.
                             Log.w("Sign up", "createUserWithEmail:failure", task.getException());
