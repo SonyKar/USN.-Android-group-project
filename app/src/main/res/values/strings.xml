@@ -131,7 +131,7 @@
     <string name="reset">Reset</string>
     <string name="apply">Apply</string>
     <string name="course_id">COURSE_ID</string>
-    <string name="ratingOutOf">"/5"</string>
+    <string name="ratingOutOf">/5</string>
 
     <string-array name="sorting_criteria">
         <item>Last added</item>

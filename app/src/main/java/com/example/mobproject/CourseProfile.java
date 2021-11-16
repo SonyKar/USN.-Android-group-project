@@ -1,7 +1,5 @@
 package com.example.mobproject;
 
-import static java.lang.Float.*;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -38,7 +36,7 @@ public class CourseProfile extends AppCompatActivity {
     private RecyclerView commentsList;
     private ArrayList<String> items;//-> <Comment>
     private CommentAdapter adapter;
-    private String courseID, meetingDaysString;
+    private String courseID;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +104,8 @@ public class CourseProfile extends AppCompatActivity {
 
     private final RatingBar.OnRatingBarChangeListener onVoteHandler = (ratingBar, givenScore, b) -> {
         int rating = (int) givenScore;//to be sent
-        ratingScore.setText(rating + R.string.ratingOutOf) ;
+        String ratingText = rating + this.getString(R.string.ratingOutOf);
+        ratingScore.setText(ratingText) ;
     };
     //TODO finalRating!!!
 
@@ -163,23 +162,24 @@ public class CourseProfile extends AppCompatActivity {
 
             courseDescription.setText(course.getDescription());
 
-            coursePeriod.setText(SimpleDateFormat.getDateInstance().format(course.getStartDate()) + " - " + SimpleDateFormat.getDateInstance().format(course.getEndDate()));
+            String dateString = SimpleDateFormat.getDateInstance().format(course.getStartDate()) + " - " + SimpleDateFormat.getDateInstance().format(course.getEndDate());
+            coursePeriod.setText(dateString);
 
-            meetingDaysString = "";
+            StringBuilder meetingDaysString = new StringBuilder();
             for(int day : course.getMeetDays()){
-                meetingDaysString += " " + getResources().getStringArray(R.array.meeting_days)[day];
+                meetingDaysString.append(" ").append(getResources().getStringArray(R.array.meeting_days)[day]);
             }
-            courseMeetingDays.setText(meetingDaysString);
+            courseMeetingDays.setText(meetingDaysString.toString());
 
 
             //TODO fix rating
-            /*String finalRatingString = String.valueOf(course.getRateCounter()) ;
-            finalRatingScore.setText(finalRatingString);
-            finalRating.setRating(course.getRateCounter());*/
+//            String finalRatingString = String.valueOf(course.getRateCounter()) ;
+//            finalRatingScore.setText(finalRatingString);
+//            finalRating.setRating(course.getRateCounter());
         }
     };
 
-    private View.OnClickListener switchToMain = view -> {
+    private final View.OnClickListener switchToMain = view -> {
         Intent toMain = new Intent(this, CourseList.class);
         startActivity(toMain);
         finish();

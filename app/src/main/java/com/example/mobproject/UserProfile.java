@@ -87,7 +87,7 @@ public class UserProfile extends AppCompatActivity implements NavigationView.OnN
                 get().addOnSuccessListener(documentSnapshot -> {
                     User user =  documentSnapshot.toObject(User.class);
                     userName.setText(user.getName());
-                    userStatus.setText(user.getUserType());
+//                    userStatus.setText(user.getUserType());
                     userEmail.setText(user.getEmail());
         });
 

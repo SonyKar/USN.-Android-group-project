@@ -29,9 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginBtn;
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    private SharedPreferences sharedPref;
-
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -44,23 +41,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    //TA2bAr5CjTeWQg2gNGlv
-    private final CourseDatabase db = new CourseDatabase();
-    private Course cursulet;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        //int[] days= {1, 3};
-        //FirebaseFirestore.getInstance().collection("Categories").document("6VacuZlpCY1KGmhEykyr")
-//        cursulet = new Course("Ancient Modded Art", FirebaseFirestore.getInstance().collection("Categories").document("6VacuZlpCY1KGmhEykyr"), 500.0, 1,
-//                FirebaseFirestore.getInstance().collection("Users").document("sJIJn2M32jgZrBO3LogvR16Ulp93"), new Date("November 15, 2021"), new Date("December 15, 2021"), days, "Daca merge cursul asta, e o minune");
-
-        //Log.d("testiing", "ok");
-
-
-
 
         Button forgotPass = findViewById(R.id.btn_forgot_pass);
         Button btnToSignUp = findViewById(R.id.btn_tosignup);

@@ -13,8 +13,6 @@ public class User {
     private DocumentReference userType;
 
 
-
-
     // Constructor to create the user
     public User(String name, String email, DocumentReference userType) {
         this.name = name;
@@ -54,7 +52,7 @@ public class User {
         this.email = email;
     }
 
-    public int getUserType() { return Integer.valueOf(userType.getId()); }
+    public DocumentReference getUserType() { return userType; }
 
     public void setUserType(DocumentReference userType) { this.userType = userType; }
 

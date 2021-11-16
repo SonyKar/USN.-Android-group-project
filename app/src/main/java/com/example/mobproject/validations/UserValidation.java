@@ -26,11 +26,7 @@ public class UserValidation {
 
     }
 
-    public static boolean isCorrectType(int type) {
-        return (type >= 0) && (type < UserType.TYPE_COUNT);
-    }
-
     public static boolean isEmpty(User item) {
-        return item.getEmail().isEmpty() || item.getName().isEmpty() || isCorrectType(item.getUserType());
+        return item.getEmail().isEmpty() || item.getName().isEmpty();
     }
 }

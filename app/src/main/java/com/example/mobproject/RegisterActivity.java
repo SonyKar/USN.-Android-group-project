@@ -121,6 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
                     .collection(DatabaseCollections.USERTYPES_COLLECTION)
                     .document(String.valueOf(selectedStatusId)).getPath();
             DocumentReference userType = FirebaseFirestore.getInstance().document(refPath);
+
             Log.d("userType", refPath);
 
             //TODO SharedPreferences also in RegisterActivity?
