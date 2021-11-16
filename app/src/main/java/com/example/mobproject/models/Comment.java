@@ -1,8 +1,16 @@
 package com.example.mobproject.models;
 
+import com.google.firebase.firestore.DocumentReference;
+
 public class Comment {
     private String id;
-    private String userId;
+    private DocumentReference userId;
+    private String commentText;
+
+    public Comment(DocumentReference userId, String commentText) {
+        this.userId = userId;
+        this.commentText = commentText;
+    }
 
     public String getId() {
         return id;
@@ -12,26 +20,11 @@ public class Comment {
         this.id = id;
     }
 
-    private String commentText;
-
-
-    //Constructor based on comment id
-    public Comment(String id) {
-        this.id = id;
-    }
-
-    //Constructor based on userId and commentText
-
-    public Comment(String userId, String commentText) {
-        this.userId = userId;
-        this.commentText = commentText;
-    }
-
-    public String getUserId() {
+    public DocumentReference getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(DocumentReference userId) {
         this.userId = userId;
     }
 
