@@ -120,7 +120,6 @@
     <string name="enroll_me">Enroll me</string>
     <string name="save">Save</string>
     <string name="default_course_price">0 $</string>
-    <string name="courselist">Courses</string>
     <string name="search_a_course">Search a course...</string>
     <string name="cannot_enroll">Cannot enroll</string>
     <string name="student_status">Student</string>
@@ -147,5 +146,8 @@
 <!-- Currencies -->
     <string name="dollars">$</string>
     <string name="Favourites">Favourites</string>
+
+    <string name="find_a_course">Find a course...</string>
+
 
 </resources>

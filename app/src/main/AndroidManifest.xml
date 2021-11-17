@@ -18,6 +18,7 @@
         <activity android:name=".CreateCourse" />
         <activity android:name=".FavouriteList" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".MyCoursesList" />
 
         <activity android:name=".CourseList"
             android:exported="true">

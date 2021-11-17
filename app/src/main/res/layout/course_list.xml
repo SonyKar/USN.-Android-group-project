@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/courses_drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     >
@@ -38,7 +38,7 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginTop="@dimen/drawable_padding"
-                       android:text="@string/courselist"
+                       android:text="@string/courses"
                        android:textStyle="bold"
                        android:textSize="@dimen/toolbar_title"
                        />
@@ -51,7 +51,7 @@
                        android:layout_marginEnd="@dimen/padding"
                        android:drawableStart="@drawable/ic_search"
                        android:drawablePadding="@dimen/drawable_padding"
-                       android:hint="Find a course..."
+                       android:hint="@string/find_a_course"
                        android:focusable="true"
                        android:focusableInTouchMode="true"
 
