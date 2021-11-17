@@ -179,19 +179,19 @@ public class CourseProfile extends AppCompatActivity {
 
             //TODO fix rating
 
-            BigDecimal number = new BigDecimal(course.getRating());
+            BigDecimal number = BigDecimal.valueOf(course.getRating());
 
             String finalRatingString = String.valueOf(course.getRating()) ;
             finalRatingScore.setText(finalRatingString + getString(R.string.ratingOutOf));
             finalRating.setRating(Float.parseFloat(String.valueOf(number.floatValue())));
-            Toast.makeText(getApplicationContext(), finalRatingString, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), String.valueOf(course.getRating()), Toast.LENGTH_SHORT).show();
 
         }
     };
 
     private final View.OnClickListener switchToMain = view -> {
-        Intent toMain = new Intent(this, CourseList.class);
-        startActivity(toMain);
+//        Intent toMain = new Intent(this, CourseList.class);
+//        startActivity(toMain);
         finish();
     };
 }

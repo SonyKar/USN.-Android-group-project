@@ -29,11 +29,12 @@ public class MenuDrawer {
                         case R.id.nav_profile:
                             Toast.makeText(context, "Profile clicked", Toast.LENGTH_SHORT).show();
                             Intent toProfile = new Intent(context, UserProfile.class);
+                            toProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(toProfile);
-
                             break;
                         case R.id.nav_courses:
                             Intent toCourseList = new Intent(context, CourseList.class);
+                            toCourseList.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(toCourseList);
                             break;
                         case R.id.nav_my_courses:
@@ -43,18 +44,20 @@ public class MenuDrawer {
 //                finish();
                             break;
                         case R.id.nav_fav:
-                            Toast.makeText(context, "Favourites clicked", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "Favourites clicked", Toast.LENGTH_SHORT).show();
                             Intent toFavourites = new Intent(context, FavouriteList.class);
+                            toFavourites.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(toFavourites);
-
                             break;
                         case R.id.nav_create_course:
                             Intent toCreateCourse = new Intent(context, CreateCourse.class);
+                            toCreateCourse.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(toCreateCourse);
                             break;
                         case R.id.nav_log_out:
                             FirebaseAuth.getInstance().signOut();
                             Intent toLogin = new Intent(context, LoginActivity.class);
+                            toLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(toLogin);
                             break;
 

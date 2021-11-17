@@ -17,8 +17,9 @@
         <activity android:name=".UserEdit" />
         <activity android:name=".CreateCourse" />
         <activity android:name=".CourseList" />
+        <activity android:name=".LoginActivity" />
 
-        <activity android:name=".LoginActivity"
+        <activity android:name=".FavouriteList"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
