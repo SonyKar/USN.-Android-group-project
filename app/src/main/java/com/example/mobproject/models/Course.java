@@ -3,6 +3,10 @@ package com.example.mobproject.models;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,13 +25,14 @@ public class Course {
     private Date endDate;
     private int rateCounter;
     private int studentCounter;
-    private List<Integer> meetDays = new ArrayList<>();
+    private ArrayList<Integer> meetDays = new ArrayList<>();
     private String description;
     private ArrayList <Comment> comments = new ArrayList<>();
+    //TODO sort out the openEnroll situation
 
     public Course(String name, DocumentReference categoryId, double price,
                   int difficulty, DocumentReference ownerId, Timestamp startDate, Timestamp endDate,
-                  int[] meetDays, String description, double rating) {
+                  ArrayList<Integer> meetDays, String description, double rating) {
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         this.name = name;
@@ -45,6 +50,35 @@ public class Course {
 
         this.description = description;
     }
+
+    //Create new course
+    public Course(String name, DocumentReference categoryId, double price,
+                  int difficulty, DocumentReference ownerId, String startDate, String endDate,
+                  ArrayList<Integer> meetDays, String description, int rateCounter,
+                  int studentCounter, double rating) throws ParseException {
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        this.name = name;
+        this.categoryId = categoryId;
+        this.price = price;
+        this.difficulty = difficulty;
+        this.ownerId = ownerId;
+        this.startDate = formatter.parse(startDate);
+        this.endDate = formatter.parse(endDate);
+        for (int i: meetDays) {
+            this.meetDays.add(i);
+        }
+        this.description = description;
+        this.openEnroll = true;
+        this.rating = rating;
+        this.studentCounter = studentCounter;
+        this.rateCounter = rateCounter;
+    }
+
+    //TODO set openEnroll false when system date>startDate
+
 
     public Course(String id) {
         this.id = id;
@@ -105,7 +139,7 @@ public class Course {
         return studentCounter;
     }
 
-    public List<Integer> getMeetDays() {
+    public ArrayList<Integer> getMeetDays() {
         return meetDays;
     }
 
@@ -153,7 +187,7 @@ public class Course {
         this.endDate = endDate;
     }
 
-    public void setMeetDays(List<Integer> meetDays) {
+    public void setMeetDays(ArrayList<Integer> meetDays) {
         this.meetDays = meetDays;
     }
 

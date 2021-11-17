@@ -32,8 +32,8 @@ import java.util.Locale;
 public class CourseProfile extends AppCompatActivity {
 
     private RatingBar rateEdit, finalRating;
-    private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
-    courseDifficulty, coursePeriod, courseMeetingDays;
+    private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName,
+            coursePrice, courseDifficulty, coursePeriod, courseMeetingDays;
     private int totalRating, isEdit = 0, addedToFav ;
     private ImageButton editCourse, backToMain;
     private Button enrollMe;
@@ -119,6 +119,7 @@ public class CourseProfile extends AppCompatActivity {
         Intent toEditCourse = new Intent(CourseProfile.this,
                 CreateCourse.class);
         toEditCourse.putExtra("EDIT_COURSE", isEdit);
+        toEditCourse.putExtra("COURSE_ID",courseID);
         startActivity(toEditCourse);
     };
 
@@ -184,7 +185,7 @@ public class CourseProfile extends AppCompatActivity {
             String finalRatingString = String.valueOf(course.getRating()) ;
             finalRatingScore.setText(finalRatingString + getString(R.string.ratingOutOf));
             finalRating.setRating(Float.parseFloat(String.valueOf(number.floatValue())));
-            Toast.makeText(getApplicationContext(), String.valueOf(course.getRating()), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), String.valueOf(course.getRating()), Toast.LENGTH_SHORT).show();
 
         }
     };

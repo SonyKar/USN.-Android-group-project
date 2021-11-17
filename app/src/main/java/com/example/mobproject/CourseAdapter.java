@@ -82,6 +82,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         String currency = format.format(data.get(position).getPrice());
         holder.coursePrice.setText(currency);
 
+        //TODO set enroll false after start
         // TODO to set all the hardcoded values to a variable
         boolean enroll = data.get(position).isOpenEnroll();
         holder.courseEnroll.setText(enroll ? "Open to enroll" : "Close to enroll");
