@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,17 +24,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder>{
+public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.ViewHolder>{
 
     private final LayoutInflater layoutInflater;
     private final ArrayList<Course> data;//change to List<Course>
     private final String[] difficulties;
 
-    FavAdapter(Context context, ArrayList<Course> data){
+    MyCoursesAdapter(Context context, ArrayList<Course> data){
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
     }
+
 
     @NonNull
     @Override
@@ -45,7 +45,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyCoursesAdapter.ViewHolder holder, int position) {
 
         //bind the textview with data received
 
@@ -89,7 +89,6 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder>{
 
         /*ImageView image = data.get(position);//get from DB
         holder.courseImage.setImageResource(image);*/
-
     }
 
     @Override
@@ -97,7 +96,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder>{
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView courseTitle, courseDifficulty, courseFinalScore, coursePeriod, coursePrice, courseEnroll;
         ImageView courseImage;
         ImageButton addToFav;

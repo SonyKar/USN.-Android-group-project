@@ -39,9 +39,9 @@ public class MenuDrawer {
                             break;
                         case R.id.nav_my_courses:
                             Toast.makeText(context, "MyCourses clicked", Toast.LENGTH_SHORT).show();
-//                Intent toMyCourses = new Intent(this, MyCourses.class);
-//                startActivity(toMyCourses);
-//                finish();
+                            Intent toMyCourses = new Intent(context, MyCoursesList.class);
+                            toMyCourses.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(toMyCourses);
                             break;
                         case R.id.nav_fav:
                             //Toast.makeText(context, "Favourites clicked", Toast.LENGTH_SHORT).show();

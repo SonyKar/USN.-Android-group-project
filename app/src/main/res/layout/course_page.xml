@@ -118,14 +118,13 @@
                     android:layout_marginStart="@dimen/padding"
                     android:layout_marginEnd="@dimen/padding"
                     android:orientation="horizontal"
-                    android:weightSum="1">
+                    >
 
                     <TextView
                         android:id="@+id/difficulty_course_page"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="0.2"
                         android:gravity="center_vertical|start"
                         android:text="@string/hard"
                         android:textColor="@color/advanced_red"
@@ -135,9 +134,8 @@
                     <RatingBar
                         android:id="@+id/final_rating"
                         style="@style/RatingBar"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.65"
                         android:clickable="true"
                         android:focusable="true"
                         android:isIndicator="true"
@@ -149,10 +147,9 @@
 
                     <TextView
                         android:id="@+id/final_rating_score"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="0.15"
                         android:text="@string/default_final_rating_score"
                         android:textColor="@color/primary_dark_purple"
                         android:textStyle="bold" />

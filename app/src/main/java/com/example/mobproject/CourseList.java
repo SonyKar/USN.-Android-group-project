@@ -113,7 +113,7 @@ public class CourseList extends AppCompatActivity
        NavigationView navDrawer = findViewById(R.id.nav_view);
        setupDrawerContent(navDrawer, getApplicationContext(), drawer);
 
-        drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.courses_drawer_layout);
 //        NavigationView navigationView = findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
 

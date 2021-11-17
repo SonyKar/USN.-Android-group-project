@@ -21,16 +21,15 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-
-public class FavouriteList extends AppCompatActivity {
+public class MyCoursesList extends AppCompatActivity {
 
     private DrawerLayout drawer;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.favourite_list);
+        setContentView(R.layout.my_courses_list);
 
-        drawer = findViewById(R.id.fav_drawer_layout);
+        drawer = findViewById(R.id.my_courses_drawer_layout);
 
         fillCourses();
 
@@ -38,7 +37,7 @@ public class FavouriteList extends AppCompatActivity {
     }
 
     private void actionBarInit() {
-        Toolbar toolbar = findViewById(R.id.fav_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_courses_toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -61,10 +60,10 @@ public class FavouriteList extends AppCompatActivity {
         Callback<Course> recyclerViewCallback = new Callback<Course>() {
             @Override
             public void OnFinish(ArrayList<Course> arrayList) {
-                RecyclerView favListRecyclerView = findViewById(R.id.fav_list);
-                favListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                FavAdapter adapter = new FavAdapter(context, arrayList);
-                favListRecyclerView.setAdapter(adapter);
+                RecyclerView myCourseListRecyclerView = findViewById(R.id.my_courses_list);
+                myCourseListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                MyCoursesAdapter adapter = new MyCoursesAdapter(context, arrayList);
+                myCourseListRecyclerView.setAdapter(adapter);
             }
         };
 
@@ -81,5 +80,4 @@ public class FavouriteList extends AppCompatActivity {
         }
 
     }
-
 }

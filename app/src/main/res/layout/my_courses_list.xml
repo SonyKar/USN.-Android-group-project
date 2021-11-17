@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fav_drawer_layout"
+    android:id="@+id/my_courses_drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     >
@@ -20,10 +20,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/toolbar_purple"
             app:titleTextColor="@color/white"
-            app:title="@string/Favourites"
+            app:title="@string/my_courses"
             android:minHeight="?attr/actionBarSize"
             android:paddingBottom="5dp"
-            android:id="@+id/fav_toolbar"
+            android:id="@+id/my_courses_toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 
@@ -33,17 +33,17 @@
 
 
         <FrameLayout
-            android:id="@+id/fav_fragment_container"
+            android:id="@+id/my_courses_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
             android:padding="@dimen/padding"
             >
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fav_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_courses_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </FrameLayout>
 
