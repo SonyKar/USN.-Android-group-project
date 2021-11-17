@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.w3c.dom.Text;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -269,6 +270,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
         if(StartEndContor == 1){ //start date
             try {
                 date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }

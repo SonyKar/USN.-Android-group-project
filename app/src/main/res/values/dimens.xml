@@ -32,4 +32,5 @@
     <dimen name="card_view_price_size">17sp</dimen>
     <dimen name="card_view_enroll">13sp</dimen>
     <dimen name="card_view_shadow">10dp</dimen>
+    <dimen name="filter_field">17sp</dimen>
 </resources>

@@ -19,7 +19,7 @@ public class Course {
     private boolean openEnroll;
     private Date startDate;
     private Date endDate;
-    private float rateCounter;
+    private int rateCounter;
     private int studentCounter;
     private List<Integer> meetDays = new ArrayList<>();
     private String description;
@@ -27,7 +27,7 @@ public class Course {
 
     public Course(String name, DocumentReference categoryId, double price,
                   int difficulty, DocumentReference ownerId, Timestamp startDate, Timestamp endDate,
-                  int[] meetDays, String description) {
+                  int[] meetDays, String description, double rating) {
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         this.name = name;
@@ -37,6 +37,7 @@ public class Course {
         this.ownerId = ownerId;
         this.startDate = startDate.toDate();
         this.endDate = endDate.toDate();
+        this.rating = rating;
 
         for (int i: meetDays) {
             this.meetDays.add(i);
@@ -96,7 +97,7 @@ public class Course {
         return endDate;
     }
 
-    public float getRateCounter() {
+    public int getRateCounter() {
         return rateCounter;
     }
 
@@ -112,9 +113,9 @@ public class Course {
         return description;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
-    }
+//    public ArrayList<Comment> getComments() {
+//        return comments;
+//    }
 
     public void setName(String name) {
         this.name = name;
@@ -160,7 +161,7 @@ public class Course {
         this.description = description;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-    }
+//    public void setComments(ArrayList<Comment> comments) {
+//        this.comments = comments;
+//    }
 }

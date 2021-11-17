@@ -1,10 +1,12 @@
 package com.example.mobproject;
 
+import static androidx.core.content.ContextCompat.getColor;
 import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +38,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
-        Log.d("Testttt", "asd");
     }
 
     @NonNull
@@ -57,6 +58,18 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         int difficulty = data.get(position).getDifficulty();
 
         holder.courseDifficulty.setText(difficulties[difficulty]);
+        switch(difficulty){
+            case 0:
+                holder.courseDifficulty.setTextColor(Color.parseColor("#22E865"));
+                break;
+            case 1:
+                holder.courseDifficulty.setTextColor(Color.parseColor("#F8C81C"));
+                break;
+            default:
+                holder.courseDifficulty.setTextColor(Color.parseColor("#F61616"));
+                break;
+        }
+
 
         String finalScore = data.get(position).getRating() + "/5.00";//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
@@ -72,6 +85,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         // TODO to set all the hardcoded values to a variable
         boolean enroll = data.get(position).isOpenEnroll();
         holder.courseEnroll.setText(enroll ? "Open to enroll" : "Close to enroll");
+
+        holder.courseEnroll.setTextColor( enroll ?
+                Color.parseColor("#22E865") :
+                Color.parseColor("#F61616"));
 
         /*ImageView image = data.get(position);//get from DB
         holder.courseImage.setImageResource(image);*/
@@ -100,6 +117,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             courseEnroll = itemView.findViewById(R.id.card_view_enroll);
             courseImage = itemView.findViewById(R.id.course_img);
             addToFav = itemView.findViewById(R.id.add_to_fav_cardview);
+
+
 
             //activate addToFav button
             addedToFav = 0;

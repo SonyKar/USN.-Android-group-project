@@ -1,12 +1,16 @@
 package com.example.mobproject;
 
+import static java.lang.Float.*;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +23,7 @@ import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -173,9 +178,14 @@ public class CourseProfile extends AppCompatActivity {
 
 
             //TODO fix rating
-//            String finalRatingString = String.valueOf(course.getRateCounter()) ;
-//            finalRatingScore.setText(finalRatingString);
-//            finalRating.setRating(course.getRateCounter());
+
+            BigDecimal number = new BigDecimal(course.getRating());
+
+            String finalRatingString = String.valueOf(course.getRating()) ;
+            finalRatingScore.setText(finalRatingString + getString(R.string.ratingOutOf));
+            finalRating.setRating(Float.parseFloat(String.valueOf(number.floatValue())));
+            Toast.makeText(getApplicationContext(), finalRatingString, Toast.LENGTH_SHORT).show();
+
         }
     };
 

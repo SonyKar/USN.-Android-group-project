@@ -14,6 +14,8 @@
     <color name="beginner_green">#22E865</color>
     <color name="intermediate_yellow">#F8C81C</color>
     <color name="advanced_red">#F61616</color>
+    <color name="open_to_enroll">#22E865</color>
+    <color name="cannot_enroll">#F61616</color>
     <color name="grey_purple">#CBC3E3</color>
     <color name="transparent_purple">#904e0d3a</color>
     <color name="transparent_grey">#00cbc3e3</color>
