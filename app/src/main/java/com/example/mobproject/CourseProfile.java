@@ -2,6 +2,7 @@ package com.example.mobproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.db.CommentDatabase;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.interfaces.Callback;
+import com.example.mobproject.models.Comment;
 import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -27,6 +31,7 @@ import java.util.Locale;
 public class CourseProfile extends AppCompatActivity {
 
     private RatingBar rateEdit, finalRating;
+    private TextView numberOfComments;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
     courseDifficulty, coursePeriod, courseMeetingDays;
     private int totalRating, isEdit = 0, addedToFav ;
@@ -37,6 +42,7 @@ public class CourseProfile extends AppCompatActivity {
     private ArrayList<String> items;//-> <Comment>
     private CommentAdapter adapter;
     private String courseID;
+    private final ArrayList <Comment> comments = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +63,7 @@ public class CourseProfile extends AppCompatActivity {
         coursePeriod = findViewById(R.id.course_period);
         courseMeetingDays = findViewById(R.id.meeting_days);
         enrollMe = findViewById(R.id.enroll_me_btn);
+        numberOfComments = findViewById(R.id.no_comments);
 
         backToMain.setOnClickListener(switchToMain);
         addToFav.setOnClickListener(onFavouriteHandler);
@@ -73,21 +80,6 @@ public class CourseProfile extends AppCompatActivity {
 
         //get final rating score and show it
         //finalRatingScore.setText(totalRating + R.string.ratingOutOf);
-
-        //create RecyclerView
-
-        items = new ArrayList<>();
-        items.add("Anne Marie");
-        items.add("Greta Sasha");
-        items.add("Erik Stivulescu");
-        items.add("Nicolae Ceausescu");
-        items.add("Esteban Julio Ricardo Montoya Dela Rosa Ramirez");
-
-        commentsList = findViewById(R.id.comments_list);
-        commentsList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CommentAdapter(this, items);
-        commentsList.setAdapter(adapter);
-
 
         //check course availability - open to enroll?
         //if user is already enrolled or currentDate > startDate
@@ -137,20 +129,20 @@ public class CourseProfile extends AppCompatActivity {
     private final Callback<Course> profileCallback = new Callback<Course>() {
         @Override
         public void OnFinish(ArrayList<Course> arrayList) {
-            Course course = arrayList.get(0);
-            courseName.setText(course.getName());
+            Course courseInfo = arrayList.get(0);
+            courseName.setText(courseInfo.getName());
 
             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
-            String currency = format.format(course.getPrice());
+            String currency = format.format(courseInfo.getPrice());
             coursePrice.setText(currency);
 
-            int difficulty = course.getDifficulty();
+            int difficulty = courseInfo.getDifficulty();
             courseDifficulty.setText(getResources().getStringArray(R.array.difficulties)[difficulty]);
 
             //set difficulty color
             courseDifficulty.setTextColor(getResources().getIntArray(R.array.difficultyColors)[difficulty]);
 
-            if(course.isOpenEnroll())
+            if(courseInfo.isOpenEnroll())
             {
                 courseEnroll.setText(R.string.open_to_enroll);
                 courseEnroll.setTextColor(getResources().getColor(R.color.beginner_green));
@@ -160,17 +152,23 @@ public class CourseProfile extends AppCompatActivity {
                 courseEnroll.setTextColor(getResources().getColor(R.color.advanced_red));
             }
 
-            courseDescription.setText(course.getDescription());
+            courseDescription.setText(courseInfo.getDescription());
 
-            String dateString = SimpleDateFormat.getDateInstance().format(course.getStartDate()) + " - " + SimpleDateFormat.getDateInstance().format(course.getEndDate());
+            String dateString = SimpleDateFormat.getDateInstance().format(courseInfo.getStartDate()) + " - " + SimpleDateFormat.getDateInstance().format(courseInfo.getEndDate());
             coursePeriod.setText(dateString);
 
             StringBuilder meetingDaysString = new StringBuilder();
-            for(int day : course.getMeetDays()){
+            for(int day : courseInfo.getMeetDays()){
                 meetingDaysString.append(" ").append(getResources().getStringArray(R.array.meeting_days)[day]);
             }
             courseMeetingDays.setText(meetingDaysString.toString());
 
+            commentsList = findViewById(R.id.comments_list);
+            commentsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            adapter = new CommentAdapter(getApplicationContext(), courseInfo.getCommentsReferences());
+            commentsList.setAdapter(adapter);
+
+            numberOfComments.setText(String.valueOf(courseInfo.getCommentsReferences().size()));
 
             //TODO fix rating
 //            String finalRatingString = String.valueOf(course.getRateCounter()) ;

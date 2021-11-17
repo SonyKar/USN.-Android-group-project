@@ -7,6 +7,8 @@ public class Comment {
     private DocumentReference userId;
     private String commentText;
 
+    public Comment() {}
+
     public Comment(DocumentReference userId, String commentText) {
         this.userId = userId;
         this.commentText = commentText;

@@ -1,10 +1,12 @@
 package com.example.mobproject.models;
 
+import android.util.Log;
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -23,27 +25,7 @@ public class Course {
     private int studentCounter;
     private List<Integer> meetDays = new ArrayList<>();
     private String description;
-    private ArrayList <Comment> comments = new ArrayList<>();
-
-    public Course(String name, DocumentReference categoryId, double price,
-                  int difficulty, DocumentReference ownerId, Timestamp startDate, Timestamp endDate,
-                  int[] meetDays, String description) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-
-        this.name = name;
-        this.categoryId = categoryId;
-        this.price = price;
-        this.difficulty = difficulty;
-        this.ownerId = ownerId;
-        this.startDate = startDate.toDate();
-        this.endDate = endDate.toDate();
-
-        for (int i: meetDays) {
-            this.meetDays.add(i);
-        }
-
-        this.description = description;
-    }
+    private List<DocumentReference> commentsReferences = new ArrayList<>();
 
     public Course(String id) {
         this.id = id;
@@ -112,8 +94,8 @@ public class Course {
         return description;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
+    public List<DocumentReference> getCommentsReferences() {
+        return commentsReferences;
     }
 
     public void setName(String name) {
@@ -160,7 +142,7 @@ public class Course {
         this.description = description;
     }
 
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
+    public void setCommentsReferences(List<DocumentReference> commentsReferences) {
+        this.commentsReferences = commentsReferences;
     }
 }

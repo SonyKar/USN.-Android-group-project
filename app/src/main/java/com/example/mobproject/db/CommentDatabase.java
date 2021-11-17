@@ -5,6 +5,7 @@ import com.example.mobproject.constants.ErrorCodes;
 import com.example.mobproject.constants.ErrorMessages;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Comment;
+import com.example.mobproject.models.Course;
 import com.example.mobproject.models.Error;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -15,12 +16,21 @@ public class CommentDatabase extends Database<Comment> {
 
     @Override
     public void getItem(String id, Callback<Comment> callback) {
-
+        DocumentReference docRef = db.collection(DatabaseCollections.COMMENTS_COLLECTION).document(id);
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            Comment comment = documentSnapshot.toObject(Comment.class);
+            if (comment != null) {
+                comment.setId(documentSnapshot.getId());
+                ArrayList<Comment> commentList = new ArrayList<>();
+                commentList.add(comment);
+                callback.OnFinish(commentList);
+            }
+        });
     }
 
     @Override
     public void getItems(Callback<Comment> callback) {
-        db.collection(DatabaseCollections.COURSES_COLLECTION).get().addOnSuccessListener(snapshots -> {
+        db.collection(DatabaseCollections.COMMENTS_COLLECTION).get().addOnSuccessListener(snapshots -> {
             ArrayList<Comment> commentsList = new ArrayList<>();
             for (QueryDocumentSnapshot document : snapshots) {
                 Comment tmp = document.toObject(Comment.class);

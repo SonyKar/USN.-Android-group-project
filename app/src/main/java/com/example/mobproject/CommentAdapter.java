@@ -4,27 +4,32 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.db.CommentDatabase;
+import com.example.mobproject.db.UserDatabase;
+import com.example.mobproject.interfaces.Callback;
+import com.example.mobproject.models.Comment;
+import com.example.mobproject.models.User;
+import com.google.firebase.firestore.DocumentReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
-    private LayoutInflater layoutInflater;
-    private List<String> data;//change to List<Comments>
+    private final LayoutInflater layoutInflater;
+    private final List<DocumentReference> data;//change to List<Comments>
 
-    CommentAdapter(Context context, List<String> data) {
+    CommentAdapter(Context context, List<DocumentReference> data) {
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
     }
-
 
     @NonNull
     @Override
@@ -35,13 +40,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        CommentDatabase commentDatabase = new CommentDatabase();
+        commentDatabase.getItem(data.get(position).getId(), new Callback<Comment>() {
+            @Override
+            public void OnFinish(ArrayList<Comment> arrayList) {
+                UserDatabase userDatabase = new UserDatabase();
+                userDatabase.getItem(arrayList.get(0).getUserId().getId(), new Callback<User>() {
+                    @Override
+                    public void OnFinish(ArrayList<User> arrayList) {
+                        String name = arrayList.get(0).getName();
+                        holder.commentUserName.setText(name); //fName + " " + lName
+                    }
+                });
 
-        //bind the textview with data received
-        String name = data.get(position);
-        holder.commentUserName.setText(name);//fName + " " + lName
-
-        String comment = data.get(position);
-        holder.commentUserText.setText(comment);
+                String comment = arrayList.get(0).getCommentText();
+                holder.commentUserText.setText(comment);
+            }
+        });
 
         /*CircleImageView avatar = data.get(position);//get avatar from DB
         holder.userAvatar.setImageResource(avatar);*/
@@ -52,7 +67,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView commentUserName, commentUserText;
         CircleImageView userAvatar;

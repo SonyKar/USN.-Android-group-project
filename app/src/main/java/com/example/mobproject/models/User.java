@@ -2,24 +2,16 @@ package com.example.mobproject.models;
 
 import com.google.firebase.firestore.DocumentReference;
 
-import org.w3c.dom.Document;
-
 public class User {
     private String id;
     private String name;
     private String email;
     private DocumentReference userType;
 
+    public User() {}
+
     // Constructor to create the user
     public User(String name, String email, DocumentReference userType) {
-        this.name = name;
-        this.email = email;
-        this.userType = userType;
-    }
-
-    // Constructor to read the user from the db
-    public User(String id, String name, String email, DocumentReference userType) {
-        this.id = id;
         this.name = name;
         this.email = email;
         this.userType = userType;
