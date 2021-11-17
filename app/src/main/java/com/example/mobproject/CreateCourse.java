@@ -1,8 +1,10 @@
 package com.example.mobproject;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,19 +20,35 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
+import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.db.CategoryDatabase;
+import com.example.mobproject.db.CourseDatabase;
+import com.example.mobproject.db.Database;
+import com.example.mobproject.interfaces.Callback;
+import com.example.mobproject.models.Category;
+import com.example.mobproject.models.Course;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Array;
+import java.text.NumberFormat;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
 public class CreateCourse extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
 
-    private TextView startDate, endDate;
-    private EditText createCourseName, createCoursePrice, description;
+    private TextView startDateTxv, endDateTxv;
+    private EditText createCourseName, createCoursePrice, descriptionEdt;
     private boolean validCreateCourseName, validCreateCoursePrice, validCreateCourseDates,
             validCreateCourseDifficulty, validCreateCourseDays, validCreateCourseDescription;
     private Spinner categorySpinner;
@@ -40,10 +58,17 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
     private ArrayList<Integer> daysChecked = new ArrayList<Integer>();
     private Button createCourse;
     private Date date1, date2;
-    private RadioGroup difficulty;
+    private RadioGroup difficultyGroup;
     private RadioButton selectedDifficulty;
     private CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday;
+    private ArrayList<CheckBox>meetDaysCheckboxes = new ArrayList<>();
     int isEdit;
+    String courseId;
+    private ArrayList<Category> sortedCategoryList;
+    private DocumentReference categoryId;
+    int rateCounter=0;
+    int studentCounter=0;
+    double rating=0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,18 +79,21 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
         categorySpinner = (Spinner) findViewById(R.id.category_spn);
         startDateBtn = (ImageButton) findViewById(R.id.start_date_btn);
         endDateBtn = (ImageButton) findViewById(R.id.end_date_btn);
-        startDate = (TextView) findViewById(R.id.start_date);
-        endDate = (TextView) findViewById(R.id.end_date);
+        startDateTxv = (TextView) findViewById(R.id.start_date);
+        endDateTxv = (TextView) findViewById(R.id.end_date);
         createCourse = (Button) findViewById(R.id.create_course_btn);
-        difficulty = (RadioGroup) findViewById(R.id.difficulty_radgr);
+        difficultyGroup = (RadioGroup) findViewById(R.id.difficulty_radgr);
         Monday = (CheckBox) findViewById(R.id.monday_chck);
         Tuesday = (CheckBox) findViewById(R.id.tuesday_chck);
         Wednesday = (CheckBox) findViewById(R.id.wedn_chck);
         Thursday = (CheckBox) findViewById(R.id.thurs_chck);
         Friday = (CheckBox) findViewById(R.id.friday_chck);
         Saturday = (CheckBox) findViewById(R.id.saturday_chck);
-        description = (EditText) findViewById(R.id.description_box);
+        descriptionEdt = (EditText) findViewById(R.id.description_box);
         backBtn = (ImageButton) findViewById(R.id.back_to_main_btn);
+
+        meetDaysCheckboxes.addAll(Arrays.asList(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday));
+
 
 
         Intent intent = getIntent();
@@ -73,7 +101,10 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
 
         if(isEdit == 1){
             //get fields from DB
-            createCourseName.setText("myName");//it works
+
+            courseId = intent.getStringExtra("COURSE_ID");
+            Database<Course> database = new CourseDatabase();
+            database.getItem(courseId, profileCallback);
         }
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -101,20 +132,79 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
+        //Spinner Setup
+        Context context = this;
+        Callback<Category> spinnerCallback = new Callback<Category>() {
+            @Override
+            public void OnFinish(ArrayList<Category> categoryList) {
+                Collections.sort(categoryList, (category, t1) -> category.getName().compareTo(t1.getName()));
+                sortedCategoryList = categoryList;
+                int categoryPosition =0;
+                if(categoryId!=null)
+                    for (Category category:sortedCategoryList)
+                        if(category.getId().equals(categoryId.getId()))
+                            categoryPosition = sortedCategoryList.indexOf(category);
+                ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
+                        (CreateCourse.this,
+                                android.R.layout.simple_list_item_1,
+                                categoryList);
+                categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                categorySpinner.setAdapter(categoriesAdapter);
+                categorySpinner.setSelection(categoryPosition);
+            }
+        };
+        Database<Category> categoryDatabase = new CategoryDatabase();
+        categoryDatabase.getItems(spinnerCallback);
 
 
-        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<String>(CreateCourse.this,
-                android.R.layout.simple_list_item_1,
-                getResources().getStringArray(R.array.categories));
-        categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        categorySpinner.setAdapter(categoriesAdapter);
-
-
+        //Save Button Listener
         createCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createCourseValidation();
+                Category selectedCategory = (Category) categorySpinner.getSelectedItem();
+                String categoryId = selectedCategory.getId();
+                DocumentReference docRefCategory = FirebaseFirestore.getInstance().
+                        collection(DatabaseCollections.CATEGORIES_COLLECTION).
+                        document(categoryId);
+
+                String courseName = createCourseName.getText().toString();
+                double price = Double.parseDouble(String.valueOf(createCoursePrice.getText()));
+                int radioBtnId = difficultyGroup.getCheckedRadioButtonId();
+                RadioButton radioBtn = findViewById(radioBtnId);
+                int difficultyId = difficultyGroup.indexOfChild(radioBtn);
+                String ownerId = Objects.requireNonNull(FirebaseAuth.getInstance()
+                        .getCurrentUser()).getUid();
+                DocumentReference docRefOwner = FirebaseFirestore.getInstance().
+                        collection(DatabaseCollections.USER_COLLECTION).
+                        document(ownerId);
+                //TODO check Date Picker
+                String startDate = startDateTxv.getText().toString();
+                String endDate = endDateTxv.getText().toString();
+                String courseDesc = descriptionEdt.getText().toString();
+
+                try {
+                    Course course = new Course(courseName,docRefCategory,price,difficultyId,
+                                docRefOwner, startDate,endDate, daysChecked, courseDesc, rateCounter,
+                                studentCounter, rating);
+                    CourseDatabase courseDatabase = new CourseDatabase();
+                    if(isEdit == 0)
+                        courseDatabase.insertItem(course);
+                    else
+                        courseDatabase.updateItem(courseId,course);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent;
+                if(isEdit == 0)
+                    intent= new Intent(getApplicationContext(), CourseList.class);
+                else
+                    intent = new Intent(getApplicationContext(), CourseProfile.class);
+                startActivity(intent);
+                finish();
+
+
             }
         });
 
@@ -149,15 +239,15 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
             validCreateCoursePrice = true;
 
         //validate Start Date
-        if(startDate.getText().toString().isEmpty()){
-            startDate.setError(getResources().getString(R.string.start_date_error));
+        if(startDateTxv.getText().toString().isEmpty()){
+            startDateTxv.setError(getResources().getString(R.string.start_date_error));
             //Toast.makeText(getApplicationContext(), R.string.chronology_error, Toast.LENGTH_SHORT).show();
             validCreateCourseDates = false;
         }
         //validate End Date
        else
-           if (endDate.getText().toString().isEmpty()) {
-                endDate.setError(getResources().getString(R.string.end_date_error));
+           if (endDateTxv.getText().toString().isEmpty()) {
+                endDateTxv.setError(getResources().getString(R.string.end_date_error));
                 //Toast.makeText(getApplicationContext(), R.string.chronology_error, Toast.LENGTH_SHORT).show();
                 validCreateCourseDates = false;
             }
@@ -175,7 +265,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
                 validCreateCourseDates = true;
 
             //validate Difficulty
-        if(difficulty.getCheckedRadioButtonId() == -1)
+        if(difficultyGroup.getCheckedRadioButtonId() == -1)
         {
             Toast.makeText(getApplicationContext(), R.string.difficulty_error, Toast.LENGTH_SHORT).show();
             validCreateCourseDifficulty = false;
@@ -184,7 +274,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
         {
             validCreateCourseDifficulty = true;
             // get selected radio button from radioGroup
-            int selectedId = difficulty.getCheckedRadioButtonId();
+            int selectedId = difficultyGroup.getCheckedRadioButtonId();
 
             // find the radiobutton by returned id
 
@@ -229,8 +319,8 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
 
 
         //validate Description
-        if(description.getText().toString().isEmpty()){
-            description.setError(getResources().getString(R.string.description_error));
+        if(descriptionEdt.getText().toString().isEmpty()){
+            descriptionEdt.setError(getResources().getString(R.string.description_error));
             validCreateCourseDescription = false;
         }
         else
@@ -272,7 +362,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            startDate.setText(date);
+            startDateTxv.setText(date);
         }
 
 
@@ -283,10 +373,54 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                endDate.setText(date);
+                endDateTxv.setText(date);
             }
 
 
     }
+
+    private final Callback<Course> profileCallback = new Callback<Course>() {
+        @Override
+        public void OnFinish(ArrayList<Course> arrayList) {
+            Course course = arrayList.get(0);
+            createCourseName.setText(course.getName());
+            createCoursePrice.setText(String.valueOf(course.getPrice()));
+            categoryId = course.getCategoryId();
+
+
+
+            rateCounter = course.getRateCounter();
+            studentCounter = course.getStudentCounter();
+            rating = course.getRating();
+            int difficulty = course.getDifficulty();
+            ((RadioButton)difficultyGroup.getChildAt(difficulty)) .setChecked(true);
+
+
+
+            descriptionEdt.setText(course.getDescription());
+
+            String dateString = SimpleDateFormat.getDateInstance().format(course.getStartDate()) +
+                    " - " + SimpleDateFormat.getDateInstance().format(course.getEndDate());
+//            coursePeriod.setText(dateString);
+
+//            StringBuilder meetingDaysString = new StringBuilder();
+//            for(int day : course.getMeetDays()){
+//                meetingDaysString.append(" ").append(getResources().getStringArray(R.array.meeting_days)[day]);
+//            }
+
+            for(int day : course.getMeetDays()){
+                meetDaysCheckboxes.get(day).setChecked(true);
+            }
+
+//            courseMeetingDays.setText(meetingDaysString.toString());
+
+
+            //TODO fix rating
+//            String finalRatingString = String.valueOf(course.getRateCounter()) ;
+//            finalRatingScore.setText(finalRatingString);
+//            finalRating.setRating(course.getRateCounter());
+        }
+    };
+
 
 }

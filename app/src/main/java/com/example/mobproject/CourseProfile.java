@@ -1,5 +1,7 @@
 package com.example.mobproject;
 
+import static java.lang.Float.*;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +26,7 @@ import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +46,6 @@ public class CourseProfile extends AppCompatActivity {
     private ArrayList<String> items;//-> <Comment>
     private CommentAdapter adapter;
     private String courseID;
-    private final ArrayList <Comment> comments = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +109,7 @@ public class CourseProfile extends AppCompatActivity {
         Intent toEditCourse = new Intent(CourseProfile.this,
                 CreateCourse.class);
         toEditCourse.putExtra("EDIT_COURSE", isEdit);
+        toEditCourse.putExtra("COURSE_ID",courseID);
         startActivity(toEditCourse);
     };
 
@@ -171,15 +175,20 @@ public class CourseProfile extends AppCompatActivity {
             numberOfComments.setText(String.valueOf(courseInfo.getCommentsReferences().size()));
 
             //TODO fix rating
-//            String finalRatingString = String.valueOf(course.getRateCounter()) ;
-//            finalRatingScore.setText(finalRatingString);
-//            finalRating.setRating(course.getRateCounter());
+
+            BigDecimal number = BigDecimal.valueOf(courseInfo.getRating());
+
+            String finalRatingString = String.valueOf(courseInfo.getRating()) ;
+            finalRatingScore.setText(finalRatingString + getString(R.string.ratingOutOf));
+            finalRating.setRating(Float.parseFloat(String.valueOf(number.floatValue())));
+//            Toast.makeText(getApplicationContext(), String.valueOf(course.getRating()), Toast.LENGTH_SHORT).show();
+
         }
     };
 
     private final View.OnClickListener switchToMain = view -> {
-        Intent toMain = new Intent(this, CourseList.class);
-        startActivity(toMain);
+//        Intent toMain = new Intent(this, CourseList.class);
+//        startActivity(toMain);
         finish();
     };
 }

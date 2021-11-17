@@ -38,7 +38,7 @@
         android:text="@string/price_range"
         android:textStyle="bold"
         android:textColor="@color/grey_purple"
-        android:textSize="@dimen/toolbar_title"/>
+        android:textSize="@dimen/filter_field"/>
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/price_range"
@@ -74,7 +74,7 @@
             android:text="@string/category"
             android:textAlignment="textStart"
             android:textColor="@color/grey_purple"
-            android:textSize="@dimen/toolbar_title"
+            android:textSize="@dimen/filter_field"
             android:textStyle="bold" />
 
         <Spinner
@@ -97,7 +97,7 @@
         android:text="@string/difficulty"
         android:textStyle="bold"
         android:textColor="@color/grey_purple"
-        android:textSize="@dimen/toolbar_title"/>
+        android:textSize="@dimen/filter_field"/>
 
     <LinearLayout
         android:id="@+id/filter_difficulty_checkbox"
@@ -115,7 +115,8 @@
             android:buttonTint="@color/secondary_pink"
             android:text="@string/beginner"
             android:textColor="@color/primary_dark_purple"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="@dimen/card_view_enroll"/>
 
         <CheckBox
             android:id="@+id/intermediate_checkbox"
@@ -125,7 +126,8 @@
             android:buttonTint="@color/secondary_pink"
             android:text="@string/intermediate"
             android:textColor="@color/primary_dark_purple"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="@dimen/card_view_enroll"/>
 
         <CheckBox
             android:id="@+id/advanced_checkbox"
@@ -135,7 +137,8 @@
             android:buttonTint="@color/secondary_pink"
             android:text="@string/advanced"
             android:textColor="@color/primary_dark_purple"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="@dimen/card_view_enroll"/>
 
 
     </LinearLayout>
@@ -147,7 +150,7 @@
             android:layout_marginTop="@dimen/padding"
             android:text="@string/open_to_enroll"
             android:textColor="@color/grey_purple"
-            android:textSize="@dimen/toolbar_title"
+            android:textSize="@dimen/filter_field"
             android:textStyle="bold"
             android:theme="@style/mySwitch"
             tools:ignore="UseSwitchCompatOrMaterialXml" />

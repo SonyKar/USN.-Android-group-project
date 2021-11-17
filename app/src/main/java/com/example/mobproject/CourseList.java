@@ -1,5 +1,8 @@
 package com.example.mobproject;
 
+
+import static com.example.mobproject.MenuDrawer.setupDrawerContent;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +17,6 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -32,6 +34,7 @@ import com.example.mobproject.models.Course;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -41,7 +44,9 @@ import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 
-public class CourseList extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class CourseList extends AppCompatActivity
+        //implements OnNavigationItemSelectedListener
+        {
     private DrawerLayout drawer;
     private Switch enrollSwitch;
     private Spinner categoryFilter;
@@ -104,16 +109,22 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+       NavigationView navDrawer = findViewById(R.id.nav_view);
+       setupDrawerContent(navDrawer, getApplicationContext(), drawer);
+
         drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        NavigationView navigationView = findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
     }
+
 
     //generate filter drawer
     private void showFilterDialog() {
@@ -260,50 +271,47 @@ public class CourseList extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
 
-
-
-            case R.id.nav_profile:
-                Toast.makeText(getApplicationContext(), "Profile clicked", Toast.LENGTH_SHORT).show();
-                Intent toProfile = new Intent(this, UserProfile.class);
-                startActivity(toProfile);
-                finish();
-                break;
-            case R.id.nav_courses:
-                Intent toCourseList = new Intent(this, CourseList.class);
-                startActivity(toCourseList);
-                finish();
-                break;
-            case R.id.nav_my_courses:
-                Toast.makeText(getApplicationContext(), "MyCourses clicked", Toast.LENGTH_SHORT).show();
-                /*Intent toMyCourses = new Intent(this, MyCourses.class);
-                startActivity(toMyCourses);
-                finish();*/
-                break;
-            case R.id.nav_fav:
-                Toast.makeText(getApplicationContext(), "Favourites clicked", Toast.LENGTH_SHORT).show();
-               /* Intent toFavourites = new Intent(this, Favourites.class);
-                startActivity(toFavourites);
-                finish();*/
-                break;
-            case R.id.nav_create_course:
-                Intent toCreateCourse = new Intent(this, CreateCourse.class);
-                startActivity(toCreateCourse);
-                finish();
-                break;
-            case R.id.nav_log_out:
-                FirebaseAuth.getInstance().signOut();
-                Intent toLogin = new Intent(this, LoginActivity.class);
-                startActivity(toLogin);
-                finish();
-                break;
-
-        }
-
-        drawer.closeDrawer(GravityCompat.START);
-        return true;//the item was selected
-    }
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        switch(item.getItemId()){
+//
+//          case R.id.nav_profile:
+//               Toast.makeText(getApplicationContext(), "Profile clicked", Toast.LENGTH_SHORT).show();
+//                Intent toProfile = new Intent(this, UserProfile.class);
+//                startActivity(toProfile);
+//
+//                break;
+//            case R.id.nav_courses:
+//                Intent toCourseList = new Intent(this, CourseList.class);
+//                startActivity(toCourseList);
+//                startActivity(toCourseList);
+//                break;
+//            case R.id.nav_my_courses:
+//                Toast.makeText(getApplicationContext(), "MyCourses clicked", Toast.LENGTH_SHORT).show();
+////                Intent toMyCourses = new Intent(this, MyCourses.class);
+////                startActivity(toMyCourses);
+////                finish();
+//                break;
+//            case R.id.nav_fav:
+//                Toast.makeText(getApplicationContext(), "Favourites clicked", Toast.LENGTH_SHORT).show();
+////                Intent toFavourites = new Intent(this, Favourites.class);
+////                startActivity(toFavourites);
+////                finish();
+//                break;
+//            case R.id.nav_create_course:
+//                Intent toCreateCourse = new Intent(this, CreateCourse.class);
+//                startActivity(toCreateCourse);
+//                break;
+//            case R.id.nav_log_out:
+//                FirebaseAuth.getInstance().signOut();
+//                Intent toLogin = new Intent(this, LoginActivity.class);
+//                startActivity(toLogin);
+//                break;
+//
+//        }
+//
+//        drawer.closeDrawer(GravityCompat.START);
+//        return true;//the item was selected*/
+//    }
 }

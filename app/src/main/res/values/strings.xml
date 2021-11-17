@@ -146,5 +146,6 @@
 
 <!-- Currencies -->
     <string name="dollars">$</string>
+    <string name="Favourites">Favourites</string>
 
 </resources>

@@ -124,7 +124,8 @@ public class RegisterActivity extends AppCompatActivity {
                             user = new User(fName+" "+lName, email, userType);
                             UserInfo userInfo = new UserInfo(this);
                             userInfo.setUserId(auth.getUid());
-                            docRef.set(user).addOnFailureListener(e -> Log.d("addUserData","onFailure: "+e.toString()));
+                            docRef.set(user).addOnFailureListener(e -> Log.d("addUserData",
+                                    "onFailure: "+e.toString()));
 
                             switchToMessagePage();
                         } else {

@@ -1,12 +1,10 @@
 package com.example.mobproject.models;
 
-import android.util.Log;
-
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -21,11 +19,37 @@ public class Course {
     private boolean openEnroll;
     private Date startDate;
     private Date endDate;
-    private float rateCounter;
+    private int rateCounter;
     private int studentCounter;
     private List<Integer> meetDays = new ArrayList<>();
     private String description;
     private List<DocumentReference> commentsReferences = new ArrayList<>();
+
+    //Create new course
+    public Course(String name, DocumentReference categoryId, double price,
+                  int difficulty, DocumentReference ownerId, String startDate, String endDate,
+                  ArrayList<Integer> meetDays, String description, int rateCounter,
+                  int studentCounter, double rating) throws ParseException {
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        this.name = name;
+        this.categoryId = categoryId;
+        this.price = price;
+        this.difficulty = difficulty;
+        this.ownerId = ownerId;
+        this.startDate = formatter.parse(startDate);
+        this.endDate = formatter.parse(endDate);
+        for (int i: meetDays) {
+            this.meetDays.add(i);
+        }
+        this.description = description;
+        this.openEnroll = true;
+        this.rating = rating;
+        this.studentCounter = studentCounter;
+        this.rateCounter = rateCounter;
+    }
 
     public Course(String id) {
         this.id = id;
@@ -78,7 +102,7 @@ public class Course {
         return endDate;
     }
 
-    public float getRateCounter() {
+    public int getRateCounter() {
         return rateCounter;
     }
 

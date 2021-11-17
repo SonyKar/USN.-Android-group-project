@@ -1,16 +1,14 @@
 package com.example.mobproject;
 
-import static androidx.core.content.ContextCompat.getColor;
 import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,14 +25,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
+public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder>{
 
     private final LayoutInflater layoutInflater;
     private final ArrayList<Course> data;//change to List<Course>
     private final String[] difficulties;
 
-
-    CourseAdapter(Context context, ArrayList<Course> data){
+    FavAdapter(Context context, ArrayList<Course> data){
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
@@ -42,13 +39,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.card_view, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavAdapter.ViewHolder holder, int position) {
 
         //bind the textview with data received
 
@@ -82,7 +79,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         String currency = format.format(data.get(position).getPrice());
         holder.coursePrice.setText(currency);
 
-        //TODO set enroll false after start
         // TODO to set all the hardcoded values to a variable
         boolean enroll = data.get(position).isOpenEnroll();
         holder.courseEnroll.setText(enroll ? "Open to enroll" : "Close to enroll");
@@ -101,8 +97,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+    public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener{
         TextView courseTitle, courseDifficulty, courseFinalScore, coursePeriod, coursePrice, courseEnroll;
         ImageView courseImage;
         ImageButton addToFav;
@@ -135,7 +130,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 {
                     addedToFav = 0;
                     addToFav.setImageResource(R.drawable.ic_favourite_black);
-                 }
+                }
             });
 
             itemView.setOnClickListener(this);
@@ -148,5 +143,4 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             startActivity(view.getContext() , toCourseProfile, new Bundle());
         }
     }
-
 }
