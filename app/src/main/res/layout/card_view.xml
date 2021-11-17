@@ -118,21 +118,20 @@
                         android:layout_weight="0.3"
                         android:text="$ 500"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/card_view_enroll"/>
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/card_view_enroll"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:gravity="end"
                         android:layout_weight="0.5"
+                        android:gravity="end"
                         android:text="@string/cannot_enroll"
                         android:textColor="@color/advanced_red"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/card_view_enroll"
-                        />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <ImageButton
                         android:id="@+id/add_to_fav_cardview"
@@ -141,10 +140,9 @@
                         android:layout_gravity="bottom"
                         android:layout_weight="0.2"
                         android:backgroundTint="@color/transparent_grey"
-                        app:srcCompat="@drawable/ic_favourite_black"
-                        android:paddingBottom="1dp"
                         android:paddingTop="1dp"
-                        />
+                        android:paddingBottom="1dp"
+                        app:srcCompat="@drawable/ic_favourite_black" />
                 </LinearLayout>
 
             </RelativeLayout>
