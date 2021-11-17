@@ -116,22 +116,14 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder>{
 
 
 
-            //activate addToFav button
+            addToFav.setImageResource(R.drawable.ic_favourite_red);
+
 //            addedToFav = 0;
-//            addToFav.setOnClickListener(view -> {
-//
-//                //check for addedToFav for each Course from DB
-//                if(addedToFav == 0)//it is not a favourite Course
-//                {
-//                    addedToFav = 1;
-//                    addToFav.setImageResource(R.drawable.ic_favourite_red);
-//                }
-//                else //it is already a favourite (addedToFav == 1)
-//                {
-//                    addedToFav = 0;
-//                    addToFav.setImageResource(R.drawable.ic_favourite_black);
-//                }
-//            });
+            addToFav.setOnClickListener(view -> {
+
+                    addToFav.setImageResource(R.drawable.ic_favourite_black);
+                    //TODO delete course from myFavourites DB
+            });
 
             itemView.setOnClickListener(this);
         }
