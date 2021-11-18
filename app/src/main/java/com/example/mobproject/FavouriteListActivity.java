@@ -47,7 +47,6 @@ public class FavouriteListActivity extends AppCompatActivity {
         Callback<DocumentReference> recyclerViewCallback = new Callback<DocumentReference>() {
             @Override
             public void OnFinish(ArrayList<DocumentReference> favouriteReferences) {
-                Log.d("faves", "fillCourses" + Arrays.toString(favouriteReferences.toArray()));
                 ArrayList<Course> favouriteCourseList = new ArrayList<>();
                 CourseDatabase courseDatabase = new CourseDatabase();
                 Callback<Course> courseCallback = new Callback<Course>() {
@@ -60,13 +59,11 @@ public class FavouriteListActivity extends AppCompatActivity {
                             FavouriteListAdapter adapter = new FavouriteListAdapter(context, favouriteCourseList, userId);
                             favListRecyclerView.setAdapter(adapter);
                         }
-                        Log.d("faves", "retrieved"+String.valueOf(arrayList.get(0)));
                     }
                 };
 
                 for(DocumentReference courseRef:favouriteReferences){
                     courseDatabase.getItem(courseRef.getId(), courseCallback);
-                    Log.d("faves","getting courses" );
                 }
             }
         };

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.CoursePageActivity;
 import com.example.mobproject.R;
+import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.db.FavouriteCoursesDatabase;
+import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
+import com.example.mobproject.models.Favourites;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Document;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -29,14 +38,21 @@ import java.util.Locale;
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
     private final LayoutInflater layoutInflater;
-    private final ArrayList<Course> data;//change to List<Course>
+    private final ArrayList<Course> data;
+    private final ArrayList<DocumentReference> favouriteReferences;
     private final String[] difficulties;
+    private final String userId;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-    public CourseAdapter(Context context, ArrayList<Course> data){
+    public CourseAdapter(Context context, ArrayList<Course> data, ArrayList<DocumentReference> favouriteReferences, String userId){
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
+        this.userId = userId;
+        this.favouriteReferences = favouriteReferences;
+        Log.d("favourites", String.valueOf(favouriteReferences));
+
     }
 
     @NonNull
@@ -90,6 +106,28 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 Color.parseColor("#22E865") :
                 Color.parseColor("#F61616"));
 
+        if (isFavourite(data.get(position).getId())) {
+            holder.addToFav.setImageResource(R.drawable.ic_favourite_red);
+        } else {
+            holder.addToFav.setImageResource(R.drawable.ic_favourite_black);
+        }
+        FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
+
+        String courseId = data.get(position).getId();
+        DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION)
+                .document(courseId);
+        holder.addToFav.setOnClickListener(view -> {
+            if (!isFavourite(courseId)) {
+                holder.addToFav.setImageResource(R.drawable.ic_favourite_red);
+                favouriteDatabase.insertItem(userId,courseId);
+                favouriteReferences.add(courseRef);
+            } else {
+                holder.addToFav.setImageResource(R.drawable.ic_favourite_black);
+                favouriteDatabase.removeItem(userId,courseId);
+                favouriteReferences.remove(courseRef);
+            }
+        });
+
         /*ImageView image = data.get(position);//get from DB
         holder.courseImage.setImageResource(image);*/
 
@@ -105,7 +143,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         TextView courseTitle, courseDifficulty, courseFinalScore, coursePeriod, coursePrice, courseEnroll;
         ImageView courseImage;
         ImageButton addToFav;
-        Integer addedToFav;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -120,22 +158,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
 
 
-            //activate addToFav button
-            addedToFav = 0;
-            addToFav.setOnClickListener(view -> {
 
-                //check for addedToFav for each Course from DB
-                if(addedToFav == 0)//it is not a favourite Course
-                {
-                    addedToFav = 1;
-                    addToFav.setImageResource(R.drawable.ic_favourite_red);
-                }
-                else //it is already a favourite (addedToFav == 1)
-                {
-                    addedToFav = 0;
-                    addToFav.setImageResource(R.drawable.ic_favourite_black);
-                 }
-            });
+
+
+//
 
             itemView.setOnClickListener(this);
         }
@@ -148,4 +174,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         }
     }
 
+    public boolean isFavourite(String courseID) {
+        DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION)
+                .document(courseID);
+        for(DocumentReference docRef : favouriteReferences)
+            if(courseRef.equals(docRef))
+                return true;
+
+        return false;
+    }
 }

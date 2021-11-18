@@ -14,14 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.adapters.CommentAdapter;
+import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.CourseController;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
+import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -33,10 +37,13 @@ public class CoursePageActivity extends AppCompatActivity {
     private RatingBar finalRating;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
     courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView;
-    private int addedToFav ;
     private FloatingActionButton addToFav;
-    private String courseID;
+    private String courseId;
     private Course courseInfo;
+    private UserInfo userInfo;
+    private String userId;
+    private boolean isFavourite = false;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +67,8 @@ public class CoursePageActivity extends AppCompatActivity {
         numberOfComments = findViewById(R.id.no_comments);
         Button postCommentButton = findViewById(R.id.post_btn);
         commentTextView = findViewById(R.id.comment_input);
+        userInfo = new UserInfo(this);
+        userId = userInfo.getUserId();
 
         backToMain.setOnClickListener(switchToMain);
         addToFav.setOnClickListener(onFavouriteHandler);
@@ -69,11 +78,11 @@ public class CoursePageActivity extends AppCompatActivity {
 
         // get course ID
         Intent intent = getIntent();
-        courseID = intent.getStringExtra(Intents.COURSE_ID);
+        courseId = intent.getStringExtra(Intents.COURSE_ID);
 
         // set values for all fields
         Database<Course> database = new CourseDatabase();
-        database.getItem(courseID, initValuesCallback);
+        database.getItem(courseId, initValuesCallback);
 
         //check course availability - open to enroll?
         //if user is already enrolled or currentDate > startDate
@@ -84,17 +93,47 @@ public class CoursePageActivity extends AppCompatActivity {
         String userTypeString = userInfo.getUserType();
         if (userTypeString.equals("0"))
             editCourse.setVisibility(View.GONE);
+
+        initFavouriteButton();
+    }
+
+    private void initFavouriteButton() {
+        FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
+        DocumentReference courseReference = db.collection(DatabaseCollections.COURSES_COLLECTION)
+                .document(courseId);
+
+        final Callback<DocumentReference> favouriteCallback = new Callback<DocumentReference>() {
+            @Override
+            public void OnFinish(ArrayList<DocumentReference> favouriteReferences) {
+                for (DocumentReference docRef : favouriteReferences)
+                    if (courseReference.equals(docRef)) {
+                        isFavourite = true;
+                        break;
+                    }
+
+                if (isFavourite) {
+                    addToFav.setImageResource(R.drawable.ic_favourite_red);
+//                    favouriteDatabase.insertItem(userId,courseId);
+                }
+                else {
+                    addToFav.setImageResource(R.drawable.ic_favourite_purple);
+//                    favouriteDatabase.removeItem(userId,courseId);
+                }
+            }
+        };
+
+        favouriteDatabase.getItems(userId, favouriteCallback);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Intent intent = getIntent();
-        courseID = intent.getStringExtra(Intents.COURSE_ID);
+        courseId = intent.getStringExtra(Intents.COURSE_ID);
 
         // set values for all fields
         Database<Course> database = new CourseDatabase();
-        database.getItem(courseID, initValuesCallback);
+        database.getItem(courseId, initValuesCallback);
 
     }
 
@@ -114,22 +153,21 @@ public class CoursePageActivity extends AppCompatActivity {
         Intent toEditCourse = new Intent(CoursePageActivity.this,
                 CreateCourseActivity.class);
         toEditCourse.putExtra("EDIT_COURSE", isEdit);
-        toEditCourse.putExtra("COURSE_ID",courseID);
+        toEditCourse.putExtra("COURSE_ID", courseId);
         startActivity(toEditCourse);
     };
 
     private final View.OnClickListener onFavouriteHandler = view -> {
-        //get addedToFav from DB (is already in Favourites?)
-        if(addedToFav == 0){
-            addedToFav = 1;//add to Favourites
-            addToFav.setImageResource(R.drawable.ic_favourite_purple);
+        FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
+        if (isFavourite) {
+            addToFav.setImageResource(R.drawable.ic_favourite_red);
+            favouriteDatabase.insertItem(userId,courseId);
         }
         else {
-            //is already in Favourites => delete from Favourites
-            addedToFav = 0;
-            addToFav.setImageResource(R.drawable.ic_favourite_red);
+            addToFav.setImageResource(R.drawable.ic_favourite_purple);
+            favouriteDatabase.removeItem(userId,courseId);
         }
-
+        isFavourite = !isFavourite;
     };
 
     private final Callback<Course> initValuesCallback = new Callback<Course>() {

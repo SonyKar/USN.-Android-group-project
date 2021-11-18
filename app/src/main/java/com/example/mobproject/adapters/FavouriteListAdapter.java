@@ -106,7 +106,6 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         TextView courseTitle, courseDifficulty, courseFinalScore, coursePeriod, coursePrice, courseEnroll;
         ImageView courseImage;
         ImageButton addToFav;
-        Integer addedToFav;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,18 +118,13 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
             courseImage = itemView.findViewById(R.id.course_img);
             addToFav = itemView.findViewById(R.id.add_to_fav_cardview);
 
-
-
             addToFav.setImageResource(R.drawable.ic_favourite_red);
 
-//            addedToFav = 0;
             addToFav.setOnClickListener(view -> {
-
-                    addToFav.setImageResource(R.drawable.ic_favourite_black);
-                    FavouriteCoursesDatabase favouritesDB = new FavouriteCoursesDatabase();
-                    favouritesDB.removeItem(userId, Integer.parseInt(data.get(getAdapterPosition()).getId()));
-
-
+                addToFav.setImageResource(R.drawable.ic_favourite_black);
+                FavouriteCoursesDatabase favouritesDB = new FavouriteCoursesDatabase();
+                favouritesDB.removeItem(userId, data.get(getAdapterPosition()).getId());
+                itemView.setVisibility(View.GONE);
             });
 
             itemView.setOnClickListener(this);

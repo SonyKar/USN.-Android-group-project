@@ -35,6 +35,7 @@ public class EnrolledCoursesDatabase extends  Database<Course> {
                 tmp.setId(document.getId());
                 coursesList.add(tmp);
             }
+
             callback.OnFinish(coursesList);
         });
     }

@@ -290,7 +290,6 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
             daysChecked.add(checkedID);
         }
 
-        Log.d("dayschecked", Arrays.toString(daysChecked.toArray()));
         if(daysChecked.size() > 0)
             validCreateCourseDays = true;
         else {

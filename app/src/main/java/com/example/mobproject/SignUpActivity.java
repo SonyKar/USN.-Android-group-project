@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.UserInfo;
+import com.example.mobproject.models.Favourites;
 import com.example.mobproject.models.User;
 import com.example.mobproject.validations.Validator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -128,6 +129,10 @@ public class SignUpActivity extends AppCompatActivity {
                             docRef.set(user).addOnFailureListener(e -> Log.d("addUserData",
                                     "onFailure: "+e.toString()));
 
+                            Favourites favourites = new Favourites(userId, null);
+                            FirebaseFirestore.getInstance()
+                                    .collection(DatabaseCollections.FAVOURITES_COLLECTION)
+                                    .document(userId).set(favourites);
                             switchToMessagePage();
                         } else {
                             // If sign up fails, display a message to the user.

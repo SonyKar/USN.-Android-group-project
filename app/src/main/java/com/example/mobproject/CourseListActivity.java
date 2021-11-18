@@ -1,8 +1,14 @@
 package com.example.mobproject;
 
+
+import static com.example.mobproject.navigation.MenuDrawer.setupDrawerContent;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -10,19 +16,28 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.adapters.CourseAdapter;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
+import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.example.mobproject.navigation.MenuDrawer;
+import com.example.mobproject.navigation.MenuDrawer;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.RangeSlider;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -36,16 +51,26 @@ public class CourseListActivity extends AppCompatActivity {
     private final ArrayList<Integer> difficultyChecked = new ArrayList<>();
     private CheckBox Beginner, Intermediate, Advanced;
     private RangeSlider priceRange;
+    private SharedPreferences sharedPref;
+    private String userId;
 
+    @SuppressLint("ResourceAsColor")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_list);
 
         MenuDrawer.actionBarInit(this);
+        UserInfo userInfo = new UserInfo(this);
+        userId = userInfo.getUserId();
+        Log.d("prefCheck", userInfo.getUserType());
+//        sharedPref = getApplicationContext().getSharedPreferences("com.example.mobproject", Context.MODE_PRIVATE);
+//        Log.d("prefCheck", sharedPref.getString("userType","NoIdFound"));
+        MenuDrawer.actionBarInit(this);
         sortBarInit();
 
         /*View v = sortingCategory.getSelectedView();
         ((TextView)v).setTextColor(Integer.parseInt("4E0D3A"));*/
+
 
         FloatingActionButton filterBtn = findViewById(R.id.filter_fab);
         filterBtn.setOnClickListener(view -> showFilterDialog());
@@ -61,11 +86,17 @@ public class CourseListActivity extends AppCompatActivity {
         Context context = this;
         Callback<Course> recyclerViewCallback = new Callback<Course>() {
             @Override
-            public void OnFinish(ArrayList<Course> arrayList) {
+            public void OnFinish(ArrayList<Course> coursesList) {
                 RecyclerView courseListRecyclerView = findViewById(R.id.course_list);
                 courseListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                CourseAdapter adapter = new CourseAdapter(context, arrayList);
-                courseListRecyclerView.setAdapter(adapter);
+                FavouriteCoursesDatabase favouriteCoursesDatabase = new FavouriteCoursesDatabase();
+                favouriteCoursesDatabase.getItems(userId, new Callback<DocumentReference>() {
+                    @Override
+                    public void OnFinish(ArrayList<DocumentReference> arrayList) {
+                        CourseAdapter adapter = new CourseAdapter(context, coursesList, arrayList, userId);
+                        courseListRecyclerView.setAdapter(adapter);
+                    }
+                });
             }
         };
 
