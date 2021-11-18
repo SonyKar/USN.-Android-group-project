@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fav_drawer_layout"
+    android:id="@+id/drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     >
@@ -23,7 +23,7 @@
             app:title="@string/Favourites"
             android:minHeight="?attr/actionBarSize"
             android:paddingBottom="5dp"
-            android:id="@+id/fav_toolbar"
+            android:id="@+id/toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 

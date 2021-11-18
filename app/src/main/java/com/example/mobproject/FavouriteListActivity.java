@@ -20,6 +20,7 @@ import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
+import com.example.mobproject.navigation.MenuDrawer;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -28,40 +29,16 @@ import java.util.Arrays;
 
 
 public class FavouriteListActivity extends AppCompatActivity {
-
-    private DrawerLayout drawer;
     private UserInfo userInfo;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favourite_list);
         userInfo = new UserInfo(this);
 
-        drawer = findViewById(R.id.fav_drawer_layout);
-
         fillCourses();
 
-        actionBarInit();
-    }
-
-    private void actionBarInit() {
-        Toolbar toolbar = findViewById(R.id.fav_toolbar);
-        setSupportActionBar(toolbar);
-
-
-        NavigationView navDrawer = findViewById(R.id.nav_view);
-        setupDrawerContent(navDrawer, getApplicationContext(), drawer);
-
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                drawer, toolbar, R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
+        MenuDrawer.actionBarInit(this);
     }
 
     private void fillCourses() {
@@ -100,12 +77,7 @@ public class FavouriteListActivity extends AppCompatActivity {
 
 
     public void onBackPressed(){
-        if(drawer.isDrawerOpen(GravityCompat.START)){
-            drawer.closeDrawer(GravityCompat.START);
-        } else{
-            super.onBackPressed();
-        }
-
+        MenuDrawer.onBackHandler();
     }
 
 }
