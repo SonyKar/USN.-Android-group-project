@@ -374,6 +374,9 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
             studentCounter = course.getStudentCounter();
             rating = course.getRating();
             comments = course.getCommentsReferences();
+            if (comments == null)
+                comments = new ArrayList<>();
+
             int difficulty = course.getDifficulty();
             ((RadioButton)difficultyGroup.getChildAt(difficulty)) .setChecked(true);
             startDate = course.getStartDate();

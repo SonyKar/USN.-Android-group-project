@@ -120,11 +120,12 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
 
             addToFav.setImageResource(R.drawable.ic_favourite_red);
 
+            //TODO make the other courses lift up after removal
             addToFav.setOnClickListener(view -> {
                 addToFav.setImageResource(R.drawable.ic_favourite_black);
                 FavouriteCoursesDatabase favouritesDB = new FavouriteCoursesDatabase();
                 favouritesDB.removeItem(userId, data.get(getAdapterPosition()).getId());
-                itemView.setVisibility(View.GONE);
+//                itemView.setVisibility(View.GONE);
             });
 
             itemView.setOnClickListener(this);

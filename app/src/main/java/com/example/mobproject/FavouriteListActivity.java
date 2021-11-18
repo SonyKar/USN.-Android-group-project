@@ -36,9 +36,13 @@ public class FavouriteListActivity extends AppCompatActivity {
         setContentView(R.layout.favourite_list);
         userInfo = new UserInfo(this);
 
-        fillCourses();
-
         MenuDrawer.actionBarInit(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fillCourses();
     }
 
     private void fillCourses() {
