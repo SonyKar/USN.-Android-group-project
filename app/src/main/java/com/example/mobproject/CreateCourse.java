@@ -71,6 +71,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
     int rateCounter=0;
     int studentCounter=0;
     double rating=0;
+    private List <DocumentReference> comments;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +128,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
 
         });
 
+        //TODO iar nu mere
         //Spinner Setup
         Context context = this;
         Callback<Category> spinnerCallback = new Callback<Category>() {
@@ -178,7 +180,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
             try {
                 Course course = new Course(courseName, docRefCategory, price, difficultyId,
                             docRefOwner, startDate, endDate, daysChecked, courseDesc, rateCounter,
-                            studentCounter, rating);
+                            studentCounter, rating, comments);
                 CourseDatabase courseDatabase = new CourseDatabase();
                 if(isEdit == 0)
                     courseDatabase.insertItem(course);
@@ -377,6 +379,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
             rateCounter = course.getRateCounter();
             studentCounter = course.getStudentCounter();
             rating = course.getRating();
+            comments = course.getCommentsReferences();
             int difficulty = course.getDifficulty();
             ((RadioButton)difficultyGroup.getChildAt(difficulty)) .setChecked(true);
             startDate = course.getStartDate();

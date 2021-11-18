@@ -2,6 +2,8 @@ package com.example.mobproject.models;
 
 import com.google.firebase.firestore.DocumentReference;
 
+import org.w3c.dom.Document;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class Course {
     public Course(String name, DocumentReference categoryId, double price,
                   int difficulty, DocumentReference ownerId, String startDate, String endDate,
                   List<Integer> meetDays, String description, int rateCounter,
-                  int studentCounter, double rating) throws ParseException {
+                  int studentCounter, double rating, List<DocumentReference> commentsReferences) throws ParseException {
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -44,6 +46,8 @@ public class Course {
         for (int i: meetDays) {
             this.meetDays.add(i);
         }
+        for(DocumentReference reference:commentsReferences)
+            this.commentsReferences.add(reference);
         this.description = description;
         this.openEnroll = true;
         this.rating = rating;
