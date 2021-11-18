@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -129,7 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
                             docRef.set(user).addOnFailureListener(e -> Log.d("addUserData",
                                     "onFailure: "+e.toString()));
 
-                            Favourites favourites = new Favourites(userId, null);
+                            Favourites favourites = new Favourites(userId, new ArrayList<DocumentReference>());
                             FirebaseFirestore.getInstance()
                                     .collection(DatabaseCollections.FAVOURITES_COLLECTION)
                                     .document(userId).set(favourites);
