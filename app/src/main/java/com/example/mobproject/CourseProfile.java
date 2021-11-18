@@ -80,6 +80,18 @@ public class CourseProfile extends AppCompatActivity {
         //enrollMe.setEnabled(false);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = getIntent();
+        courseID = intent.getStringExtra(Intents.COURSE_ID);
+
+        // set values for all fields
+        Database<Course> database = new CourseDatabase();
+        database.getItem(courseID, profileCallback);
+
+    }
+
     private final RatingBar.OnRatingBarChangeListener onVoteHandler = (ratingBar, givenScore, b) -> {
         int rating = (int) givenScore; // to be sent
         String ratingText = rating + this.getString(R.string.ratingOutOf);

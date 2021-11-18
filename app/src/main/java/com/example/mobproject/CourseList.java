@@ -24,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.constants.Intents;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.interfaces.Callback;
@@ -62,11 +63,18 @@ public class CourseList extends AppCompatActivity { //implements OnNavigationIte
         /*View v = sortingCategory.getSelectedView();
         ((TextView)v).setTextColor(Integer.parseInt("4E0D3A"));*/
 
-        fillCourses();
 
         FloatingActionButton filterBtn = findViewById(R.id.filter_fab);
         filterBtn.setOnClickListener(view -> showFilterDialog());
     }
+    //TODO Override onStart to refresh CourseList after edit
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fillCourses();
+    }
+
+
 
     private void fillCourses() {
         Context context = this;
