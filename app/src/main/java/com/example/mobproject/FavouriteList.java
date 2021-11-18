@@ -4,6 +4,7 @@ import static com.example.mobproject.MenuDrawer.setupDrawerContent;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,20 +16,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
+import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
+import com.example.mobproject.models.User;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class FavouriteList extends AppCompatActivity {
 
     private DrawerLayout drawer;
+    private UserInfo userInfo;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favourite_list);
+        userInfo = new UserInfo(this);
 
         drawer = findViewById(R.id.fav_drawer_layout);
 
@@ -58,18 +68,36 @@ public class FavouriteList extends AppCompatActivity {
 
     private void fillCourses() {
         Context context = this;
-        Callback<Course> recyclerViewCallback = new Callback<Course>() {
+        String userId = userInfo.getUserId();
+        Callback<DocumentReference> recyclerViewCallback = new Callback<DocumentReference>() {
             @Override
-            public void OnFinish(ArrayList<Course> arrayList) {
-                RecyclerView favListRecyclerView = findViewById(R.id.fav_list);
-                favListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                FavAdapter adapter = new FavAdapter(context, arrayList);
-                favListRecyclerView.setAdapter(adapter);
+            public void OnFinish(ArrayList<DocumentReference> favouriteReferences) {
+                Log.d("faves", "fillCourses" + Arrays.toString(favouriteReferences.toArray()));
+                ArrayList<Course> favouriteCourseList = new ArrayList<>();
+                CourseDatabase courseDatabase = new CourseDatabase();
+                Callback<Course> courseCallback = new Callback<Course>() {
+                    @Override
+                    public void OnFinish(ArrayList<Course> arrayList) {
+                        favouriteCourseList.add(arrayList.get(0));
+                        if (favouriteCourseList.size() == favouriteReferences.size()) {
+                            RecyclerView favListRecyclerView = findViewById(R.id.fav_list);
+                            favListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                            FavAdapter adapter = new FavAdapter(context, favouriteCourseList, userId);
+                            favListRecyclerView.setAdapter(adapter);
+                        }
+                        Log.d("faves", "retrieved"+String.valueOf(arrayList.get(0)));
+                    }
+                };
+
+                for(DocumentReference courseRef:favouriteReferences){
+                    courseDatabase.getItem(courseRef.getId(), courseCallback);
+                    Log.d("faves","getting courses" );
+                }
             }
         };
 
-        Database<Course> database = new CourseDatabase();
-        database.getItems(recyclerViewCallback);
+        FavouriteCoursesDatabase database = new FavouriteCoursesDatabase();
+        database.getItems(userId, recyclerViewCallback);
     }
 
 

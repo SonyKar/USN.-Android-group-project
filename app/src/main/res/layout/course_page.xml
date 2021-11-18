@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/math_course" />
+                        android:src="@drawable/artificial_intelligence_background" />
 
                     <ImageButton
                         android:id="@+id/back_btn"

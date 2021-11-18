@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="title">35sp</dimen>
-    <dimen name="field">17sp</dimen>
+    <dimen name="field">15sp</dimen>
     <dimen name="button">165dp</dimen>
     <dimen name="padding">25dp</dimen>
     <dimen name="margin_field">20dp</dimen>
@@ -33,4 +33,5 @@
     <dimen name="card_view_enroll">13sp</dimen>
     <dimen name="card_view_shadow">10dp</dimen>
     <dimen name="filter_field">17sp</dimen>
+    <dimen name="create_course_difficulty">12sp</dimen>
 </resources>

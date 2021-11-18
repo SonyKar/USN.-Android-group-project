@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/math_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -280,6 +280,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:text="@string/beginner"
+                android:textSize="@dimen/create_course_difficulty"
 
                 />
 
@@ -288,14 +289,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:text="@string/intermediate" />
+                android:text="@string/intermediate"
+                android:textSize="@dimen/create_course_difficulty"/>
 
             <RadioButton
                 android:id="@+id/advanced_rad"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:text="@string/advanced" />
+                android:text="@string/advanced"
+                android:textSize="@dimen/create_course_difficulty"/>
 
         </RadioGroup>
 

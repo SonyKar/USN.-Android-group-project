@@ -2,11 +2,16 @@ package com.example.mobproject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
+import android.view.Menu;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.mobproject.constants.Other;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -19,6 +24,14 @@ public class MenuDrawer {
         final int FAVOURITES_COURSES = R.id.nav_fav;
         final int CREATE_COURSE = R.id.nav_create_course;
         final int LOG_OUT = R.id.nav_log_out;
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Other.sharedPrefFile, Context.MODE_PRIVATE);
+
+        Log.d("check menu drawer", sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA));
+        if (sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA).equals("0"))
+
+        navigationView.getMenu().findItem(R.id.nav_create_course).setVisible(false);
+
 
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {

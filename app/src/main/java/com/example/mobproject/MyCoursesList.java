@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
+import com.example.mobproject.db.EnrolledCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.google.android.material.navigation.NavigationView;
@@ -31,7 +32,7 @@ public class MyCoursesList extends AppCompatActivity {
 
         drawer = findViewById(R.id.my_courses_drawer_layout);
 
-        fillCourses();
+        //fillCourses();
 
         actionBarInit();
     }
@@ -67,7 +68,7 @@ public class MyCoursesList extends AppCompatActivity {
             }
         };
 
-        Database<Course> database = new CourseDatabase();
+        Database<Course> database = new EnrolledCoursesDatabase();
         database.getItems(recyclerViewCallback);
     }
 

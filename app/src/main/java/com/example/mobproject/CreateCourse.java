@@ -401,8 +401,6 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
             }
 
 
-
-
             //TODO fix rating
 //            String finalRatingString = String.valueOf(course.getRateCounter()) ;
 //            finalRatingScore.setText(finalRatingString);

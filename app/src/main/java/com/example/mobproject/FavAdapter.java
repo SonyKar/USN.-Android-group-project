@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.db.Database;
+import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.models.Course;
 
 import java.text.NumberFormat;
@@ -28,13 +30,15 @@ import java.util.Locale;
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder>{
 
     private final LayoutInflater layoutInflater;
-    private final ArrayList<Course> data;//change to List<Course>
+    private final ArrayList<Course> data;
     private final String[] difficulties;
+    private final String userId;
 
-    FavAdapter(Context context, ArrayList<Course> data){
+    FavAdapter(Context context, ArrayList<Course> data, String userId){
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
+        this.userId = userId;
     }
 
     @NonNull
@@ -122,7 +126,10 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder>{
             addToFav.setOnClickListener(view -> {
 
                     addToFav.setImageResource(R.drawable.ic_favourite_black);
-                    //TODO delete course from myFavourites DB
+                    FavouriteCoursesDatabase favouritesDB = new FavouriteCoursesDatabase();
+                    favouritesDB.removeItem(userId, Integer.parseInt(data.get(getAdapterPosition()).getId()));
+
+
             });
 
             itemView.setOnClickListener(this);
