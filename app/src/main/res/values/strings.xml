@@ -87,7 +87,7 @@
     <string name="end_date_error">Select end date!</string>
     <string name="price_error">Insert price!</string>
     <string name="chronology_error">Choose correct dates!</string>
-    <string name="course_created_mess">Course created!</string>
+    <string name="course_created_mess">Course saved!</string>
     <string name="difficulty_error">Select difficulty!</string>
     <string name="days_error">Select course days!</string>
     <string name="description_error">Add description!</string>

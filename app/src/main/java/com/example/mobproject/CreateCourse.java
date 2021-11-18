@@ -41,10 +41,11 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class CreateCourse extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class CreateCourse extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
 
     private TextView startDateTxv, endDateTxv;
@@ -55,9 +56,10 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
     private ImageButton startDateBtn, endDateBtn, backBtn;
     private Integer StartEndContor, checkedID;
     private String isEditString;
-    private ArrayList<Integer> daysChecked = new ArrayList<Integer>();
+    private List<Integer> daysChecked = new ArrayList<Integer>();
     private Button createCourse;
     private Date date1, date2;
+    private Date startDate, endDate;
     private RadioGroup difficultyGroup;
     private RadioButton selectedDifficulty;
     private CheckBox Monday, Tuesday, Wednesday, Thursday, Friday, Saturday;
@@ -93,8 +95,8 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
         backBtn = (ImageButton) findViewById(R.id.back_to_main_btn);
 
         meetDaysCheckboxes.addAll(Arrays.asList(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday));
-
-
+        DatePicker asd = new DatePicker(this);
+        asd.init(2020, 11, 11, null);
 
         Intent intent = getIntent();
         isEdit = intent.getIntExtra("EDIT_COURSE", 0);
@@ -104,32 +106,25 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
 
             courseId = intent.getStringExtra("COURSE_ID");
             Database<Course> database = new CourseDatabase();
-            database.getItem(courseId, profileCallback);
+            if(courseId!=null)
+                database.getItem(courseId, profileCallback);
+
+
+
         }
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backToMain();
-            }
+        backBtn.setOnClickListener(view -> backToMain());
+
+
+        startDateBtn.setOnClickListener(view -> {
+            StartEndContor = 1;
+            showDatePickerDialog();
         });
 
+        endDateBtn.setOnClickListener(view -> {
+            StartEndContor = 2;
+            showDatePickerDialog();
 
-        startDateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                StartEndContor = 1;
-                showDatePickerDialog();
-            }
-        });
-
-        endDateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                StartEndContor = 2;
-                showDatePickerDialog();
-
-            }
         });
 
         //Spinner Setup
@@ -158,54 +153,42 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
 
 
         //Save Button Listener
-        createCourse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createCourseValidation();
-                Category selectedCategory = (Category) categorySpinner.getSelectedItem();
-                String categoryId = selectedCategory.getId();
-                DocumentReference docRefCategory = FirebaseFirestore.getInstance().
-                        collection(DatabaseCollections.CATEGORIES_COLLECTION).
-                        document(categoryId);
+        createCourse.setOnClickListener(view -> {
+            createCourseValidation();
+            Category selectedCategory = (Category) categorySpinner.getSelectedItem();
+            String categoryId = selectedCategory.getId();
+            DocumentReference docRefCategory = FirebaseFirestore.getInstance().
+                    collection(DatabaseCollections.CATEGORIES_COLLECTION).
+                    document(categoryId);
 
-                String courseName = createCourseName.getText().toString();
-                double price = Double.parseDouble(String.valueOf(createCoursePrice.getText()));
-                int radioBtnId = difficultyGroup.getCheckedRadioButtonId();
-                RadioButton radioBtn = findViewById(radioBtnId);
-                int difficultyId = difficultyGroup.indexOfChild(radioBtn);
-                String ownerId = Objects.requireNonNull(FirebaseAuth.getInstance()
-                        .getCurrentUser()).getUid();
-                DocumentReference docRefOwner = FirebaseFirestore.getInstance().
-                        collection(DatabaseCollections.USER_COLLECTION).
-                        document(ownerId);
-                //TODO check Date Picker
-                String startDate = startDateTxv.getText().toString();
-                String endDate = endDateTxv.getText().toString();
-                String courseDesc = descriptionEdt.getText().toString();
+            String courseName = createCourseName.getText().toString();
+            double price = Double.parseDouble(String.valueOf(createCoursePrice.getText()));
+            int radioBtnId = difficultyGroup.getCheckedRadioButtonId();
+            RadioButton radioBtn = findViewById(radioBtnId);
+            int difficultyId = difficultyGroup.indexOfChild(radioBtn);
+            String ownerId = Objects.requireNonNull(FirebaseAuth.getInstance()
+                    .getCurrentUser()).getUid();
+            DocumentReference docRefOwner = FirebaseFirestore.getInstance().
+                    collection(DatabaseCollections.USER_COLLECTION).
+                    document(ownerId);
+            String startDate = startDateTxv.getText().toString();
+            String endDate = endDateTxv.getText().toString();
+            String courseDesc = descriptionEdt.getText().toString();
 
-                try {
-                    Course course = new Course(courseName,docRefCategory,price,difficultyId,
-                                docRefOwner, startDate,endDate, daysChecked, courseDesc, rateCounter,
-                                studentCounter, rating);
-                    CourseDatabase courseDatabase = new CourseDatabase();
-                    if(isEdit == 0)
-                        courseDatabase.insertItem(course);
-                    else
-                        courseDatabase.updateItem(courseId,course);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                Intent intent;
+            try {
+                Course course = new Course(courseName, docRefCategory, price, difficultyId,
+                            docRefOwner, startDate, endDate, daysChecked, courseDesc, rateCounter,
+                            studentCounter, rating);
+                CourseDatabase courseDatabase = new CourseDatabase();
                 if(isEdit == 0)
-                    intent= new Intent(getApplicationContext(), CourseList.class);
+                    courseDatabase.insertItem(course);
                 else
-                    intent = new Intent(getApplicationContext(), CourseProfile.class);
-                startActivity(intent);
-                finish();
-
-
+                    courseDatabase.updateItem(courseId,course);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
+
+            backToMain();
         });
 
     }
@@ -286,30 +269,31 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
         //validate Days
         //get Days
         if(Monday.isChecked()) {
+            checkedID = 0;
+            daysChecked.add(checkedID);
+        }
+        if(Tuesday.isChecked()){
             checkedID = 1;
             daysChecked.add(checkedID);
         }
-        else if(Tuesday.isChecked()){
+        if(Wednesday.isChecked()){
             checkedID = 2;
             daysChecked.add(checkedID);
         }
-        else if(Wednesday.isChecked()){
+        if(Thursday.isChecked()){
             checkedID = 3;
             daysChecked.add(checkedID);
         }
-        else if(Thursday.isChecked()){
+        if(Friday.isChecked()){
             checkedID = 4;
             daysChecked.add(checkedID);
         }
-        else if(Friday.isChecked()){
+        if(Saturday.isChecked()){
             checkedID = 5;
             daysChecked.add(checkedID);
         }
-        else if(Saturday.isChecked()){
-            checkedID = 6;
-            daysChecked.add(checkedID);
-        }
 
+        Log.d("dayschecked", Arrays.toString(daysChecked.toArray()));
         if(daysChecked.size() > 0)
             validCreateCourseDays = true;
         else {
@@ -335,27 +319,32 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
 
 
 
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        if (StartEndContor == 1 && date1!=null) { // start date
+            calendar.setTime(date1);
+        } else
+            if(date2!=null)
+            {
+            calendar.setTime(date2);
+        }
 
-
-
-    private void showDatePickerDialog(){
         DatePickerDialog datePickerDialog =
                 new DatePickerDialog(
                         this,
                         R.style.DatePicker,
                         this,
-                        Calendar.getInstance().get(Calendar.YEAR),
-                        Calendar.getInstance().get(Calendar.MONTH),
-                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-    );
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)
+                );
+
         datePickerDialog.show();
-
-
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = dayOfMonth + "/" + month + "/" + year;
+        String date = dayOfMonth + "/" + (month + 1) + "/" + year;
         if(StartEndContor == 1){ //start date
             try {
                 date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
@@ -364,7 +353,6 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
             }
             startDateTxv.setText(date);
         }
-
 
         else
             if(StartEndContor == 2){//end date
@@ -386,33 +374,30 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
             createCourseName.setText(course.getName());
             createCoursePrice.setText(String.valueOf(course.getPrice()));
             categoryId = course.getCategoryId();
-
-
-
             rateCounter = course.getRateCounter();
             studentCounter = course.getStudentCounter();
             rating = course.getRating();
             int difficulty = course.getDifficulty();
             ((RadioButton)difficultyGroup.getChildAt(difficulty)) .setChecked(true);
+            startDate = course.getStartDate();
+            endDate = course.getEndDate();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
-
+            //Getting start&end dates
+            date1 = startDate;
+            String startDateString = format.format(date1);
+            startDateTxv.setText(startDateString);
+            date2 = endDate;
+            String endDateString = format.format(date2);
+            endDateTxv.setText(endDateString);
 
             descriptionEdt.setText(course.getDescription());
-
-            String dateString = SimpleDateFormat.getDateInstance().format(course.getStartDate()) +
-                    " - " + SimpleDateFormat.getDateInstance().format(course.getEndDate());
-//            coursePeriod.setText(dateString);
-
-//            StringBuilder meetingDaysString = new StringBuilder();
-//            for(int day : course.getMeetDays()){
-//                meetingDaysString.append(" ").append(getResources().getStringArray(R.array.meeting_days)[day]);
-//            }
 
             for(int day : course.getMeetDays()){
                 meetDaysCheckboxes.get(day).setChecked(true);
             }
 
-//            courseMeetingDays.setText(meetingDaysString.toString());
+
 
 
             //TODO fix rating

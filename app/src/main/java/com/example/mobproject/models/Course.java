@@ -28,7 +28,7 @@ public class Course {
     //Create new course
     public Course(String name, DocumentReference categoryId, double price,
                   int difficulty, DocumentReference ownerId, String startDate, String endDate,
-                  ArrayList<Integer> meetDays, String description, int rateCounter,
+                  List<Integer> meetDays, String description, int rateCounter,
                   int studentCounter, double rating) throws ParseException {
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
