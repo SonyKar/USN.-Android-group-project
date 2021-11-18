@@ -73,7 +73,7 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         }
 
 
-        String finalScore = data.get(position).getRating() + "/5.00";//function to calculate final score
+        String finalScore = Math.round(data.get(position).getRating() * 100.0) / 100.0 + "/5.00";//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
