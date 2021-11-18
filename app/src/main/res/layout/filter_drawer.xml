@@ -57,7 +57,7 @@
         app:thumbStrokeColor="@color/primary_dark_purple"
         app:trackColor="@color/primary_dark_purple"
         style="@style/mySlider"
-        />
+    />
 
     <LinearLayout
         android:layout_width="match_parent"
