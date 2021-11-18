@@ -78,6 +78,15 @@ public class CourseProfile extends AppCompatActivity {
         //check course availability - open to enroll?
         //if user is already enrolled or currentDate > startDate
         //enrollMe.setEnabled(false);
+
+        //make button invisible for Student User
+        UserInfo userInfo = new UserInfo(this);
+        String userTypeString = userInfo.getUserType();
+        if (userTypeString.equals("0"))
+            editCourse.setVisibility(View.GONE);
+
+
+
     }
 
     @Override
