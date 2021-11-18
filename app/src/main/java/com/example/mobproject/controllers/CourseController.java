@@ -51,6 +51,7 @@ public class CourseController {
         });
 
         List<DocumentReference> tmpList = course.getCommentsReferences();
+        if (tmpList == null) tmpList = new ArrayList<>();
         tmpList.add(newCommentRef);
         course.setCommentsReferences(tmpList);
 

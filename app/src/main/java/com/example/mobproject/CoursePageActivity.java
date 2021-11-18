@@ -214,11 +214,13 @@ public class CoursePageActivity extends AppCompatActivity {
     };
 
     private void updateComments() {
-        RecyclerView commentsList = findViewById(R.id.comments_list);
-        commentsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        CommentAdapter adapter = new CommentAdapter(getApplicationContext(), courseInfo.getCommentsReferences());
-        commentsList.setAdapter(adapter);
-        numberOfComments.setText(String.valueOf(courseInfo.getCommentsReferences().size()));
+        if (courseInfo.getCommentsReferences() != null) {
+            RecyclerView commentsList = findViewById(R.id.comments_list);
+            commentsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            CommentAdapter adapter = new CommentAdapter(getApplicationContext(), courseInfo.getCommentsReferences());
+            commentsList.setAdapter(adapter);
+            numberOfComments.setText(String.valueOf(courseInfo.getCommentsReferences().size()));
+        }
     }
 
     private void updateTotalRating() {
