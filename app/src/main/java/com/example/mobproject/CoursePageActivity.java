@@ -73,7 +73,7 @@ public class CoursePageActivity extends AppCompatActivity {
 
         // set values for all fields
         Database<Course> database = new CourseDatabase();
-        database.getItem(courseID, profileCallback);
+        database.getItem(courseID, initValuesCallback);
 
         //check course availability - open to enroll?
         //if user is already enrolled or currentDate > startDate
@@ -84,9 +84,6 @@ public class CoursePageActivity extends AppCompatActivity {
         String userTypeString = userInfo.getUserType();
         if (userTypeString.equals("0"))
             editCourse.setVisibility(View.GONE);
-
-
-
     }
 
     @Override
@@ -97,7 +94,7 @@ public class CoursePageActivity extends AppCompatActivity {
 
         // set values for all fields
         Database<Course> database = new CourseDatabase();
-        database.getItem(courseID, profileCallback);
+        database.getItem(courseID, initValuesCallback);
 
     }
 
@@ -135,7 +132,7 @@ public class CoursePageActivity extends AppCompatActivity {
 
     };
 
-    private final Callback<Course> profileCallback = new Callback<Course>() {
+    private final Callback<Course> initValuesCallback = new Callback<Course>() {
         @Override
         public void OnFinish(ArrayList<Course> arrayList) {
             courseInfo = arrayList.get(0);

@@ -56,7 +56,9 @@
                        android:hint="@string/find_a_course"
 
                        android:minHeight="40dp"
-                       android:paddingBottom="@dimen/drawable_padding" />
+                       android:paddingBottom="@dimen/drawable_padding"
+                       android:autofillHints=""
+                       android:inputType="textCapSentences" />
 
                </RelativeLayout>
            </androidx.appcompat.widget.Toolbar>

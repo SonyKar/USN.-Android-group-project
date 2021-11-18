@@ -51,6 +51,8 @@
                         android:layout_marginStart="@dimen/padding"
                         android:layout_marginTop="@dimen/padding"
                         android:background="?android:attr/selectableItemBackground"
+                        android:minWidth="48dp"
+                        android:minHeight="48dp"
                         app:srcCompat="@drawable/ic_back" />
 
                     <ImageButton
@@ -61,6 +63,8 @@
                         android:layout_marginTop="@dimen/padding"
                         android:layout_marginEnd="@dimen/padding"
                         android:background="?android:attr/selectableItemBackground"
+                        android:minWidth="48dp"
+                        android:minHeight="48dp"
                         app:srcCompat="@drawable/ic_edit" />
 
                 </RelativeLayout>
@@ -329,7 +333,7 @@
                             android:background="@drawable/comment_box"
                             android:ems="10"
                             android:hint="@string/add_a_comment"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:textColor="@color/black"
                             android:textColorHint="@color/grey_purple"
                             android:textSize="@dimen/comment_text_size"
@@ -398,8 +402,8 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_to_fav"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="@dimen/padding"

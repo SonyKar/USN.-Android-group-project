@@ -42,8 +42,7 @@
             android:drawablePadding="@dimen/drawable_padding_field"
             android:hint="@string/name"
             android:imeOptions="actionNext"
-
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:paddingStart="@dimen/field_padding_start"
             android:paddingEnd="@dimen/field_padding_start"
             android:paddingBottom="@dimen/field_padding_bottom"
@@ -313,7 +312,7 @@
                 android:id="@+id/description_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textCapSentences"
                 android:gravity="top"
                 android:scrollbars="vertical"
                 android:scrollbarStyle="insideInset"

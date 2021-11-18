@@ -1,14 +1,10 @@
 package com.example.mobproject;
 
-
 import static com.example.mobproject.navigation.MenuDrawer.setupDrawerContent;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,7 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.adapters.CourseAdapter;
-import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.interfaces.Callback;
@@ -34,6 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.RangeSlider;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -48,34 +44,26 @@ public class CourseListActivity extends AppCompatActivity { //implements OnNavig
     private final ArrayList<Integer> difficultyChecked = new ArrayList<>();
     private CheckBox Beginner, Intermediate, Advanced;
     private RangeSlider priceRange;
-    private SharedPreferences sharedPref;
 
-    @SuppressLint("ResourceAsColor")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_list);
-            UserInfo userInfo = new UserInfo(this);
-        Log.d("prefCheck", userInfo.getUserType());
-//        sharedPref = getApplicationContext().getSharedPreferences("com.example.mobproject", Context.MODE_PRIVATE);
-//        Log.d("prefCheck", sharedPref.getString("userType","NoIdFound"));
+
         actionBarInit();
         sortBarInit();
 
         /*View v = sortingCategory.getSelectedView();
         ((TextView)v).setTextColor(Integer.parseInt("4E0D3A"));*/
 
-
         FloatingActionButton filterBtn = findViewById(R.id.filter_fab);
         filterBtn.setOnClickListener(view -> showFilterDialog());
     }
-    //TODO Override onStart to refresh CourseList after edit
+
     @Override
     protected void onStart() {
         super.onStart();
         fillCourses();
     }
-
-
 
     private void fillCourses() {
         Context context = this;
@@ -109,20 +97,16 @@ public class CourseListActivity extends AppCompatActivity { //implements OnNavig
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-       NavigationView navDrawer = findViewById(R.id.nav_view);
-       setupDrawerContent(navDrawer, getApplicationContext(), drawer);
+        NavigationView navDrawer = findViewById(R.id.nav_view);
+        setupDrawerContent(navDrawer, getApplicationContext(), drawer);
 
         drawer = findViewById(R.id.courses_drawer_layout);
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
     }
 
 
@@ -144,7 +128,6 @@ public class CourseListActivity extends AppCompatActivity { //implements OnNavig
         Intermediate = (CheckBox) bottomSheetDialog.findViewById(R.id.intermediate_checkbox);
         Advanced = (CheckBox) bottomSheetDialog.findViewById(R.id.advanced_checkbox);
 
-
         //price Range
         priceRange = bottomSheetDialog.findViewById(R.id.price_range);
 
@@ -156,7 +139,6 @@ public class CourseListActivity extends AppCompatActivity { //implements OnNavig
 
             return currencyFormat.format(value);
         });
-
 
         //APPLY changes button
         Button applyFilters = bottomSheetDialog.findViewById(R.id.apply_btn);
@@ -185,7 +167,6 @@ public class CourseListActivity extends AppCompatActivity { //implements OnNavig
 
         //reset Enroll Switch
         enrollSwitch.setChecked(false);
-
     }
 
     private void filterCourses() {
@@ -194,7 +175,6 @@ public class CourseListActivity extends AppCompatActivity { //implements OnNavig
         float minPrice = Collections.min(priceValues);
         float maxPrice = Collections.max(priceValues);
         //send price values to DB
-
 
         //CATEGORY SPINNER
         String chosenCategory = categoryFilter.getSelectedItem().toString();
