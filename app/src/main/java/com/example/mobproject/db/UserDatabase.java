@@ -1,13 +1,19 @@
 package com.example.mobproject.db;
 
+import androidx.annotation.NonNull;
+
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Error;
 import com.example.mobproject.models.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UserDatabase extends Database<User> {
 
@@ -45,6 +51,15 @@ public class UserDatabase extends Database<User> {
 
     @Override
     public Error updateItem(String id, User item) {
+        Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
+                .updateEmail(item.getEmail()).addOnSuccessListener(unused -> db
+                    .collection(DatabaseCollections.USER_COLLECTION).document(id)
+                        .update(
+                                "name", item.getName(),
+                                "email", item.getEmail(),
+                                "userType", item.getUserType()
+                        ));
+
         return null;
     }
 

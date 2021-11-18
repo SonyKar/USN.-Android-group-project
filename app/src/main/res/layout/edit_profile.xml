@@ -23,133 +23,101 @@
             app:titleTextColor="@color/white">
 
         </androidx.appcompat.widget.Toolbar>
-
-        <FrameLayout
+        <ScrollView
             android:id="@+id/fragment_container_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white">
 
-            <LinearLayout
-                android:id="@+id/edit_profile_page"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding"
+                android:layout_marginEnd="@dimen/padding"
                 android:orientation="vertical">
 
-                <ScrollView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_avatar_edit"
+                    android:layout_width="@dimen/profile_size"
+                    android:layout_height="@dimen/profile_size"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/padding"
+                    android:src="@drawable/cosmi_avatar" />
+
+                <EditText
+                    android:id="@+id/fname_edit"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profile_avatar_edit"
+                    android:layout_marginTop="@dimen/padding"
+                    android:background="@drawable/edittext_bottom_line"
+                    android:drawableStart="@drawable/ic_account_edit"
+                    android:drawablePadding="@dimen/drawable_padding_field"
+                    android:hint="@string/first_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/field_padding_start"
+                    android:paddingEnd="@dimen/field_padding_start"
+                    android:paddingBottom="@dimen/field_padding_bottom"
+                    android:textColor="@color/primary_light_purple"
+                    android:textColorHint="@color/grey_purple"
+                    android:textSize="@dimen/field"
+                    android:autofillHints="" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/padding"
-                        android:layout_marginEnd="@dimen/padding"
-                        android:orientation="vertical">
+                <EditText
+                    android:id="@+id/lname_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fname_edit"
+                    android:drawableStart="@drawable/ic_account_edit"
+                    android:background="@drawable/edittext_bottom_line"
+                    android:drawablePadding="@dimen/drawable_padding_field"
+                    android:hint="@string/last_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:layout_marginTop="@dimen/margin_field"
+                    android:paddingStart="@dimen/field_padding_start"
+                    android:paddingEnd="@dimen/field_padding_start"
+                    android:paddingBottom="@dimen/field_padding_bottom"
+                    android:textColor="@color/primary_light_purple"
+                    android:textColorHint="@color/grey_purple"
+                    android:textSize="@dimen/field"
+                    android:autofillHints="" />
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/profile_avatar_edit"
-                            android:layout_width="@dimen/profile_size"
-                            android:layout_height="@dimen/profile_size"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/padding"
-                            android:src="@drawable/cosmi_avatar" />
+                <EditText
+                    android:id="@+id/email_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lname_edit"
+                    android:layout_marginTop="@dimen/margin_field"
+                    android:background="@drawable/edittext_bottom_line"
+                    android:drawableStart="@drawable/ic_email_edit"
+                    android:drawablePadding="@dimen/drawable_padding_field"
+                    android:hint="@string/email_address"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="@dimen/field_padding_start"
+                    android:paddingEnd="@dimen/field_padding_start"
+                    android:paddingBottom="@dimen/field_padding_bottom"
+                    android:textColor="@color/primary_light_purple"
+                    android:textColorHint="@color/grey_purple"
+                    android:textSize="@dimen/field"
+                    android:autofillHints="" />
 
-                        <EditText
-                            android:id="@+id/fname_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/profile_avatar_edit"
-                            android:layout_marginTop="@dimen/padding"
-                            android:background="@drawable/edittext_bottom_line"
-                            android:drawableStart="@drawable/ic_account_edit"
-                            android:drawablePadding="@dimen/drawable_padding_field"
-                            android:hint="@string/first_name"
-                            android:imeOptions="actionNext"
-                            android:inputType="text"
-                            android:paddingStart="@dimen/field_padding_start"
-                            android:paddingEnd="@dimen/field_padding_start"
-                            android:paddingBottom="@dimen/field_padding_bottom"
-                            android:textColor="@color/primary_light_purple"
-                            android:textColorHint="@color/grey_purple"
-                            android:textSize="@dimen/field" />
-
-                        <EditText
-                            android:id="@+id/lname_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/fname_edit"
-                            android:drawableStart="@drawable/ic_account_edit"
-                            android:background="@drawable/edittext_bottom_line"
-                            android:drawablePadding="@dimen/drawable_padding_field"
-                            android:hint="@string/last_name"
-                            android:imeOptions="actionNext"
-                            android:inputType="text"
-                            android:layout_marginTop="@dimen/margin_field"
-                            android:paddingStart="@dimen/field_padding_start"
-                            android:paddingEnd="@dimen/field_padding_start"
-                            android:paddingBottom="@dimen/field_padding_bottom"
-                            android:textColor="@color/primary_light_purple"
-                            android:textColorHint="@color/grey_purple"
-                            android:textSize="@dimen/field" />
-
-                        <EditText
-                            android:id="@+id/email_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/lname_edit"
-                            android:drawableStart="@drawable/ic_email_edit"
-                            android:background="@drawable/edittext_bottom_line"
-                            android:drawablePadding="@dimen/drawable_padding_field"
-                            android:hint="@string/email_address"
-                            android:imeOptions="actionNext"
-                            android:inputType="textEmailAddress"
-                            android:layout_marginTop="@dimen/margin_field"
-                            android:paddingStart="@dimen/field_padding_start"
-                            android:paddingEnd="@dimen/field_padding_start"
-                            android:paddingBottom="@dimen/field_padding_bottom"
-                            android:textColor="@color/primary_light_purple"
-                            android:textColorHint="@color/grey_purple"
-                            android:textSize="@dimen/field" />
-
-                        <EditText
-                            android:id="@+id/password_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/email_edit"
-                            android:drawableStart="@drawable/ic_password_edit"
-                            android:background="@drawable/edittext_bottom_line"
-                            android:drawablePadding="@dimen/drawable_padding_field"
-                            android:hint="@string/password"
-                            android:inputType="textPassword"
-                            android:layout_marginTop="@dimen/margin_field"
-                            android:paddingStart="@dimen/field_padding_start"
-                            android:paddingEnd="@dimen/field_padding_start"
-                            android:paddingBottom="@dimen/field_padding_bottom"
-                            android:textColor="@color/primary_light_purple"
-                            android:textColorHint="@color/grey_purple"
-                            android:textSize="@dimen/field" />
-
-                        <Button
-                            android:id="@+id/save_profile"
-                            android:layout_width="@dimen/button"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/password_edit"
-                            android:layout_centerInParent="true"
-                            android:layout_marginTop="@dimen/padding"
-                            android:layout_marginBottom="@dimen/padding"
-                            android:background="@drawable/button_pink"
-                            android:text="@string/save"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-                </ScrollView>
-
-
-            </LinearLayout>
-        </FrameLayout>
-
-
+                <Button
+                    android:id="@+id/save_profile"
+                    android:layout_width="@dimen/button"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/email_edit"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/padding"
+                    android:layout_marginBottom="@dimen/padding"
+                    android:background="@drawable/button_pink"
+                    android:text="@string/save"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </ScrollView>
     </LinearLayout>
 
 

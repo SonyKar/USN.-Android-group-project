@@ -1,7 +1,19 @@
 package com.example.mobproject.constants;
+import androidx.annotation.NonNull;
 
-public class UserType {
-    public static int STUDENT = 0;
-    public static int TEACHER = 1;
-    public static int TYPE_COUNT = 2;
+public enum UserType {
+    STUDENT("Student"),
+    TEACHER("Teacher");
+
+    private final String text;
+
+    UserType(final String text) {
+        this.text = text;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return text;
+    }
 }

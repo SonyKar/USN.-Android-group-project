@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.models.User;
-import com.example.mobproject.validations.UserValidation;
+import com.example.mobproject.validations.Validator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (email.isEmpty()) {
             signupEmail.setError(getResources().getString(R.string.email_error));
             validSignUpEmail = false;
-        } else if (!UserValidation.isEmail(email)) {
+        } else if (Validator.isInvalidEmail(email)) {
             signupEmail.setError(getResources().getString(R.string.error_invalid_email));
             validSignUpEmail = false;
         }

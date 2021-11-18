@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.DatabaseCollections;
-import com.example.mobproject.validations.UserValidation;
+import com.example.mobproject.validations.Validator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         if(email.isEmpty()){
             loginEmail.setError(getResources().getString(R.string.email_error));
             validLoginEmail = false;
-        } else if(!UserValidation.isEmail(email)){
+        } else if(Validator.isInvalidEmail(email)){
             loginEmail.setError(getResources().getString(R.string.error_invalid_email));
             validLoginEmail = false;
         }//TODO - email validation doesn't work
