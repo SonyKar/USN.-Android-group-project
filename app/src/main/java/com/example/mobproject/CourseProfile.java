@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.controllers.CourseController;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.interfaces.Callback;
@@ -28,12 +29,12 @@ import java.util.Locale;
 public class CourseProfile extends AppCompatActivity {
 
     private RatingBar finalRating;
-    private TextView numberOfComments;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
-    courseDifficulty, coursePeriod, courseMeetingDays;
+    courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView;
     private int addedToFav ;
     private FloatingActionButton addToFav;
     private String courseID;
+    private Course courseInfo;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +54,16 @@ public class CourseProfile extends AppCompatActivity {
         courseDifficulty = findViewById(R.id.difficulty_course_page);
         coursePeriod = findViewById(R.id.course_period);
         courseMeetingDays = findViewById(R.id.meeting_days);
-        Button enrollMe = findViewById(R.id.enroll_me_btn);
+        // Button enrollMe = findViewById(R.id.enroll_me_btn);
         numberOfComments = findViewById(R.id.no_comments);
+        Button postCommentButton = findViewById(R.id.post_btn);
+        commentTextView = findViewById(R.id.comment_input);
 
         backToMain.setOnClickListener(switchToMain);
         addToFav.setOnClickListener(onFavouriteHandler);
         editCourse.setOnClickListener(onEditHandler);
         rateEdit.setOnRatingBarChangeListener(onVoteHandler);
+        postCommentButton.setOnClickListener(postCommentHandler);
 
         // get course ID
         Intent intent = getIntent();
@@ -107,7 +111,7 @@ public class CourseProfile extends AppCompatActivity {
     private final Callback<Course> profileCallback = new Callback<Course>() {
         @Override
         public void OnFinish(ArrayList<Course> arrayList) {
-            Course courseInfo = arrayList.get(0);
+            courseInfo = arrayList.get(0);
             courseName.setText(courseInfo.getName());
 
             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
@@ -141,14 +145,7 @@ public class CourseProfile extends AppCompatActivity {
             }
             courseMeetingDays.setText(meetingDaysString.toString());
 
-            RecyclerView commentsList = findViewById(R.id.comments_list);
-            commentsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-            CommentAdapter adapter = new CommentAdapter(getApplicationContext(), courseInfo.getCommentsReferences());
-            commentsList.setAdapter(adapter);
-
-            numberOfComments.setText(String.valueOf(courseInfo.getCommentsReferences().size()));
-
-            //TODO fix rating
+            updateComments();
 
             BigDecimal number = BigDecimal.valueOf(courseInfo.getRating());
 
@@ -159,5 +156,29 @@ public class CourseProfile extends AppCompatActivity {
         }
     };
 
+    private void updateComments() {
+        RecyclerView commentsList = findViewById(R.id.comments_list);
+        commentsList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        CommentAdapter adapter = new CommentAdapter(getApplicationContext(), courseInfo.getCommentsReferences());
+        commentsList.setAdapter(adapter);
+        numberOfComments.setText(String.valueOf(courseInfo.getCommentsReferences().size()));
+    }
+
     private final View.OnClickListener switchToMain = view -> finish();
+
+    private final View.OnClickListener postCommentHandler = view -> {
+        CourseController courseController = new CourseController();
+        UserInfo userInfo = new UserInfo(this);
+        courseController.addComment(courseID, userInfo.getUserId(), commentTextView.getText().toString());
+        commentTextView.setText("");
+
+        CourseDatabase courseDatabase = new CourseDatabase();
+        courseDatabase.getItem(courseID, new Callback<Course>() {
+            @Override
+            public void OnFinish(ArrayList<Course> arrayList) {
+                courseInfo = arrayList.get(0);
+                updateComments();
+            }
+        });
+    };
 }

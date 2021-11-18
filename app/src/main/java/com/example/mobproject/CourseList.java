@@ -5,12 +5,10 @@ import static com.example.mobproject.MenuDrawer.setupDrawerContent;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,7 +16,6 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,9 +31,7 @@ import com.example.mobproject.models.Course;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 import com.google.android.material.slider.RangeSlider;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -44,9 +39,7 @@ import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 
-public class CourseList extends AppCompatActivity
-        //implements OnNavigationItemSelectedListener
-        {
+public class CourseList extends AppCompatActivity { //implements OnNavigationItemSelectedListener
     private DrawerLayout drawer;
     private Switch enrollSwitch;
     private Spinner categoryFilter;
@@ -73,8 +66,6 @@ public class CourseList extends AppCompatActivity
 
         FloatingActionButton filterBtn = findViewById(R.id.filter_fab);
         filterBtn.setOnClickListener(view -> showFilterDialog());
-
-
     }
 
     private void fillCourses() {
@@ -233,35 +224,6 @@ public class CourseList extends AppCompatActivity
 
     }
 
-    //add Search Menu Item
-    @Override
-    /*public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(menu_search, menu);
-
-        MenuItem menuItem = menu.findItem(R.id.menu_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Find a course");
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                //arrayAdapter.getFilter().filter(newText);//looks for options in the course array
-
-
-
-                return false;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }*/
-
     public void onBackPressed(){
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
@@ -270,48 +232,4 @@ public class CourseList extends AppCompatActivity
         }
 
     }
-
-
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        switch(item.getItemId()){
-//
-//          case R.id.nav_profile:
-//               Toast.makeText(getApplicationContext(), "Profile clicked", Toast.LENGTH_SHORT).show();
-//                Intent toProfile = new Intent(this, UserProfile.class);
-//                startActivity(toProfile);
-//
-//                break;
-//            case R.id.nav_courses:
-//                Intent toCourseList = new Intent(this, CourseList.class);
-//                startActivity(toCourseList);
-//                startActivity(toCourseList);
-//                break;
-//            case R.id.nav_my_courses:
-//                Toast.makeText(getApplicationContext(), "MyCourses clicked", Toast.LENGTH_SHORT).show();
-////                Intent toMyCourses = new Intent(this, MyCourses.class);
-////                startActivity(toMyCourses);
-////                finish();
-//                break;
-//            case R.id.nav_fav:
-//                Toast.makeText(getApplicationContext(), "Favourites clicked", Toast.LENGTH_SHORT).show();
-////                Intent toFavourites = new Intent(this, Favourites.class);
-////                startActivity(toFavourites);
-////                finish();
-//                break;
-//            case R.id.nav_create_course:
-//                Intent toCreateCourse = new Intent(this, CreateCourse.class);
-//                startActivity(toCreateCourse);
-//                break;
-//            case R.id.nav_log_out:
-//                FirebaseAuth.getInstance().signOut();
-//                Intent toLogin = new Intent(this, LoginActivity.class);
-//                startActivity(toLogin);
-//                break;
-//
-//        }
-//
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;//the item was selected*/
-//    }
 }

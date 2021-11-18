@@ -44,7 +44,7 @@ public class CommentDatabase extends Database<Comment> {
     @Override
     public Error insertItem(Comment item) {
         Error error;
-        DocumentReference newCommentRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document();
+        DocumentReference newCommentRef = db.collection(DatabaseCollections.COMMENTS_COLLECTION).document();
 
         if ((error = validateItem(item)) != null) {
             return error;
@@ -53,6 +53,18 @@ public class CommentDatabase extends Database<Comment> {
         newCommentRef.set(item);
 
         return null;
+    }
+
+    public void insertItem(Comment item, Callback<DocumentReference> callback) {
+//        Error error;
+        DocumentReference newCommentRef = db.collection(DatabaseCollections.COMMENTS_COLLECTION).document();
+
+//        if ((error = validateItem(item)) != null) {
+//            return error;
+//        }
+
+        newCommentRef.set(item);
+        callback.OnFinish(new ArrayList<DocumentReference>() { { add(newCommentRef); } });
     }
 
     @Override
