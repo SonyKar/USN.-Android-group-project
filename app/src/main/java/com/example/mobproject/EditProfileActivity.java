@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
@@ -20,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class UserEdit extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
 
     TextView fNameEdit, lNameEdit, emailEdit;
     boolean isValidated = true;
@@ -116,7 +117,7 @@ public class UserEdit extends AppCompatActivity {
     }
 
     private void goToProfile() {
-        Intent backToUser = new Intent(this, UserProfile.class);
+        Intent backToUser = new Intent(this, UserProfileActivity.class);
         startActivity(backToUser);
         finish();
     }

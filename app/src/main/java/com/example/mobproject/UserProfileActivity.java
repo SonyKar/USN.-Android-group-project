@@ -1,6 +1,6 @@
 package com.example.mobproject;
 
-import static com.example.mobproject.MenuDrawer.setupDrawerContent;
+import static com.example.mobproject.navigation.MenuDrawer.setupDrawerContent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.constants.UserType;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
@@ -22,7 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class UserProfile extends AppCompatActivity {
+public class UserProfileActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private TextView userName, userStatus, userEmail;
 
@@ -77,7 +78,7 @@ public class UserProfile extends AppCompatActivity {
     }
 
     private final View.OnClickListener switchToEditProfile = view -> {
-        Intent toEditProfile = new Intent(this, UserEdit.class);
+        Intent toEditProfile = new Intent(this, EditProfileActivity.class);
         startActivity(toEditProfile);
     };
 

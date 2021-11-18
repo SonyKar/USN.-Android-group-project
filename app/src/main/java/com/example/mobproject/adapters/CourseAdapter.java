@@ -1,14 +1,11 @@
-package com.example.mobproject;
+package com.example.mobproject.adapters;
 
-import static androidx.core.content.ContextCompat.getColor;
 import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.CoursePageActivity;
+import com.example.mobproject.R;
 import com.example.mobproject.constants.Intents;
 import com.example.mobproject.models.Course;
 
@@ -34,7 +33,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private final String[] difficulties;
 
 
-    CourseAdapter(Context context, ArrayList<Course> data){
+    public CourseAdapter(Context context, ArrayList<Course> data){
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
@@ -143,7 +142,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
         @Override
         public void onClick(View view) {
-            Intent toCourseProfile = new Intent(view.getContext(), CourseProfile.class);
+            Intent toCourseProfile = new Intent(view.getContext(), CoursePageActivity.class);
             toCourseProfile.putExtra(Intents.COURSE_ID, data.get(getAdapterPosition()).getId());
             startActivity(view.getContext() , toCourseProfile, new Bundle());
         }

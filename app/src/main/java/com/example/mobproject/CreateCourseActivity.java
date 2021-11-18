@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,9 +30,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.reflect.Array;
-import java.text.NumberFormat;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,10 +38,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
-public class CreateCourse extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class CreateCourseActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
 
     private TextView startDateTxv, endDateTxv;
@@ -142,7 +137,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
                         if(category.getId().equals(categoryId.getId()))
                             categoryPosition = sortedCategoryList.indexOf(category);
                 ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
-                        (CreateCourse.this,
+                        (CreateCourseActivity.this,
                                 android.R.layout.simple_list_item_1,
                                 categoryList);
                 categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -199,7 +194,7 @@ public class CreateCourse extends AppCompatActivity implements DatePickerDialog.
         if(isEdit == 1)
             finish();
         else{
-            Intent backToMain = new Intent(this, CourseList.class);
+            Intent backToMain = new Intent(this, CourseListActivity.class);
             startActivity(backToMain);
             finish();
         }

@@ -9,18 +9,18 @@
         android:roundIcon="@mipmap/ic_app_mob_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MobProject">
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".ForgotPassword" />
-        <activity android:name=".SignUpMessage" />
-        <activity android:name=".UserProfile" />
-        <activity android:name=".CourseProfile" />
-        <activity android:name=".UserEdit" />
-        <activity android:name=".CreateCourse" />
-        <activity android:name=".FavouriteList" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".SignUpMessageActivity" />
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".CoursePageActivity" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".CreateCourseActivity" />
+        <activity android:name=".FavouriteListActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MyCoursesList" />
+        <activity android:name=".MyCoursesListActivity" />
 
-        <activity android:name=".CourseList"
+        <activity android:name=".CourseListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

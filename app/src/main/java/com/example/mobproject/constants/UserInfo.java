@@ -1,4 +1,4 @@
-package com.example.mobproject;
+package com.example.mobproject.constants;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;

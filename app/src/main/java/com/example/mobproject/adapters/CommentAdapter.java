@@ -1,4 +1,4 @@
-package com.example.mobproject;
+package com.example.mobproject.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.R;
 import com.example.mobproject.db.CommentDatabase;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
@@ -26,7 +27,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     private final LayoutInflater layoutInflater;
     private final List<DocumentReference> data;//change to List<Comments>
 
-    CommentAdapter(Context context, List<DocumentReference> data) {
+    public CommentAdapter(Context context, List<DocumentReference> data) {
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
     }

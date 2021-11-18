@@ -1,7 +1,7 @@
 package com.example.mobproject;
 
 
-import static com.example.mobproject.MenuDrawer.setupDrawerContent;
+import static com.example.mobproject.navigation.MenuDrawer.setupDrawerContent;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -25,7 +24,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mobproject.constants.Intents;
+import com.example.mobproject.adapters.CourseAdapter;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.interfaces.Callback;
@@ -41,7 +41,7 @@ import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 
-public class CourseList extends AppCompatActivity { //implements OnNavigationItemSelectedListener
+public class CourseListActivity extends AppCompatActivity { //implements OnNavigationItemSelectedListener
     private DrawerLayout drawer;
     private Switch enrollSwitch;
     private Spinner categoryFilter;
@@ -97,7 +97,7 @@ public class CourseList extends AppCompatActivity { //implements OnNavigationIte
         Spinner sortingCategory = (Spinner) findViewById(R.id.sort_spn);
         sortingCategory.getBackground().setColorFilter(getResources().getColor(R.color.primary_dark_purple), PorterDuff.Mode.SRC_ATOP);
 
-        ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(CourseList.this,
+        ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(CourseListActivity.this,
                 R.array.sorting_criteria,
                 R.layout.spinner_dropdwon_layout);
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

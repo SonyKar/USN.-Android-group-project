@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.models.User;
 import com.example.mobproject.validations.Validator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
-public class RegisterActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private EditText signupEmail, signupFirstName, signupLastName, signupPass, signupConfPass;
     private RadioGroup status;
@@ -131,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign up fails, display a message to the user.
                             Log.w("Sign up", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -140,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
     };
 
     private void switchToMessagePage(){
-        Intent toMessagePage = new Intent(this, SignUpMessage.class);
+        Intent toMessagePage = new Intent(this, SignUpMessageActivity.class);
                 startActivity(toMessagePage);
     }
 

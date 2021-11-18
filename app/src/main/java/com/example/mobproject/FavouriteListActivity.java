@@ -1,6 +1,6 @@
 package com.example.mobproject;
 
-import static com.example.mobproject.MenuDrawer.setupDrawerContent;
+import static com.example.mobproject.navigation.MenuDrawer.setupDrawerContent;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,22 +14,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.adapters.FavouriteListAdapter;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.CourseDatabase;
-import com.example.mobproject.db.Database;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
-import com.example.mobproject.models.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
-
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class FavouriteList extends AppCompatActivity {
+public class FavouriteListActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private UserInfo userInfo;
@@ -82,7 +80,7 @@ public class FavouriteList extends AppCompatActivity {
                         if (favouriteCourseList.size() == favouriteReferences.size()) {
                             RecyclerView favListRecyclerView = findViewById(R.id.fav_list);
                             favListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                            FavAdapter adapter = new FavAdapter(context, favouriteCourseList, userId);
+                            FavouriteListAdapter adapter = new FavouriteListAdapter(context, favouriteCourseList, userId);
                             favListRecyclerView.setAdapter(adapter);
                         }
                         Log.d("faves", "retrieved"+String.valueOf(arrayList.get(0)));

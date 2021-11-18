@@ -7,12 +7,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SignUpMessage extends AppCompatActivity {
+public class SignUpMessageActivity extends AppCompatActivity {
     Button toCourses;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_msg);
+        setContentView(R.layout.signup_message);
 
         toCourses = findViewById(R.id.to_courses);
 
@@ -20,7 +20,7 @@ public class SignUpMessage extends AppCompatActivity {
     }
 
     private final View.OnClickListener switchToCourseList = view -> {
-        Intent toCourseList = new Intent(view.getContext(), CourseList.class);
+        Intent toCourseList = new Intent(view.getContext(), CourseListActivity.class);
         startActivity(toCourseList);
         finish();
     };

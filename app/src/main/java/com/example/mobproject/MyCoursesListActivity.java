@@ -1,6 +1,6 @@
 package com.example.mobproject;
 
-import static com.example.mobproject.MenuDrawer.setupDrawerContent;
+import static com.example.mobproject.navigation.MenuDrawer.setupDrawerContent;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mobproject.db.CourseDatabase;
+import com.example.mobproject.adapters.MyCoursesAdapter;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.db.EnrolledCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
@@ -22,7 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class MyCoursesList extends AppCompatActivity {
+public class MyCoursesListActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
 

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.validations.Validator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -114,19 +115,19 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     private void switchToCourseList() {
-        Intent toCourseList = new Intent(this, CourseList.class);
+        Intent toCourseList = new Intent(this, CourseListActivity.class);
         startActivity(toCourseList);
         finish();
     }
 
     private final View.OnClickListener switchToSignUp = view -> {
-        Intent toSignUp = new Intent(this, RegisterActivity.class);
+        Intent toSignUp = new Intent(this, SignUpActivity.class);
         startActivity(toSignUp);
         finish();
     };
 
     private final View.OnClickListener switchToNewPass = view -> {
-        Intent toNewPass = new Intent(this, ForgotPassword.class);
+        Intent toNewPass = new Intent(this, ForgotPasswordActivity.class);
         startActivity(toNewPass);
         finish();
     };

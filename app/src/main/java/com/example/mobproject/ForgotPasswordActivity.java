@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ForgotPassword extends AppCompatActivity {
+public class ForgotPasswordActivity extends AppCompatActivity {
 
     private EditText sendEmail;
     private Button newPass;
@@ -17,7 +17,7 @@ public class ForgotPassword extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.forgot_pass);
+        setContentView(R.layout.forgot_password);
 
         sendEmail = findViewById(R.id.send_email);
         newPass = findViewById(R.id.new_pass);

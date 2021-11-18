@@ -13,7 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.adapters.CommentAdapter;
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.CourseController;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
@@ -21,14 +23,12 @@ import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class CourseProfile extends AppCompatActivity {
+public class CoursePageActivity extends AppCompatActivity {
 
     private RatingBar finalRating;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
@@ -114,8 +114,8 @@ public class CourseProfile extends AppCompatActivity {
 
     private final View.OnClickListener onEditHandler = view -> {
         int isEdit = 1;
-        Intent toEditCourse = new Intent(CourseProfile.this,
-                CreateCourse.class);
+        Intent toEditCourse = new Intent(CoursePageActivity.this,
+                CreateCourseActivity.class);
         toEditCourse.putExtra("EDIT_COURSE", isEdit);
         toEditCourse.putExtra("COURSE_ID",courseID);
         startActivity(toEditCourse);
