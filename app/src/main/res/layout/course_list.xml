@@ -51,9 +51,9 @@
                        android:layout_marginEnd="@dimen/padding"
                        android:drawableStart="@drawable/ic_search"
                        android:drawablePadding="@dimen/drawable_padding"
-                       android:hint="@string/find_a_course"
                        android:focusable="true"
                        android:focusableInTouchMode="true"
+                       android:hint="@string/find_a_course"
 
                        android:minHeight="40dp"
                        android:paddingBottom="@dimen/drawable_padding" />

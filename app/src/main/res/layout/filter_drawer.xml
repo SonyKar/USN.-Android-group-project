@@ -82,7 +82,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="0.75"
-            android:popupBackground="@color/secondary_pink"
+            android:popupBackground="@color/white"
 
             android:entries="@array/categories_filter"
             />

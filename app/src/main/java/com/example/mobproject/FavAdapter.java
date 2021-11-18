@@ -28,7 +28,7 @@ import java.util.Locale;
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ViewHolder>{
 
     private final LayoutInflater layoutInflater;
-    private final ArrayList<Course> data;//change to List<Course>
+    private final ArrayList<Course> data;
     private final String[] difficulties;
 
     FavAdapter(Context context, ArrayList<Course> data){
