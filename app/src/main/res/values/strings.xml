@@ -114,13 +114,13 @@
     <string name="rate_this_course">RATE THIS COURSE</string>
     <string name="leave_a_comment">LEAVE A COMMENT</string>
     <string name="post">Post</string>
-    <string name="add_a_comment">Add a comment...</string>
+    <string name="add_a_comment">Add a comment…</string>
     <string name="default_no_comments">0</string>
     <string name="default_final_rating_score">0/5</string>
     <string name="enroll_me">Enroll me</string>
     <string name="save">Save</string>
     <string name="default_course_price">0 $</string>
-    <string name="search_a_course">Search a course...</string>
+    <string name="search_a_course">Search a course…</string>
     <string name="cannot_enroll">Cannot enroll</string>
     <string name="student_status">Student</string>
     <string name="sort_by">Sort by</string>
@@ -131,6 +131,7 @@
     <string name="apply">Apply</string>
     <string name="course_id">COURSE_ID</string>
     <string name="ratingOutOf">/5</string>
+    <string name="comment_error">Please, fill out the comment message first</string>
 
     <string-array name="sorting_criteria">
         <item>Last added</item>
@@ -147,7 +148,7 @@
     <string name="dollars">$</string>
     <string name="Favourites">Favourites</string>
 
-    <string name="find_a_course">Find a course...</string>
+    <string name="find_a_course">Find a course…</string>
 
 
 </resources>

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Course {
     private String id;
@@ -32,7 +33,7 @@ public class Course {
                   int studentCounter, double rating) throws ParseException {
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
 
         this.name = name;
         this.categoryId = categoryId;
@@ -41,9 +42,7 @@ public class Course {
         this.ownerId = ownerId;
         this.startDate = formatter.parse(startDate);
         this.endDate = formatter.parse(endDate);
-        for (int i: meetDays) {
-            this.meetDays.add(i);
-        }
+        this.meetDays.addAll(meetDays);
         this.description = description;
         this.openEnroll = true;
         this.rating = rating;
@@ -73,6 +72,7 @@ public class Course {
     public double getRating() {
         return rating;
     }
+
 
     public DocumentReference getCategoryId() {
         return categoryId;
@@ -164,6 +164,10 @@ public class Course {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setRateCounter(int rateCounter) {
+        this.rateCounter = rateCounter;
     }
 
     public void setCommentsReferences(List<DocumentReference> commentsReferences) {

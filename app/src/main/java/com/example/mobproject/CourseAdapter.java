@@ -70,11 +70,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 break;
         }
 
-
-        String finalScore = data.get(position).getRating() + "/5.00";//function to calculate final score
+        double finalScoreValue = Math.round(data.get(position).getRating() * 100.0) / 100.0;
+        String finalScore = finalScoreValue + "/5.00";//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
         String period = sdf.format(data.get(position).getStartDate()) + " - " + sdf.format(data.get(position).getEndDate());//startDate + " - " + endDate
         holder.coursePeriod.setText(period);
 

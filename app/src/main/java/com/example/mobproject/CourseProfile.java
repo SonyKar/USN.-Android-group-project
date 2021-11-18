@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,6 +84,10 @@ public class CourseProfile extends AppCompatActivity {
         int rating = (int) givenScore; // to be sent
         String ratingText = rating + this.getString(R.string.ratingOutOf);
         ratingScore.setText(ratingText);
+
+        CourseController courseController = new CourseController();
+        courseInfo = courseController.addRating(courseInfo, givenScore);
+        updateTotalRating();
     };
     //TODO add rating to total rating
 
@@ -147,12 +153,7 @@ public class CourseProfile extends AppCompatActivity {
 
             updateComments();
 
-            BigDecimal number = BigDecimal.valueOf(courseInfo.getRating());
-
-            String finalRatingString = String.valueOf(courseInfo.getRating());
-            String finalRatingText = finalRatingString + getString(R.string.ratingOutOf);
-            finalRatingScore.setText(finalRatingText);
-            finalRating.setRating(Float.parseFloat(String.valueOf(number.floatValue())));
+            updateTotalRating();
         }
     };
 
@@ -164,21 +165,28 @@ public class CourseProfile extends AppCompatActivity {
         numberOfComments.setText(String.valueOf(courseInfo.getCommentsReferences().size()));
     }
 
+    private void updateTotalRating() {
+        float finalRatingValue = (float)(Math.round(courseInfo.getRating() * 100.0) / 100.0);
+        String finalRatingString = String.valueOf(finalRatingValue);
+        String finalRatingText = finalRatingString + getString(R.string.ratingOutOf);
+
+        finalRatingScore.setText(finalRatingText);
+        finalRating.setRating(finalRatingValue);
+    }
+
     private final View.OnClickListener switchToMain = view -> finish();
 
     private final View.OnClickListener postCommentHandler = view -> {
-        CourseController courseController = new CourseController();
-        UserInfo userInfo = new UserInfo(this);
-        courseController.addComment(courseID, userInfo.getUserId(), commentTextView.getText().toString());
-        commentTextView.setText("");
+        String commentMessage = commentTextView.getText().toString();
 
-        CourseDatabase courseDatabase = new CourseDatabase();
-        courseDatabase.getItem(courseID, new Callback<Course>() {
-            @Override
-            public void OnFinish(ArrayList<Course> arrayList) {
-                courseInfo = arrayList.get(0);
-                updateComments();
-            }
-        });
+        if (!commentMessage.trim().isEmpty()) {
+            CourseController courseController = new CourseController();
+            UserInfo userInfo = new UserInfo(this);
+            courseInfo = courseController.addComment(courseInfo, userInfo.getUserId(), commentMessage);
+            commentTextView.setText("");
+            updateComments();
+        } else {
+            Toast.makeText(this, R.string.comment_error, Toast.LENGTH_SHORT);
+        }
     };
 }

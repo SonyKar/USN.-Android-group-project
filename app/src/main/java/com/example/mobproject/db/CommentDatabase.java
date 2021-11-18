@@ -55,7 +55,7 @@ public class CommentDatabase extends Database<Comment> {
         return null;
     }
 
-    public void insertItem(Comment item, Callback<DocumentReference> callback) {
+    public DocumentReference insertItem(Comment item, Callback<DocumentReference> callback) {
 //        Error error;
         DocumentReference newCommentRef = db.collection(DatabaseCollections.COMMENTS_COLLECTION).document();
 
@@ -65,6 +65,8 @@ public class CommentDatabase extends Database<Comment> {
 
         newCommentRef.set(item);
         callback.OnFinish(new ArrayList<DocumentReference>() { { add(newCommentRef); } });
+
+        return newCommentRef;
     }
 
     @Override
