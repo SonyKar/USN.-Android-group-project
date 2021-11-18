@@ -25,7 +25,6 @@ public class MenuDrawer {
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
                     switch(menuItem.getItemId()){
-
                         case R.id.nav_profile:
                             Toast.makeText(context, "Profile clicked", Toast.LENGTH_SHORT).show();
                             Intent toProfile = new Intent(context, UserProfile.class);
@@ -60,12 +59,11 @@ public class MenuDrawer {
                             toLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(toLogin);
                             break;
-
+                        default:
+                            drawer.closeDrawer(GravityCompat.START);
                     }
 
-                    drawer.closeDrawer(GravityCompat.START);
                     return true;//the item was selected
-
                 });
     }
 
