@@ -36,8 +36,6 @@ public class FavouriteListActivity extends AppCompatActivity {
         setContentView(R.layout.favourite_list);
         userInfo = new UserInfo(this);
 
-
-
         MenuDrawer.actionBarInit(this);
     }
 
