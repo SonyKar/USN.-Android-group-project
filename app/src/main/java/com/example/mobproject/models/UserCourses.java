@@ -7,15 +7,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class Favourites {
+public class UserCourses {
     private ArrayList<DocumentReference> courses = new ArrayList<>();
     private String id;
 
-    public Favourites(String id, ArrayList<DocumentReference> courses) {
+    public UserCourses(String id, ArrayList<DocumentReference> courses) {
         this.courses = courses;
         this.id = id;
     }
-    public Favourites(String userId){
+    public UserCourses(String userId){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection(DatabaseCollections.FAVOURITES_COLLECTION).document(userId);
         this.id = userId;

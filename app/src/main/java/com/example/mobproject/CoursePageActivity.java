@@ -20,6 +20,7 @@ import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.CourseController;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
+import com.example.mobproject.db.EnrolledCoursesDatabase;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
@@ -43,6 +44,7 @@ public class CoursePageActivity extends AppCompatActivity {
     private UserInfo userInfo;
     private String userId;
     private boolean isFavourite = false;
+    private boolean isEnrolled = false;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class CoursePageActivity extends AppCompatActivity {
         courseDifficulty = findViewById(R.id.difficulty_course_page);
         coursePeriod = findViewById(R.id.course_period);
         courseMeetingDays = findViewById(R.id.meeting_days);
-        // Button enrollMe = findViewById(R.id.enroll_me_btn);
+        Button enrollMe = findViewById(R.id.enroll_me_btn);
         numberOfComments = findViewById(R.id.no_comments);
         Button postCommentButton = findViewById(R.id.post_btn);
         commentTextView = findViewById(R.id.comment_input);
@@ -75,6 +77,8 @@ public class CoursePageActivity extends AppCompatActivity {
         editCourse.setOnClickListener(onEditHandler);
         rateEdit.setOnRatingBarChangeListener(onVoteHandler);
         postCommentButton.setOnClickListener(postCommentHandler);
+        enrollMe.setOnClickListener(onEnrollHandler);
+
 
         // get course ID
         Intent intent = getIntent();
@@ -95,12 +99,13 @@ public class CoursePageActivity extends AppCompatActivity {
             editCourse.setVisibility(View.GONE);
 
         initFavouriteButton();
+        initEnrolledButton();
     }
 
     private void initFavouriteButton() {
         FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
-        DocumentReference courseReference = db.collection(DatabaseCollections.COURSES_COLLECTION)
-                .document(courseId);
+        DocumentReference courseReference = db.collection(DatabaseCollections
+                .COURSES_COLLECTION).document(courseId);
 
         final Callback<DocumentReference> favouriteCallback = new Callback<DocumentReference>() {
             @Override
@@ -110,7 +115,6 @@ public class CoursePageActivity extends AppCompatActivity {
                         isFavourite = true;
                         break;
                     }
-
                 if (isFavourite) {
                     addToFav.setImageResource(R.drawable.ic_favourite_red);
 //                    favouriteDatabase.insertItem(userId,courseId);
@@ -123,6 +127,26 @@ public class CoursePageActivity extends AppCompatActivity {
         };
 
         favouriteDatabase.getItems(userId, favouriteCallback);
+    }
+
+    private void initEnrolledButton(){
+        EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
+        DocumentReference courseRef = db.collection(DatabaseCollections.ENROLLED_COLLECTION)
+                .document(courseId);
+        final Callback<DocumentReference> enrolledCallback = new Callback<DocumentReference>() {
+            @Override
+            public void OnFinish(ArrayList<DocumentReference> enrolledReferences) {
+                for(DocumentReference docRef : enrolledReferences)
+                    if(courseRef.equals(docRef)){
+                        isEnrolled = true;
+                        break;
+                    }
+//                if(isEnrolled)
+//                    //TODO Front-end setting the Enroll Button disabled
+            }
+        };
+
+        enrolledDatabase.getItems(userId,enrolledCallback);
     }
 
     @Override
@@ -168,6 +192,14 @@ public class CoursePageActivity extends AppCompatActivity {
             favouriteDatabase.removeItem(userId,courseId);
         }
         isFavourite = !isFavourite;
+    };
+
+    private final View.OnClickListener onEnrollHandler = view -> {
+        EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
+        if(!isEnrolled){
+            //TODO Front-end set Enroll Button disabled  + Toast/Dummy Payment
+            enrolledDatabase.insertItem(userId,courseId);
+        }
     };
 
     private final Callback<Course> initValuesCallback = new Callback<Course>() {

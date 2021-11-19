@@ -14,7 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.UserInfo;
-import com.example.mobproject.models.Favourites;
+import com.example.mobproject.db.EnrolledCoursesDatabase;
+import com.example.mobproject.models.UserCourses;
 import com.example.mobproject.models.User;
 import com.example.mobproject.validations.Validator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +27,7 @@ import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    //TODO Hash password
     private EditText signupEmail, signupFirstName, signupLastName, signupPass, signupConfPass;
     private RadioGroup status;
 
@@ -130,10 +132,13 @@ public class SignUpActivity extends AppCompatActivity {
                             docRef.set(user).addOnFailureListener(e -> Log.d("addUserData",
                                     "onFailure: "+e.toString()));
 
-                            Favourites favourites = new Favourites(userId, new ArrayList<DocumentReference>());
-                            FirebaseFirestore.getInstance()
-                                    .collection(DatabaseCollections.FAVOURITES_COLLECTION)
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            UserCourses favourites = new UserCourses(userId, new ArrayList<>());
+                            db.collection(DatabaseCollections.FAVOURITES_COLLECTION)
                                     .document(userId).set(favourites);
+                            UserCourses enrolled = new UserCourses(userId, new ArrayList<>());
+                            db.collection(DatabaseCollections.ENROLLED_COLLECTION)
+                                    .document(userId).set(enrolled);
                             switchToMessagePage();
                         } else {
                             // If sign up fails, display a message to the user.

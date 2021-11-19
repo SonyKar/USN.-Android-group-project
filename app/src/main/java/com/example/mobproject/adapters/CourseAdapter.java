@@ -22,13 +22,9 @@ import com.example.mobproject.R;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
-import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
-import com.example.mobproject.models.Favourites;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Document;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;

@@ -42,7 +42,8 @@ import java.util.Objects;
 
 public class CreateCourseActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-
+    //TODO floating point in the price field
+    //TODO limit the price range $1-$999.99
     private TextView startDateTxv, endDateTxv;
     private EditText createCourseName, createCoursePrice, descriptionEdt;
     private boolean validCreateCourseName, validCreateCoursePrice, validCreateCourseDates,
@@ -51,7 +52,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
     private ImageButton startDateBtn, endDateBtn, backBtn;
     private Integer StartEndContor, checkedID;
     private String isEditString;
-    private List<Integer> daysChecked = new ArrayList<Integer>();
+    private List<Integer> daysChecked = new ArrayList<>();
     private Button createCourse;
     private Date date1, date2;
     private Date startDate, endDate;

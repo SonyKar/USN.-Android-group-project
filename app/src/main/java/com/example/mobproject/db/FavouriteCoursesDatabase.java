@@ -3,7 +3,6 @@ package com.example.mobproject.db;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
-import com.example.mobproject.models.Favourites;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
