@@ -322,7 +322,8 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/course_page_field_label">
+                        android:layout_marginStart="@dimen/course_page_field_label"
+                        >
 
                         <EditText
                             android:id="@+id/comment_input"
@@ -330,6 +331,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
+                            android:maxLength="35"
                             android:background="@drawable/comment_box"
                             android:ems="10"
                             android:hint="@string/add_a_comment"

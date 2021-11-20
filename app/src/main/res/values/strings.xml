@@ -149,6 +149,7 @@
     <string name="Favourites">Favourites</string>
 
     <string name="find_a_course">Find a course…</string>
+    <string name="enrollment_message">Successful enrollment!</string>
 
 
 </resources>

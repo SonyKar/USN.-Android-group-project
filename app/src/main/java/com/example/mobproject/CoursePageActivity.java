@@ -2,6 +2,7 @@ package com.example.mobproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -42,7 +43,8 @@ public class CoursePageActivity extends AppCompatActivity {
     private String courseId;
     private Course courseInfo;
     private UserInfo userInfo;
-    private String userId;
+    private String userId, userTypeString;
+    private Button enrollMe;
     private boolean isFavourite = false;
     private boolean isEnrolled = false;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -65,7 +67,7 @@ public class CoursePageActivity extends AppCompatActivity {
         courseDifficulty = findViewById(R.id.difficulty_course_page);
         coursePeriod = findViewById(R.id.course_period);
         courseMeetingDays = findViewById(R.id.meeting_days);
-        Button enrollMe = findViewById(R.id.enroll_me_btn);
+        enrollMe = findViewById(R.id.enroll_me_btn);
         numberOfComments = findViewById(R.id.no_comments);
         Button postCommentButton = findViewById(R.id.post_btn);
         commentTextView = findViewById(R.id.comment_input);
@@ -94,7 +96,7 @@ public class CoursePageActivity extends AppCompatActivity {
 
         //make button invisible for Student User
         UserInfo userInfo = new UserInfo(this);
-        String userTypeString = userInfo.getUserType();
+        userTypeString = userInfo.getUserType();
         if (userTypeString.equals("0"))
             editCourse.setVisibility(View.GONE);
 
@@ -141,8 +143,12 @@ public class CoursePageActivity extends AppCompatActivity {
                         isEnrolled = true;
                         break;
                     }
-//                if(isEnrolled)
-//                    //TODO Front-end setting the Enroll Button disabled
+                if(isEnrolled)
+                    enrollMe.setEnabled(false);
+                    //TODO Front-end setting the Enroll Button disabled - DONE
+
+
+
             }
         };
 
@@ -170,7 +176,6 @@ public class CoursePageActivity extends AppCompatActivity {
         courseInfo = courseController.addRating(courseInfo, givenScore);
         updateTotalRating();
     };
-    //TODO add rating to total rating
 
     private final View.OnClickListener onEditHandler = view -> {
         int isEdit = 1;
@@ -197,8 +202,11 @@ public class CoursePageActivity extends AppCompatActivity {
     private final View.OnClickListener onEnrollHandler = view -> {
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
         if(!isEnrolled){
-            //TODO Front-end set Enroll Button disabled  + Toast/Dummy Payment
+            enrollMe.setEnabled(false);
+            //TODO Front-end set Enroll Button disabled  + Toast/Dummy Payment - DONE
             enrolledDatabase.insertItem(userId,courseId);
+            Toast.makeText(getApplicationContext(), getString(R.string.enrollment_message), Toast.LENGTH_SHORT).show();
+            Log.d("enrollment", "Successful enrollment");
         }
     };
 

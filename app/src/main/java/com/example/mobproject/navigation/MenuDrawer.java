@@ -75,6 +75,7 @@ public class MenuDrawer {
         final int CREATE_COURSE = R.id.nav_create_course;
         final int LOG_OUT = R.id.nav_log_out;
 
+        //check userType
         SharedPreferences sharedPreferences = context.getSharedPreferences(Other.sharedPrefFile, Context.MODE_PRIVATE);
 
         if (sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA).equals("0"))
