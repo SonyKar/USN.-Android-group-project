@@ -34,4 +34,5 @@
     <dimen name="card_view_shadow">10dp</dimen>
     <dimen name="filter_field">17sp</dimen>
     <dimen name="create_course_difficulty">12sp</dimen>
+    <dimen name="rating_bar_end_margin">7dp</dimen>
 </resources>

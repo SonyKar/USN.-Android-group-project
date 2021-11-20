@@ -122,14 +122,16 @@
                     android:layout_marginStart="@dimen/padding"
                     android:layout_marginEnd="@dimen/padding"
                     android:orientation="horizontal"
+                    android:weightSum="1"
                     >
 
                     <TextView
                         android:id="@+id/difficulty_course_page"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
                         android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical|start"
+                        android:gravity="start"
                         android:text="@string/hard"
                         android:textColor="@color/advanced_red"
                         android:textStyle="bold"
@@ -137,15 +139,17 @@
 
                     <RatingBar
                         android:id="@+id/final_rating"
-                        style="@style/RatingBar"
+                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/rating_bar_end_margin"
                         android:clickable="true"
                         android:focusable="true"
                         android:isIndicator="true"
                         android:numStars="5"
-                        android:scaleX="0.5"
-                        android:scaleY="0.5"
+                        android:scaleX="1"
+                        android:scaleY="1"
                         android:stepSize="0.01"
                         android:theme="@style/RatingBar" />
 
@@ -153,7 +157,7 @@
                         android:id="@+id/final_rating_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="end"
                         android:text="@string/default_final_rating_score"
                         android:textColor="@color/primary_dark_purple"
                         android:textStyle="bold" />
@@ -257,8 +261,8 @@
                         android:id="@+id/rate_course_txt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="0.25"
                         android:text="@string/rate_this_course"
                         android:textColor="@color/black"
                         android:textSize="@dimen/course_page_field_label"
@@ -266,26 +270,27 @@
 
                     <RatingBar
                         android:id="@+id/rating_edit"
-                        style="@style/RatingBar"
-                        android:layout_width="0dp"
+
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.65"
+                        android:layout_gravity="center_vertical"
                         android:isIndicator="false"
                         android:numStars="5"
                         android:rating="2"
-                        android:scaleX="0.5"
-                        android:scaleY="0.5"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
                         android:stepSize="1"
                         android:theme="@style/RatingBar"
+                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
 
                         />
 
                     <TextView
                         android:id="@+id/rating_score"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="0.1"
+
                         android:text="0/5"
                         android:textColor="@color/primary_dark_purple"
                         android:textStyle="bold" />
