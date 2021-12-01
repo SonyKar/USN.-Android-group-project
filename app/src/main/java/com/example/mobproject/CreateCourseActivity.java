@@ -105,9 +105,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
             Database<Course> database = new CourseDatabase();
             if(courseId!=null)
                 database.getItem(courseId, profileCallback);
-
-
-
+            Log.d("categoryId","profileCallback");
         }
 
         backBtn.setOnClickListener(view -> backToMain());
@@ -124,40 +122,18 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
 
         });
 
-        //TODO iar nu mere
         //Spinner Setup
-        Context context = this;
-        Callback<Category> spinnerCallback = new Callback<Category>() {
-            @Override
-            public void OnFinish(ArrayList<Category> categoryList) {
-                Collections.sort(categoryList, (category, t1) -> category.getName().compareTo(t1.getName()));
-                sortedCategoryList = categoryList;
-                int categoryPosition =0;
-                if(categoryId!=null)
-                    for (Category category:sortedCategoryList)
-                        if(category.getId().equals(categoryId.getId()))
-                            categoryPosition = sortedCategoryList.indexOf(category);
-                ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
-                        (CreateCourseActivity.this,
-                                android.R.layout.simple_list_item_1,
-                                categoryList);
-                categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                categorySpinner.setAdapter(categoriesAdapter);
-                categorySpinner.setSelection(categoryPosition);
-            }
-        };
-        Database<Category> categoryDatabase = new CategoryDatabase();
-        categoryDatabase.getItems(spinnerCallback);
+
 
 
         //Save Button Listener
         createCourse.setOnClickListener(view -> {
             createCourseValidation();
             Category selectedCategory = (Category) categorySpinner.getSelectedItem();
-            String categoryId = selectedCategory.getId();
+            String spinnerCategoryId = selectedCategory.getId();
             DocumentReference docRefCategory = FirebaseFirestore.getInstance().
                     collection(DatabaseCollections.CATEGORIES_COLLECTION).
-                    document(categoryId);
+                    document(spinnerCategoryId);
 
             String courseName = createCourseName.getText().toString();
             double price = Double.parseDouble(String.valueOf(createCoursePrice.getText()));
@@ -371,6 +347,33 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
             createCourseName.setText(course.getName());
             createCoursePrice.setText(String.valueOf(course.getPrice()));
             categoryId = course.getCategoryId();
+            Log.d("categoryId", String.valueOf(categoryId));
+
+            Callback<Category> spinnerCallback = new Callback<Category>() {
+                @Override
+                public void OnFinish(ArrayList<Category> categoryList) {
+                    Log.d("categoryId","spinner callback");
+                    Collections.sort(categoryList, (category, t1) -> category.getName().compareTo(t1.getName()));
+                    sortedCategoryList = categoryList;
+                    int categoryPosition =0;
+                    Log.d("categoryId", "spinner" + String.valueOf(categoryId));
+                    if(categoryId!=null)
+                        for (Category category:sortedCategoryList)
+                            if(category.getId().equals(categoryId.getId()))
+                                categoryPosition = sortedCategoryList.indexOf(category);
+                    Log.d("categoryId", String.valueOf(categoryPosition));
+                    ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
+                            (CreateCourseActivity.this,
+                                    android.R.layout.simple_list_item_1,
+                                    categoryList);
+                    categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    categorySpinner.setAdapter(categoriesAdapter);
+                    categorySpinner.setSelection(categoryPosition);
+                }
+            };
+            Database<Category> categoryDatabase = new CategoryDatabase();
+            categoryDatabase.getItems(spinnerCallback);
+
             rateCounter = course.getRateCounter();
             studentCounter = course.getStudentCounter();
             rating = course.getRating();
