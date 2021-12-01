@@ -134,14 +134,14 @@
     <string name="comment_error">Please, fill out the comment message first</string>
 
     <string-array name="sorting_criteria">
-        <item>Last added</item>
-        <item>First added</item>
+        <item>Name: Ascending</item>
+        <item>Name: Descending</item>
         <item>Price: Low to High</item>
         <item>Price: High to Low</item>
         <item>Rating: Low to High</item>
         <item>Rating: High to Low</item>
-        <item>Earliest to start</item>
-        <item>Latest to start</item>
+        <item>Start Date: Early to Late</item>
+        <item>Start Date: Late to Early</item>
     </string-array>
 
 <!-- Currencies -->

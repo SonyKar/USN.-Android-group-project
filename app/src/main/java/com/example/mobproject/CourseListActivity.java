@@ -1,14 +1,13 @@
 package com.example.mobproject;
 
-
-import static com.example.mobproject.navigation.MenuDrawer.setupDrawerContent;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,26 +15,21 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.adapters.CourseAdapter;
 import com.example.mobproject.constants.UserInfo;
+import com.example.mobproject.controllers.CourseSort;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.example.mobproject.navigation.MenuDrawer;
-import com.example.mobproject.navigation.MenuDrawer;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -46,13 +40,19 @@ import java.util.Currency;
 import java.util.List;
 
 public class CourseListActivity extends AppCompatActivity {
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch enrollSwitch;
     private Spinner categoryFilter;
     private final ArrayList<Integer> difficultyChecked = new ArrayList<>();
     private CheckBox Beginner, Intermediate, Advanced;
     private RangeSlider priceRange;
-    private SharedPreferences sharedPref;
+
     private String userId;
+    Context activityContext;
+
+    private ArrayList<Course> courseList;
+    private ArrayList<DocumentReference> favouriteList;
+    RecyclerView courseListRecyclerView;
 
     @SuppressLint("ResourceAsColor")
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +62,7 @@ public class CourseListActivity extends AppCompatActivity {
         MenuDrawer.actionBarInit(this);
         UserInfo userInfo = new UserInfo(this);
         userId = userInfo.getUserId();
-        Log.d("prefCheck", userInfo.getUserType());
-//        sharedPref = getApplicationContext().getSharedPreferences("com.example.mobproject", Context.MODE_PRIVATE);
-//        Log.d("prefCheck", sharedPref.getString("userType","NoIdFound"));
         MenuDrawer.actionBarInit(this);
-        sortBarInit();
-
-        /*View v = sortingCategory.getSelectedView();
-        ((TextView)v).setTextColor(Integer.parseInt("4E0D3A"));*/
-
 
         FloatingActionButton filterBtn = findViewById(R.id.filter_fab);
         filterBtn.setOnClickListener(view -> showFilterDialog());
@@ -83,18 +75,21 @@ public class CourseListActivity extends AppCompatActivity {
     }
 
     private void fillCourses() {
-        Context context = this;
+        activityContext = this;
         Callback<Course> recyclerViewCallback = new Callback<Course>() {
             @Override
             public void OnFinish(ArrayList<Course> coursesList) {
-                RecyclerView courseListRecyclerView = findViewById(R.id.course_list);
-                courseListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                courseList = coursesList;
+                courseListRecyclerView = findViewById(R.id.course_list);
+                courseListRecyclerView.setLayoutManager(new LinearLayoutManager(activityContext));
                 FavouriteCoursesDatabase favouriteCoursesDatabase = new FavouriteCoursesDatabase();
                 favouriteCoursesDatabase.getItems(userId, new Callback<DocumentReference>() {
                     @Override
                     public void OnFinish(ArrayList<DocumentReference> arrayList) {
-                        CourseAdapter adapter = new CourseAdapter(context, coursesList, arrayList, userId);
+                        favouriteList = arrayList;
+                        CourseAdapter adapter = new CourseAdapter(activityContext, courseList, favouriteList, userId);
                         courseListRecyclerView.setAdapter(adapter);
+                        sortBarInit();
                     }
                 });
             }
@@ -114,6 +109,49 @@ public class CourseListActivity extends AppCompatActivity {
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         sortingCategory.setAdapter(categoriesAdapter);
+
+        sortingCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                CourseSort courseSort = new CourseSort();
+
+                if (courseList != null) {
+                    switch (position) {
+                        case 0:
+                            courseList = courseSort.sortByName(courseList, true);
+                            break;
+                        case 1:
+                            courseList = courseSort.sortByName(courseList, false);
+                            break;
+                        case 2:
+                            courseList = courseSort.sortByPrice(courseList, true);
+                            break;
+                        case 3:
+                            courseList = courseSort.sortByPrice(courseList, false);
+                            break;
+                        case 4:
+                            courseList = courseSort.sortByRating(courseList, true);
+                            break;
+                        case 5:
+                            courseList = courseSort.sortByRating(courseList, false);
+                            break;
+                        case 6:
+                            courseList = courseSort.sortByTime(courseList, true);
+                            break;
+                        case 7:
+                            courseList = courseSort.sortByTime(courseList, false);
+                            break;
+                    }
+                    CourseAdapter adapter = new CourseAdapter(activityContext, courseList, favouriteList, userId);
+                    courseListRecyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     //generate filter drawer
