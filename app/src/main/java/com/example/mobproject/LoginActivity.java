@@ -130,5 +130,9 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(toNewPass);
         finish();
     };
+
+    // TODO If you sign out, then navigate to forgot password or
+    //  sign up activity and then press back button, you are navigated back to course activity,
+    //  either login activity
 }
 
