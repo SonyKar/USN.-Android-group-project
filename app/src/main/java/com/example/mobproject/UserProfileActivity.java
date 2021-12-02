@@ -33,7 +33,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
         editProfile.setOnClickListener(switchToEditProfile);
 
-        initProfile();
     }
 
     private void initProfile() {
@@ -52,6 +51,12 @@ public class UserProfileActivity extends AppCompatActivity {
                 userStatus.setText(UserType.values()[userType].toString());
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initProfile();
     }
 
     private final View.OnClickListener switchToEditProfile = view -> {

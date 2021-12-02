@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                             };
 
                             userInfo.setUserId(auth.getUid());
+                            userInfo.setUserPassword(password);
                             UserDatabase userDatabase = new UserDatabase();
                             userDatabase.getItem(auth.getUid(), onCompleteLoginCallback);
                         } else {

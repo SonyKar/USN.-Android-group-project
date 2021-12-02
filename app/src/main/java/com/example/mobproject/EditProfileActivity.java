@@ -1,7 +1,9 @@
 package com.example.mobproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,6 +27,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     TextView fNameEdit, lNameEdit, emailEdit;
     boolean isValidated = true;
+    UserInfo userInfo;
+    public static Context appContext;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        userInfo = new UserInfo(this);
+        appContext = getApplicationContext();
 
         fNameEdit = findViewById(R.id.fname_edit);
         lNameEdit = findViewById(R.id.lname_edit);
@@ -49,8 +56,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void initEditProfile() {
         UserDatabase userDatabase = new UserDatabase();
-        UserInfo userInfo = new UserInfo(this);
-
         userDatabase.getItem(userInfo.getUserId(), getUserData);
     }
 
@@ -69,29 +74,40 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     };
 
-    private final View.OnClickListener saveAndGoBackToProfile = view -> {
-        saveProfile();
-        if (isValidated) goToProfile();
-    };
+    private final View.OnClickListener saveAndGoBackToProfile = view -> saveProfile();
 
     private void saveProfile() {
+        isValidated = true;
         String fName = fNameEdit.getText().toString();
         String lName = lNameEdit.getText().toString();
         String name = fName + " " + lName;
         String email = emailEdit.getText().toString();
 
         validateInputs(fName, lName, email);
-
-        if (isValidated) {
-            UserInfo userInfo = new UserInfo(this);
-            DocumentReference userType = FirebaseFirestore.getInstance()
-                    .collection(DatabaseCollections.USERTYPES_COLLECTION).document(userInfo.getUserType());
-
-            User user = new User(name, email, userType);
-
-            UserDatabase userDatabase = new UserDatabase();
-            userDatabase.updateItem(userInfo.getUserId(), user);
-        }
+        UserDatabase userDatabase = new UserDatabase();
+        UserInfo userInfo = new UserInfo(this);
+        userDatabase.getItems( new Callback<User>() {
+            @Override
+            public void OnFinish(ArrayList<User> userList) {
+                String userId = userInfo.getUserId();
+                for(User user: userList){
+                    if((!user.getId().equals(userId)) && user.getEmail().equals(email)) {
+                        emailEdit.setError(getResources().getString(R.string.error_taken_email));
+                        isValidated = false;
+                        break;
+                    }
+                }
+                Log.d("emailValid",String.valueOf(isValidated));
+                if(isValidated) {
+                    DocumentReference userType = FirebaseFirestore.getInstance()
+                            .collection(DatabaseCollections.USERTYPES_COLLECTION).document(userInfo.getUserType());
+                    User user = new User(name, email, userType);
+                    UserDatabase userDatabase = new UserDatabase();
+                    userDatabase.updateItem(userInfo.getUserId(), user);
+                    goToProfile();
+                }
+            }
+        });
     }
 
     private void validateInputs(String fName, String lName, String email) {
@@ -126,5 +142,8 @@ public class EditProfileActivity extends AppCompatActivity {
         finish(); // close this activity as oppose to navigating up
 
         return false;
+    }
+    public static Context getContextOfApplication(){
+        return appContext;
     }
 }

@@ -145,10 +145,6 @@ public class CoursePageActivity extends AppCompatActivity {
                     }
                 if(isEnrolled)
                     enrollMe.setEnabled(false);
-                    //TODO Front-end setting the Enroll Button disabled - DONE
-
-
-
             }
         };
 

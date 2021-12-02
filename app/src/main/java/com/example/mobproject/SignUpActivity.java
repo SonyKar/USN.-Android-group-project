@@ -129,6 +129,7 @@ public class SignUpActivity extends AppCompatActivity {
                             user = new User(fName+" "+lName, email, userType);
                             UserInfo userInfo = new UserInfo(this);
                             userInfo.setUserId(auth.getUid());
+                            userInfo.setUserPassword(password);
                             docRef.set(user).addOnFailureListener(e -> Log.d("addUserData",
                                     "onFailure: "+e.toString()));
 

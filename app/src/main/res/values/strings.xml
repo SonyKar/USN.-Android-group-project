@@ -15,6 +15,7 @@
     <string name="teacher">Teacher</string>
     <string name="email_error">INSERT email address!!</string>
     <string name="error_invalid_email">INVALID email address!!</string>
+    <string name="error_taken_email">The email is already taken!</string>
     <string name="password_error">INSERT password!!</string>
     <string name="conf_password_error">CONFIRM password!!</string>
     <string name="password_match_error">Passwords don\'t match!!</string>

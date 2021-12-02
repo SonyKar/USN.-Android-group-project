@@ -1,10 +1,8 @@
 package com.example.mobproject;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -105,7 +103,6 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
             Database<Course> database = new CourseDatabase();
             if(courseId!=null)
                 database.getItem(courseId, profileCallback);
-            Log.d("categoryId","profileCallback");
         }
 
         backBtn.setOnClickListener(view -> backToMain());
@@ -347,21 +344,17 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
             createCourseName.setText(course.getName());
             createCoursePrice.setText(String.valueOf(course.getPrice()));
             categoryId = course.getCategoryId();
-            Log.d("categoryId", String.valueOf(categoryId));
 
             Callback<Category> spinnerCallback = new Callback<Category>() {
                 @Override
                 public void OnFinish(ArrayList<Category> categoryList) {
-                    Log.d("categoryId","spinner callback");
                     Collections.sort(categoryList, (category, t1) -> category.getName().compareTo(t1.getName()));
                     sortedCategoryList = categoryList;
                     int categoryPosition =0;
-                    Log.d("categoryId", "spinner" + String.valueOf(categoryId));
                     if(categoryId!=null)
                         for (Category category:sortedCategoryList)
                             if(category.getId().equals(categoryId.getId()))
                                 categoryPosition = sortedCategoryList.indexOf(category);
-                    Log.d("categoryId", String.valueOf(categoryPosition));
                     ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
                             (CreateCourseActivity.this,
                                     android.R.layout.simple_list_item_1,
