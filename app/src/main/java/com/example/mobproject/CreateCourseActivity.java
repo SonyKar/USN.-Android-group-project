@@ -97,13 +97,12 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         isEdit = intent.getIntExtra("EDIT_COURSE", 0);
 
         if(isEdit == 1){
-            //get fields from DB
-
             courseId = intent.getStringExtra("COURSE_ID");
             Database<Course> database = new CourseDatabase();
             if(courseId!=null)
                 database.getItem(courseId, profileCallback);
         }
+        else fillNewSpinner();
 
         backBtn.setOnClickListener(view -> backToMain());
 
@@ -407,5 +406,20 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         }
     };
 
-
+    private void fillNewSpinner(){
+        Callback<Category> spinnerCallback = new Callback<Category>() {
+            @Override
+            public void OnFinish(ArrayList<Category> categoryList) {
+                Collections.sort(categoryList, (category, t1) -> category.getName().compareTo(t1.getName()));
+                ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
+                        (CreateCourseActivity.this,
+                                android.R.layout.simple_list_item_1,
+                                categoryList);
+                categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                categorySpinner.setAdapter(categoriesAdapter);
+            }
+        };
+        Database<Category> categoryDatabase = new CategoryDatabase();
+        categoryDatabase.getItems(spinnerCallback);
+    }
 }
