@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,9 @@ import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -39,6 +43,7 @@ public class CoursePageActivity extends AppCompatActivity {
     private RatingBar finalRating;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
     courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView;
+    private ImageView commentAvatar;
     private FloatingActionButton addToFav;
     private String courseId;
     private Course courseInfo;
@@ -71,6 +76,7 @@ public class CoursePageActivity extends AppCompatActivity {
         numberOfComments = findViewById(R.id.no_comments);
         Button postCommentButton = findViewById(R.id.post_btn);
         commentTextView = findViewById(R.id.comment_input);
+        commentAvatar = findViewById(R.id.comment_avatar);
         userInfo = new UserInfo(this);
         userId = userInfo.getUserId();
 
@@ -102,6 +108,13 @@ public class CoursePageActivity extends AppCompatActivity {
 
         initFavouriteButton();
         initEnrolledButton();
+
+        //set commentAvatar
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference profileImgRef = storageReference.child("profileImages")
+                .child(userInfo.getUserId()+".jpg");
+        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
+                Picasso.get().load(uri).into(commentAvatar));
     }
 
     private void initFavouriteButton() {
@@ -199,7 +212,6 @@ public class CoursePageActivity extends AppCompatActivity {
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
         if(!isEnrolled){
             enrollMe.setEnabled(false);
-            //TODO Front-end set Enroll Button disabled  + Toast/Dummy Payment - DONE
             enrolledDatabase.insertItem(userId,courseId);
             Toast.makeText(getApplicationContext(), getString(R.string.enrollment_message), Toast.LENGTH_SHORT).show();
             Log.d("enrollment", "Successful enrollment");

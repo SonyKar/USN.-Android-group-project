@@ -16,6 +16,9 @@ import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Comment;
 import com.example.mobproject.models.User;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     public void OnFinish(ArrayList<User> arrayList) {
                         String name = arrayList.get(0).getName();
                         holder.commentUserName.setText(name); //fName + " " + lName
+                        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                        StorageReference profileImgRef = storageReference.child("profileImages")
+                                .child(arrayList.get(0).getId()+".jpg");
+                        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
+                                Picasso.get().load(uri).into(holder.userAvatar));
                     }
                 });
 

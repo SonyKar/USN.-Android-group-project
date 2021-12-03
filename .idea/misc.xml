@@ -3,8 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/card_view.xml" value="0.1" />
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/comments_card_view.xml" value="0.4466666666666667" />
         <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/course_page.xml" value="0.15416666666666667" />
         <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/create_course.xml" value="0.140625" />
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/edit_profile.xml" value="0.5" />
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/filter_drawer.xml" value="0.11197916666666667" />
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/nav_header.xml" value="0.1" />
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/user_profile.xml" value="0.11197916666666667" />
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/menu/menu.xml" value="0.22" />
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/menu/menu_search.xml" value="0.11197916666666667" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/button.xml" value="0.19537037037037036" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/ic_favourite_black.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/ic_favourite_red.xml" value="0.2520833333333333" />

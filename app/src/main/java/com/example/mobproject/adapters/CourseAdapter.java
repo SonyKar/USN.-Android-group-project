@@ -41,7 +41,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-    public CourseAdapter(Context context, ArrayList<Course> data, ArrayList<DocumentReference> favouriteReferences, String userId){
+    public CourseAdapter(Context context, ArrayList<Course> data,
+                         ArrayList<DocumentReference> favouriteReferences, String userId){
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);

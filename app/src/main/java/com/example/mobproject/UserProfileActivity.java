@@ -3,6 +3,7 @@ package com.example.mobproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +15,15 @@ import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
 import com.example.mobproject.navigation.MenuDrawer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class UserProfileActivity extends AppCompatActivity {
     private TextView userName, userStatus, userEmail;
+    private ImageView profilePicture;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,7 @@ public class UserProfileActivity extends AppCompatActivity {
         userName = findViewById(R.id.profile_name);
         userStatus = findViewById(R.id.user_status);
         userEmail = findViewById(R.id.profile_email);
+        profilePicture = findViewById(R.id.profile_avatar);
 
         MenuDrawer.actionBarInit(this);
 
@@ -51,6 +57,12 @@ public class UserProfileActivity extends AppCompatActivity {
                 userStatus.setText(UserType.values()[userType].toString());
             }
         });
+        //setting the profile picture
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference profileImgRef = storageReference.child("profileImages")
+                .child(userInfo.getUserId()+".jpg");
+        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
+                Picasso.get().load(uri).into(profilePicture));
     }
 
     @Override

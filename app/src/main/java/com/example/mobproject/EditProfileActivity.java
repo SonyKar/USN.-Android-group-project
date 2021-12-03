@@ -1,13 +1,19 @@
 package com.example.mobproject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,6 +25,9 @@ import com.example.mobproject.models.User;
 import com.example.mobproject.validations.Validator;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -26,9 +35,12 @@ import java.util.Objects;
 public class EditProfileActivity extends AppCompatActivity {
 
     TextView fNameEdit, lNameEdit, emailEdit;
+    ImageView profilePicture;
     boolean isValidated = true;
     UserInfo userInfo;
     public static Context appContext;
+    ActivityResultLauncher<Intent> pictureResultLauncher;
+    StorageReference storageReference;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +56,25 @@ public class EditProfileActivity extends AppCompatActivity {
         lNameEdit = findViewById(R.id.lname_edit);
         emailEdit = findViewById(R.id.email_edit);
         Button saveProfile = findViewById(R.id.save_profile);
+        profilePicture = findViewById(R.id.profile_avatar_edit);
 
+        storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference profileImgRef = storageReference.child("profileImages")
+                .child(userInfo.getUserId()+".jpg");
+        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
+                Picasso.get().load(uri).into(profilePicture));
+
+        profilePicture.setOnClickListener(changeProfilePicture);
         saveProfile.setOnClickListener(saveAndGoBackToProfile);
+        pictureResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK&&result.getData()!=null) {
+                        Intent data = result.getData();
+                        Uri uri = data.getData();
+                        pictureUpload(uri);
+                    }
+                });
 
         initEditProfile();
 
@@ -76,6 +105,28 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private final View.OnClickListener saveAndGoBackToProfile = view -> saveProfile();
 
+    private final View.OnClickListener changeProfilePicture = view ->{
+        Intent gallery = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if (gallery.resolveActivity(getPackageManager()) != null) {
+            pictureResultLauncher.launch(gallery);
+        } else {
+            Toast.makeText(this, "There is no app that support this action",
+                    Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private void pictureUpload(Uri imageUri){
+        StorageReference fileRef = storageReference.child("profileImages")
+                .child(userInfo.getUserId()+".jpg");
+        fileRef.putFile(imageUri).addOnSuccessListener(taskSnapshot ->
+                fileRef.getDownloadUrl().addOnSuccessListener(uri ->{
+                    profilePicture.setImageURI(uri);
+                    Picasso.get().load(uri).into(profilePicture);}))
+                .addOnFailureListener(e ->
+                Toast.makeText(EditProfileActivity.this,"Failed to upload image", Toast.LENGTH_LONG).show());
+    }
+
     private void saveProfile() {
         isValidated = true;
         String fName = fNameEdit.getText().toString();
@@ -97,7 +148,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                Log.d("emailValid",String.valueOf(isValidated));
                 if(isValidated) {
                     DocumentReference userType = FirebaseFirestore.getInstance()
                             .collection(DatabaseCollections.USERTYPES_COLLECTION).document(userInfo.getUserType());

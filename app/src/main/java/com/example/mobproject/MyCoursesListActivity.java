@@ -7,13 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mobproject.adapters.FavouriteListAdapter;
 import com.example.mobproject.adapters.MyCoursesAdapter;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.CourseDatabase;
-import com.example.mobproject.db.Database;
 import com.example.mobproject.db.EnrolledCoursesDatabase;
-import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.example.mobproject.navigation.MenuDrawer;
