@@ -84,7 +84,7 @@
             android:drawablePadding="@dimen/drawable_padding_field"
             android:hint="@string/price"
             android:imeOptions="actionNext"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:paddingStart="@dimen/field_padding_start"
             android:paddingEnd="@dimen/field_padding_start"
             android:paddingBottom="@dimen/field_padding_bottom"

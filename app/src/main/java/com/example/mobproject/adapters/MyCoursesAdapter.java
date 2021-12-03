@@ -73,7 +73,7 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
         String finalScore = data.get(position).getRating() + "/5.00";//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.date_format));
         String period = sdf.format(data.get(position).getStartDate()) + " - " + sdf.format(data.get(position).getEndDate());//startDate + " - " + endDate
         holder.coursePeriod.setText(period);
 
@@ -81,9 +81,11 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
         String currency = format.format(data.get(position).getPrice());
         holder.coursePrice.setText(currency);
 
-        // TODO to set all the hardcoded values to a variable
+        // TODO to set all the hardcoded values to a variable - DONE - Exception: parseColor
         boolean enroll = data.get(position).isOpenEnroll();
-        holder.courseEnroll.setText(enroll ? "Open to enroll" : "Close to enroll");
+        String openEnroll = holder.itemView.getContext().getString(R.string.open_enroll);
+        String closeEnroll = holder.itemView.getContext().getString(R.string.close_enroll);
+        holder.courseEnroll.setText(enroll ? openEnroll : closeEnroll);
 
         holder.courseEnroll.setTextColor( enroll ?
                 Color.parseColor("#22E865") :

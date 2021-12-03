@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.mobproject.adapters.FavouriteListAdapter;
 import com.example.mobproject.constants.UserInfo;
@@ -26,17 +27,29 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
 
 
 public class FavouriteListActivity extends AppCompatActivity {
     private UserInfo userInfo;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favourite_list);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         userInfo = new UserInfo(this);
 
         MenuDrawer.actionBarInit(this);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                RearrangeItems();
+            }
+        });
     }
 
     @Override
@@ -79,6 +92,13 @@ public class FavouriteListActivity extends AppCompatActivity {
 
     public void onBackPressed(){
         MenuDrawer.onBackHandler();
+    }
+
+    public void RearrangeItems() {
+        // Shuffling the data of ArrayList using system time
+        //Collections.shuffle(images, new Random(System.currentTimeMillis()));
+        //Collections.shuffle(text, new Random(System.currentTimeMillis()));
+        fillCourses();
     }
 
 }

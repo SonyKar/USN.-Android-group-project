@@ -47,7 +47,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
         this.userId = userId;
         this.favouriteReferences = favouriteReferences;
-        Log.d("favourites", String.valueOf(favouriteReferences));
+        Log.d(context.getString(R.string.favourites_log), String.valueOf(favouriteReferences));
 
     }
 
@@ -82,10 +82,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         }
 
         double finalScoreValue = Math.round(data.get(position).getRating() * 100.0) / 100.0;
-        String finalScore = finalScoreValue + "/5.00";//function to calculate final score
+        String finalScore = finalScoreValue + holder.itemView.getContext().getString(R.string.ratingOutOf);//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.date_format), Locale.US);
         String period = sdf.format(data.get(position).getStartDate()) + " - " + sdf.format(data.get(position).getEndDate());//startDate + " - " + endDate
         holder.coursePeriod.setText(period);
 
@@ -94,12 +94,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         holder.coursePrice.setText(currency);
 
         //TODO set enroll false after start
-        // TODO to set all the hardcoded values to a variable
+        // TODO to set all the hardcoded values to a variable - DONE - Except for: parseColor
         boolean enroll = data.get(position).isOpenEnroll();
-        holder.courseEnroll.setText(enroll ? "Open to enroll" : "Close to enroll");
+        String openEnroll = holder.itemView.getContext().getString(R.string.open_enroll);
+        String closeEnroll = holder.itemView.getContext().getString(R.string.close_enroll);
+        holder.courseEnroll.setText(enroll ? openEnroll : closeEnroll);
 
         holder.courseEnroll.setTextColor( enroll ?
-                Color.parseColor("#22E865") :
+                Color.parseColor("#22E865"):
                 Color.parseColor("#F61616"));
 
         if (isFavourite(data.get(position).getId())) {

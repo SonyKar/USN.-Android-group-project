@@ -73,10 +73,10 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         }
 
 
-        String finalScore = Math.round(data.get(position).getRating() * 100.0) / 100.0 + "/5.00";//function to calculate final score
+        String finalScore = Math.round(data.get(position).getRating() * 100.0) / 100.0 + holder.itemView.getContext().getString(R.string.ratingOutOf);//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.date_format));
         String period = sdf.format(data.get(position).getStartDate()) + " - " + sdf.format(data.get(position).getEndDate());//startDate + " - " + endDate
         holder.coursePeriod.setText(period);
 
@@ -84,9 +84,11 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         String currency = format.format(data.get(position).getPrice());
         holder.coursePrice.setText(currency);
 
-        // TODO to set all the hardcoded values to a variable
+        // TODO to set all the hardcoded values to a variable - DONE - Exception: parseColor
         boolean enroll = data.get(position).isOpenEnroll();
-        holder.courseEnroll.setText(enroll ? "Open to enroll" : "Close to enroll");
+        String openEnroll = holder.itemView.getContext().getString(R.string.open_enroll);
+        String closeEnroll = holder.itemView.getContext().getString(R.string.close_enroll);
+        holder.courseEnroll.setText(enroll ? openEnroll : closeEnroll);
 
         holder.courseEnroll.setTextColor( enroll ?
                 Color.parseColor("#22E865") :
@@ -120,12 +122,13 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
 
             addToFav.setImageResource(R.drawable.ic_favourite_red);
 
-            //TODO make the other courses lift up after removal
+            //TODO make the other courses lift up after removal - DONE - when swipe down
             addToFav.setOnClickListener(view -> {
                 addToFav.setImageResource(R.drawable.ic_favourite_black);
                 FavouriteCoursesDatabase favouritesDB = new FavouriteCoursesDatabase();
                 favouritesDB.removeItem(userId, data.get(getAdapterPosition()).getId());
 //                itemView.setVisibility(View.GONE);
+
             });
 
             itemView.setOnClickListener(this);

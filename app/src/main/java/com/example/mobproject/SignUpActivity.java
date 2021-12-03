@@ -100,7 +100,6 @@ public class SignUpActivity extends AppCompatActivity {
                 validSignUpPassword = false;
         }
 
-        // TODO to make a radio button selected by default
         // validate STATUS
 
             // one of the radio buttons is checked

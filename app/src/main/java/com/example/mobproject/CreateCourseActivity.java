@@ -40,8 +40,8 @@ import java.util.Objects;
 
 public class CreateCourseActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    //TODO floating point in the price field
-    //TODO limit the price range $1-$999.99
+    //TODO floating point in the price field - DONE -> create_course.xml
+    //TODO limit the price range $1-$999.99 - to be tested
     private TextView startDateTxv, endDateTxv;
     private EditText createCourseName, createCoursePrice, descriptionEdt;
     private boolean validCreateCourseName, validCreateCoursePrice, validCreateCourseDates,
@@ -134,6 +134,10 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
 
             String courseName = createCourseName.getText().toString();
             double price = Double.parseDouble(String.valueOf(createCoursePrice.getText()));
+
+            //check price limits
+
+
             int radioBtnId = difficultyGroup.getCheckedRadioButtonId();
             RadioButton radioBtn = findViewById(radioBtnId);
             int difficultyId = difficultyGroup.indexOfChild(radioBtn);
@@ -146,20 +150,25 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
             String endDate = endDateTxv.getText().toString();
             String courseDesc = descriptionEdt.getText().toString();
 
-            try {
-                Course course = new Course(courseName, docRefCategory, price, difficultyId,
+            //TODO - to be tested create new course
+            //if(price < 0 || price >= 1000)
+                //createCoursePrice.setError(getResources().getString(R.string.email_error));
+           // else {
+                try {
+                    Course course = new Course(courseName, docRefCategory, price, difficultyId,
                             docRefOwner, startDate, endDate, daysChecked, courseDesc, rateCounter,
                             studentCounter, rating, comments);
-                CourseDatabase courseDatabase = new CourseDatabase();
-                if(isEdit == 0)
-                    courseDatabase.insertItem(course);
-                else
-                    courseDatabase.updateItem(courseId,course);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+                    CourseDatabase courseDatabase = new CourseDatabase();
+                    if (isEdit == 0)
+                        courseDatabase.insertItem(course);
+                    else
+                        courseDatabase.updateItem(courseId, course);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
-            backToMain();
+                backToMain();
+            //}
         });
 
     }
@@ -378,7 +387,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
             ((RadioButton)difficultyGroup.getChildAt(difficulty)) .setChecked(true);
             startDate = course.getStartDate();
             endDate = course.getEndDate();
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat format = new SimpleDateFormat(getString(R.string.date_format_2));
 
             //Getting start&end dates
             date1 = startDate;
