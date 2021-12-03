@@ -54,23 +54,23 @@ public class MyCoursesListActivity extends AppCompatActivity {
 
         Callback<DocumentReference> recyclerViewCallback = new Callback<DocumentReference>() {
             @Override
-            public void OnFinish(ArrayList<DocumentReference> favouriteReferences) {
+            public void OnFinish(ArrayList<DocumentReference> enrolledReferences) {
                 ArrayList<Course> enrolledCourseList = new ArrayList<>();
                 CourseDatabase courseDatabase = new CourseDatabase();
                 Callback<Course> courseCallback = new Callback<Course>() {
                     @Override
                     public void OnFinish(ArrayList<Course> arrayList) {
                         enrolledCourseList.add(arrayList.get(0));
-                        if (enrolledCourseList.size() == favouriteReferences.size()) {
+                        if (enrolledCourseList.size() == enrolledReferences.size()) {
                             RecyclerView myCourseListRecyclerView = findViewById(R.id.my_courses_list);
                             myCourseListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                            MyCoursesAdapter adapter = new MyCoursesAdapter(context, arrayList);
+                            MyCoursesAdapter adapter = new MyCoursesAdapter(context, enrolledCourseList);
                             myCourseListRecyclerView.setAdapter(adapter);
                         }
                     }
                 };
 
-                for (DocumentReference courseRef : favouriteReferences) {
+                for (DocumentReference courseRef : enrolledReferences) {
                     courseDatabase.getItem(courseRef.getId(), courseCallback);
                 }
             }

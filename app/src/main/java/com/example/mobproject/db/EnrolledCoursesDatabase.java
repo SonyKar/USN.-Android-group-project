@@ -1,5 +1,7 @@
 package com.example.mobproject.db;
 
+import android.util.Log;
+
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.ErrorCodes;
 import com.example.mobproject.constants.ErrorMessages;
@@ -33,10 +35,9 @@ public class EnrolledCoursesDatabase {
     public void getItems(String userId, Callback<DocumentReference> callback) {
         DocumentReference docRef = db.collection(DatabaseCollections.ENROLLED_COLLECTION).document(userId);
         docRef.get().addOnSuccessListener(documentSnapshot -> {
-            ArrayList<DocumentReference> favouriteCourseReference =
+            ArrayList<DocumentReference> enrolledCourseReference =
                     (ArrayList<DocumentReference>) documentSnapshot.get("courses");
-
-            callback.OnFinish(favouriteCourseReference);
+            callback.OnFinish(enrolledCourseReference);
 
         });
     }
