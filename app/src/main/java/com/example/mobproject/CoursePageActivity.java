@@ -43,7 +43,7 @@ public class CoursePageActivity extends AppCompatActivity {
     private RatingBar finalRating;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
     courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView;
-    private ImageView commentAvatar;
+    private ImageView commentAvatar, courseImage;
     private FloatingActionButton addToFav;
     private String courseId;
     private Course courseInfo;
@@ -77,6 +77,7 @@ public class CoursePageActivity extends AppCompatActivity {
         Button postCommentButton = findViewById(R.id.post_btn);
         commentTextView = findViewById(R.id.comment_input);
         commentAvatar = findViewById(R.id.comment_avatar);
+        courseImage = findViewById(R.id.course_bg);
         UserInfo userInfo1 = new UserInfo(this);
         userId = userInfo1.getUserId();
 
@@ -258,6 +259,13 @@ public class CoursePageActivity extends AppCompatActivity {
                 editCourse.setVisibility(View.GONE);
             updateComments();
             updateTotalRating();
+
+            String categoryId = courseInfo.getCategoryId().getId();
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference profileImgRef = storageReference.child("categoryImages")
+                    .child(categoryId+".jpg");
+            profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
+                    Picasso.get().load(uri).into(courseImage));
         }
     };
 

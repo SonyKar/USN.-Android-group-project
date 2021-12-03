@@ -25,6 +25,9 @@ import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.models.Course;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -127,8 +130,15 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             }
         });
 
-        /*ImageView image = data.get(position);//get from DB
-        holder.courseImage.setImageResource(image);*/
+        String categoryId = data.get(position).getCategoryId().getId();
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference profileImgRef = storageReference.child("categoryImages")
+                .child(categoryId+".jpg");
+        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
+                Picasso.get().load(uri).into(holder.courseImage));
+
+//        ImageView image = data.get(position);//get from DB
+//        holder.courseImage.setImageResource(image);
 
     }
 
@@ -155,12 +165,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             courseImage = itemView.findViewById(R.id.course_img);
             addToFav = itemView.findViewById(R.id.add_to_fav_cardview);
 
-
-
-
-
-
-//
 
             itemView.setOnClickListener(this);
         }
