@@ -53,7 +53,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 userEmail.setText(user.getEmail());
 
                 int userType = Integer.parseInt(userInfo.getUserType());
-
                 userStatus.setText(UserType.values()[userType].toString());
             }
         });

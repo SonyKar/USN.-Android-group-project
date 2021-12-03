@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.UserInfo;
+import com.example.mobproject.constants.UserType;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
@@ -18,6 +20,7 @@ import com.example.mobproject.validations.Validator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -83,9 +86,19 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             };
 
-                            userInfo.setUserId(auth.getUid());
+                            String userId = auth.getUid();
+                            userInfo.setUserId(userId);
                             userInfo.setUserPassword(password);
                             UserDatabase userDatabase = new UserDatabase();
+                            userDatabase.getItem(userId, new Callback<User>() {
+                                @Override
+                                public void OnFinish(ArrayList<User> arrayList) {
+                                    User user = arrayList.get(0);
+                                    DocumentReference userTypeRef = user.getUserType();
+                                    userInfo.setUserType(userTypeRef.getId());
+                                }
+                            });
+
                             userDatabase.getItem(auth.getUid(), onCompleteLoginCallback);
                         } else {
                             loginBtn.setCompoundDrawables(null, null, null, null);
