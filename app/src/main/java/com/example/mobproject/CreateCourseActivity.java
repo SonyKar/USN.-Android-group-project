@@ -119,10 +119,6 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
 
         });
 
-        //Spinner Setup
-
-
-
         //Save Button Listener
         createCourse.setOnClickListener(view -> {
             createCourseValidation();
@@ -345,7 +341,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
 
 
     }
-
+    //TODO find a way to call it for create course
     private final Callback<Course> profileCallback = new Callback<Course>() {
         @Override
         public void OnFinish(ArrayList<Course> arrayList) {

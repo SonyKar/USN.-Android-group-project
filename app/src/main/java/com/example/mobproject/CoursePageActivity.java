@@ -47,12 +47,12 @@ public class CoursePageActivity extends AppCompatActivity {
     private FloatingActionButton addToFav;
     private String courseId;
     private Course courseInfo;
-    private UserInfo userInfo;
-    private String userId, userTypeString;
+    private String userId;
     private Button enrollMe;
     private boolean isFavourite = false;
     private boolean isEnrolled = false;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private ImageButton editCourse;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +62,7 @@ public class CoursePageActivity extends AppCompatActivity {
         finalRating = findViewById(R.id.final_rating);
         ratingScore = findViewById(R.id.rating_score);
         finalRatingScore = findViewById(R.id.final_rating_score);
-        ImageButton editCourse = findViewById(R.id.edit_btn);
+        editCourse = findViewById(R.id.edit_btn);
         addToFav = findViewById(R.id.add_to_fav);
         courseEnroll = findViewById(R.id.open_to_enroll_course_page);
         courseDescription = findViewById(R.id.course_descr);
@@ -77,8 +77,8 @@ public class CoursePageActivity extends AppCompatActivity {
         Button postCommentButton = findViewById(R.id.post_btn);
         commentTextView = findViewById(R.id.comment_input);
         commentAvatar = findViewById(R.id.comment_avatar);
-        userInfo = new UserInfo(this);
-        userId = userInfo.getUserId();
+        UserInfo userInfo1 = new UserInfo(this);
+        userId = userInfo1.getUserId();
 
         backToMain.setOnClickListener(switchToMain);
         addToFav.setOnClickListener(onFavouriteHandler);
@@ -102,7 +102,7 @@ public class CoursePageActivity extends AppCompatActivity {
 
         //make button invisible for Student User
         UserInfo userInfo = new UserInfo(this);
-        userTypeString = userInfo.getUserType();
+        String userTypeString = userInfo.getUserType();
         if (userTypeString.equals("0"))
             editCourse.setVisibility(View.GONE);
 
@@ -220,8 +220,8 @@ public class CoursePageActivity extends AppCompatActivity {
 
     private final Callback<Course> initValuesCallback = new Callback<Course>() {
         @Override
-        public void OnFinish(ArrayList<Course> arrayList) {
-            courseInfo = arrayList.get(0);
+        public void OnFinish(ArrayList<Course> courseList) {
+            courseInfo = courseList.get(0);
             courseName.setText(courseInfo.getName());
 
             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
@@ -243,7 +243,6 @@ public class CoursePageActivity extends AppCompatActivity {
                 courseEnroll.setText(R.string.cannot_enroll);
                 courseEnroll.setTextColor(getResources().getColor(R.color.advanced_red));
             }
-
             courseDescription.setText(courseInfo.getDescription());
 
             String dateString = SimpleDateFormat.getDateInstance().format(courseInfo.getStartDate()) + " - " + SimpleDateFormat.getDateInstance().format(courseInfo.getEndDate());
@@ -254,9 +253,10 @@ public class CoursePageActivity extends AppCompatActivity {
                 meetingDaysString.append(" ").append(getResources().getStringArray(R.array.meeting_days)[day]);
             }
             courseMeetingDays.setText(meetingDaysString.toString());
-
+            DocumentReference ownerId = courseInfo.getOwnerId();
+            if(!userId.equals(ownerId.getId()))
+                editCourse.setVisibility(View.GONE);
             updateComments();
-
             updateTotalRating();
         }
     };
