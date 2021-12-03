@@ -10,11 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.constants.UserType;
+import com.example.mobproject.db.EnrolledCoursesDatabase;
+import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
 import com.example.mobproject.navigation.MenuDrawer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -22,7 +25,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class UserProfileActivity extends AppCompatActivity {
-    private TextView userName, userStatus, userEmail;
+    private TextView userName, userStatus, userEmail, userCourses, userFavourites;
     private ImageView profilePicture;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +37,14 @@ public class UserProfileActivity extends AppCompatActivity {
         userStatus = findViewById(R.id.user_status);
         userEmail = findViewById(R.id.profile_email);
         profilePicture = findViewById(R.id.profile_avatar);
+        userCourses = findViewById(R.id.user_courses);
+        userFavourites = findViewById(R.id.favorite_courses);
 
         MenuDrawer.actionBarInit(this);
 
         editProfile.setOnClickListener(switchToEditProfile);
+        userCourses.setOnClickListener(switchToMyCourses);
+        userFavourites.setOnClickListener(switchToFavourites);
 
     }
 
@@ -51,9 +58,26 @@ public class UserProfileActivity extends AppCompatActivity {
                 User user = arrayList.get(0);
                 userName.setText(user.getName());
                 userEmail.setText(user.getEmail());
-
                 int userType = Integer.parseInt(userInfo.getUserType());
                 userStatus.setText(UserType.values()[userType].toString());
+
+                FavouriteCoursesDatabase favouritesDatabase = new FavouriteCoursesDatabase();
+                Callback<DocumentReference> favouritesCallback = new Callback<DocumentReference>() {
+                    @Override
+                    public void OnFinish(ArrayList<DocumentReference> favouritesList) {
+                        userFavourites.setText(String.valueOf(favouritesList.size()));
+                    }
+                };
+                favouritesDatabase.getItems(userID, favouritesCallback);
+
+                EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
+                Callback<DocumentReference> enrolledCallback = new Callback<DocumentReference>() {
+                    @Override
+                    public void OnFinish(ArrayList<DocumentReference> enrolledList) {
+                        userCourses.setText(String.valueOf(enrolledList.size()));
+                    }
+                };
+                enrolledDatabase.getItems(userID,enrolledCallback);
             }
         });
         //setting the profile picture
@@ -75,6 +99,17 @@ public class UserProfileActivity extends AppCompatActivity {
         startActivity(toEditProfile);
     };
 
+    private final View.OnClickListener switchToMyCourses = view -> {
+        Intent toMyCourses = new Intent(this, MyCoursesListActivity.class);
+        startActivity(toMyCourses);
+        finish();
+    };
+
+    private final View.OnClickListener switchToFavourites = view -> {
+      Intent toFavourites = new Intent(this, FavouriteListActivity.class);
+      startActivity(toFavourites);
+      finish();
+    };
     //color menu item
 
     public void onBackPressed(){
