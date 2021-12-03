@@ -51,7 +51,8 @@
                             android:layout_height="@dimen/profile_size"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/padding"
-                            android:src="@drawable/cosmi_avatar" />
+                             />
+<!--                        android:src="@drawable/cosmi_avatar"-->
 
                         <TextView
                             android:id="@+id/profile_name"

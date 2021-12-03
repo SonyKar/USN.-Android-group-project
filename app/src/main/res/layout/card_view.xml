@@ -33,11 +33,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
-                app:srcCompat="@drawable/artificial_intelligence_background"
                 android:layout_gravity="start"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 />
+<!--            app:srcCompat="@drawable/artificial_intelligence_background"-->
 
             <RelativeLayout
                 android:layout_width="match_parent"

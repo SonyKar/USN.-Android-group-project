@@ -41,8 +41,8 @@
                         android:id="@+id/course_bg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/artificial_intelligence_background" />
+                        android:adjustViewBounds="true"/>
+                        <!--android:src="@drawable/artificial_intelligence_background"-->
 
                     <ImageButton
                         android:id="@+id/back_btn"
@@ -322,7 +322,8 @@
                         android:layout_width="@dimen/title"
                         android:layout_height="@dimen/title"
                         android:layout_gravity="center"
-                        android:src="@drawable/cosmi_avatar" />
+                         />
+<!--                    android:src="@drawable/cosmi_avatar"-->
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"

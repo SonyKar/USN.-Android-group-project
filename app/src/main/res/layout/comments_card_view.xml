@@ -29,7 +29,8 @@
                 android:layout_width="@dimen/title"
                 android:layout_height="@dimen/title"
                 android:layout_gravity="top"
-                android:src="@drawable/cosmi_avatar" />
+                 />
+<!--            android:src="@drawable/cosmi_avatar"-->
 
             <LinearLayout
                 android:id="@+id/comment_text"
