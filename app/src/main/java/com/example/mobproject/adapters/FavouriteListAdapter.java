@@ -22,6 +22,9 @@ import com.example.mobproject.R;
 import com.example.mobproject.constants.Intents;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.models.Course;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -94,8 +97,12 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
                 Color.parseColor("#22E865") :
                 Color.parseColor("#F61616"));
 
-        /*ImageView image = data.get(position);//get from DB
-        holder.courseImage.setImageResource(image);*/
+        String categoryId = data.get(position).getCategoryId().getId();
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference profileImgRef = storageReference.child("categoryImages")
+                .child(categoryId+".jpg");
+        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
+                Picasso.get().load(uri).into(holder.courseImage));
 
     }
 
