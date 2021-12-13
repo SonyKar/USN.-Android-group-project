@@ -139,6 +139,7 @@
     <string name="favourites_log">favourites</string>
     <string name="date_format_2">dd/MM/yyyy</string>
     <string name="cannot_enroll_teacher">Teachers cannot enroll</string>
+    <string name="cannot_enroll_message">Cannot enroll</string>
 
 
 </resources>

@@ -98,8 +98,8 @@ public class CoursePageActivity extends AppCompatActivity {
         courseId = intent.getStringExtra(Intents.COURSE_ID);
 
         // set values for all fields
-        Database<Course> database = new CourseDatabase();
-        database.getItem(courseId, initValuesCallback);
+        //Database<Course> database = new CourseDatabase();
+        //database.getItem(courseId, initValuesCallback);
 
         //check course availability - open to enroll?
         //if user is already enrolled or currentDate > startDate
@@ -154,6 +154,26 @@ public class CoursePageActivity extends AppCompatActivity {
         UserInfo userInfo = new UserInfo(this);
         String userTypeString = userInfo.getUserType();
 
+        EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
+        DocumentReference courseRef = db.collection(DatabaseCollections.ENROLLED_COLLECTION)
+                .document(courseId);
+
+        enrolledDatabase.getItems(userId, new Callback<DocumentReference>() {
+            @Override
+            public void OnFinish(ArrayList<DocumentReference> enrolledReferences) {
+                for(DocumentReference docRef : enrolledReferences) {
+                    if (courseRef.getId().equals(docRef.getId())) {
+                        isEnrolled = true;
+                        break;
+                    }
+                }
+
+                Database<Course> database = new CourseDatabase();
+                database.getItem(courseId, initValuesCallback);
+            }
+        });
+
+        //check enrollMe button
         if (userTypeString.equals("1")){
             enrollMe.setEnabled(false);
             enrollMe.setText(R.string.cannot_enroll_teacher);
@@ -161,24 +181,6 @@ public class CoursePageActivity extends AppCompatActivity {
             enrollMe.setTypeface(null, Typeface.NORMAL);
         }
 
-
-        EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
-        DocumentReference courseRef = db.collection(DatabaseCollections.ENROLLED_COLLECTION)
-                .document(courseId);
-        final Callback<DocumentReference> enrolledCallback = new Callback<DocumentReference>() {
-            @Override
-            public void OnFinish(ArrayList<DocumentReference> enrolledReferences) {
-                for(DocumentReference docRef : enrolledReferences)
-                    if(courseRef.equals(docRef)){
-                        isEnrolled = true;
-                        break;
-                    }
-                if(isEnrolled)
-                    enrollMe.setEnabled(false);
-            }
-        };
-
-        enrolledDatabase.getItems(userId,enrolledCallback);
     }
 
     @Override
@@ -228,10 +230,10 @@ public class CoursePageActivity extends AppCompatActivity {
     private final View.OnClickListener onEnrollHandler = view -> {
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
         if(!isEnrolled){
-            enrollMe.setEnabled(false);
-            enrolledDatabase.insertItem(userId,courseId);
+            enrolledDatabase.insertItem(userId, courseId);
             Toast.makeText(getApplicationContext(), getString(R.string.enrollment_message), Toast.LENGTH_SHORT).show();
             Log.d("enrollment", "Successful enrollment");
+            enrollMe.setEnabled(false);
         }
     };
 
@@ -250,6 +252,14 @@ public class CoursePageActivity extends AppCompatActivity {
 
             //set difficulty color
             courseDifficulty.setTextColor(getResources().getIntArray(R.array.difficultyColors)[difficulty]);
+
+            //init enrollMe button
+            if(isEnrolled || !courseInfo.isOpenEnroll()){
+                enrollMe.setEnabled(false);
+                enrollMe.setText(R.string.cannot_enroll_message);
+            }
+
+
 
             //if(courseInfo.isOpenEnroll())
             if(courseInfo.isOpenEnroll())
