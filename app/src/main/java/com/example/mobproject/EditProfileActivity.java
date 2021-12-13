@@ -60,7 +60,7 @@ public class EditProfileActivity extends AppCompatActivity {
         profilePicture = findViewById(R.id.profile_avatar_edit);
 
         storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child("profileImages")
+        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
                 .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(profilePicture));
@@ -112,13 +112,13 @@ public class EditProfileActivity extends AppCompatActivity {
         if (gallery.resolveActivity(getPackageManager()) != null) {
             pictureResultLauncher.launch(gallery);
         } else {
-            Toast.makeText(this, "There is no app that support this action",
+            Toast.makeText(this, "There is no app that supports this action",
                     Toast.LENGTH_SHORT).show();
         }
     };
 
     private void pictureUpload(Uri imageUri){
-        StorageReference fileRef = storageReference.child("profileImages")
+        StorageReference fileRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
                 .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
         fileRef.putFile(imageUri).addOnSuccessListener(taskSnapshot ->
                 fileRef.getDownloadUrl().addOnSuccessListener(uri ->{

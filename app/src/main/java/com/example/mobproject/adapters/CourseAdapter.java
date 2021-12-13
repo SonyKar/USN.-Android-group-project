@@ -21,6 +21,7 @@ import com.example.mobproject.CoursePageActivity;
 import com.example.mobproject.R;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.constants.Other;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.models.Course;
 import com.google.firebase.firestore.DocumentReference;
@@ -98,6 +99,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         holder.coursePrice.setText(currency);
 
         //TODO set enroll false after start
+
         boolean enroll = data.get(position).isOpenEnroll();
         String openEnroll = holder.itemView.getContext().getString(R.string.open_enroll);
         String closeEnroll = holder.itemView.getContext().getString(R.string.close_enroll);
@@ -131,8 +133,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
 
         String categoryId = data.get(position).getCategoryId().getId();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child("categoryImages")
-                .child(categoryId+".jpg");
+        StorageReference profileImgRef = storageReference.child(Other.CATEGORY_STORAGE_FOLDER)
+                .child(categoryId+ Other.CATEGORY_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(holder.courseImage));
 

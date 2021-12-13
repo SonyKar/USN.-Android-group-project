@@ -323,8 +323,8 @@
                         android:layout_width="@dimen/title"
                         android:layout_height="@dimen/title"
                         android:layout_gravity="center"
+                        android:src="@drawable/user_icon"
                          />
-<!--                    android:src="@drawable/cosmi_avatar"-->
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"

@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -90,7 +91,7 @@ public class Course {
     }
 
     public boolean isOpenEnroll() {
-        return openEnroll;
+        return startDate.after(Calendar.getInstance().getTime());
     }
 
     public Date getStartDate() {
