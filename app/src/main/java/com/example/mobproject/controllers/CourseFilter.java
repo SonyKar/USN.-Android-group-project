@@ -1,7 +1,11 @@
 package com.example.mobproject.controllers;
 
+import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.models.Course;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CourseFilter {
@@ -29,6 +33,20 @@ public class CourseFilter {
         courseList = filteredCourses;
 
         return courseList;
+    }
+
+    public ArrayList<Course> filterCategory (ArrayList<Course> courseList, String categoryID) {
+        ArrayList<Course> filteredCourses = new ArrayList<>();
+        if (categoryID != null) {
+            for (Course course : courseList) {
+                if (categoryID.equals(course.getCategoryId().getId())) {
+                    filteredCourses.add(course);
+                }
+            }
+        } else {
+            filteredCourses = courseList;
+        }
+        return filteredCourses;
     }
 
     public ArrayList<Course> filterEnroll (ArrayList<Course> courseList, boolean isOpenEnroll) {

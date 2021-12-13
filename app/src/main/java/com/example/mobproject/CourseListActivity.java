@@ -158,7 +158,8 @@ public class CourseListActivity extends AppCompatActivity {
         Callback<Category> spinnerCallback = new Callback<Category>() {
             @Override
             public void OnFinish(ArrayList<Category> categoryList) {
-                Collections.sort(categoryList, (category, t1) -> category.getName().compareTo(t1.getName()));
+                Collections.sort(categoryList, (category, nextCategory) -> category.getName().compareTo(nextCategory.getName()));
+                categoryList.add(0, new Category("All"));
                 ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
                         (CourseListActivity.this,
                                 R.layout.spinner_item_dark,
@@ -219,10 +220,9 @@ public class CourseListActivity extends AppCompatActivity {
         float maxPrice = Collections.max(priceValues);
         filteredCourseList = courseFilter.filterPrice(filteredCourseList, minPrice, maxPrice);
 
-        // TODO read categories to spinner from db
         //CATEGORY SPINNER
-        // String chosenCategory = categoryFilter.getSelectedItem().toString();
-        //send to DB - when "ALL" => no filter
+        String chosenCategoryID = ((Category)categoryFilter.getSelectedItem()).getId();
+        filteredCourseList = courseFilter.filterCategory(filteredCourseList, chosenCategoryID);
 
         //DIFFICULTY CHECKBOX
         ArrayList<Integer> difficulties = new ArrayList<>();
