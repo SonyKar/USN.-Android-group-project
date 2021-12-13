@@ -1,11 +1,7 @@
 package com.example.mobproject.controllers;
 
-import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.models.Course;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CourseFilter {
