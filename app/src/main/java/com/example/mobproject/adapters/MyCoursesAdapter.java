@@ -73,7 +73,8 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
         }
 
 
-        String finalScore = data.get(position).getRating() + "/5.00";//function to calculate final score
+        double finalScoreValue = Math.round(data.get(position).getRating() * 100.0) / 100.0;
+        String finalScore = finalScoreValue + holder.itemView.getContext().getString(R.string.ratingOutOf);//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
         SimpleDateFormat sdf = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.date_format));
