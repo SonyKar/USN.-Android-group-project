@@ -36,4 +36,5 @@
     <dimen name="create_course_difficulty">12sp</dimen>
     <dimen name="rating_bar_end_margin">7dp</dimen>
     <dimen name="filter_diff_size">11sp</dimen>
+    <dimen name="course_rating_margin_left">20dp</dimen>
 </resources>

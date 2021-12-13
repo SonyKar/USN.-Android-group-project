@@ -290,6 +290,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/course_rating_margin_left"
 
                         android:text="0/5"
                         android:textColor="@color/primary_dark_purple"

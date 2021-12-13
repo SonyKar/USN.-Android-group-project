@@ -171,7 +171,7 @@ public class CoursePageActivity extends AppCompatActivity {
                         isEnrolled = true;
                         break;
                     }
-                if(isEnrolled)//also checked if the user is a teacher
+                if(isEnrolled)
                     enrollMe.setEnabled(false);
             }
         };
