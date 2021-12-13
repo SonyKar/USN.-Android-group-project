@@ -40,7 +40,6 @@ import java.util.Objects;
 
 public class CreateCourseActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    //TODO floating point in the price field - DONE -> create_course.xml
     //TODO limit the price range $1-$999.99 - to be tested
     private TextView startDateTxv, endDateTxv;
     private EditText createCourseName, createCoursePrice, descriptionEdt;
@@ -397,12 +396,6 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
             for(int day : course.getMeetDays()){
                 meetDaysCheckboxes.get(day).setChecked(true);
             }
-
-
-            //TODO fix rating
-//            String finalRatingString = String.valueOf(course.getRateCounter()) ;
-//            finalRatingScore.setText(finalRatingString);
-//            finalRating.setRating(course.getRateCounter());
         }
     };
 

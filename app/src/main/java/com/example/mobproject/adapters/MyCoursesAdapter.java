@@ -84,7 +84,6 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
         String currency = format.format(data.get(position).getPrice());
         holder.coursePrice.setText(currency);
 
-        // TODO to set all the hardcoded values to a variable - DONE - Exception: parseColor
         boolean enroll = data.get(position).isOpenEnroll();
         String openEnroll = holder.itemView.getContext().getString(R.string.open_enroll);
         String closeEnroll = holder.itemView.getContext().getString(R.string.close_enroll);

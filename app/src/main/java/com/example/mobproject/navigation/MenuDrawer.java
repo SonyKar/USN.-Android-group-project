@@ -125,7 +125,6 @@ public class MenuDrawer {
                             Intent toLogin = new Intent(context, LoginActivity.class);
                             toLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(toLogin);
-//                            TODO finish() ?!
                             break;
                         default:
                             drawer.closeDrawer(GravityCompat.START);
