@@ -22,10 +22,12 @@ import com.example.mobproject.constants.Difficulty;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.CourseFilter;
 import com.example.mobproject.controllers.CourseSort;
+import com.example.mobproject.db.CategoryDatabase;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
+import com.example.mobproject.models.Category;
 import com.example.mobproject.models.Course;
 import com.example.mobproject.navigation.MenuDrawer;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -144,14 +146,29 @@ public class CourseListActivity extends AppCompatActivity {
 
         enrollSwitch = bottomSheetDialog.findViewById(R.id.enroll_switch);
         categoryFilter = bottomSheetDialog.findViewById(R.id.category_spn);
-        Beginner = (CheckBox) bottomSheetDialog.findViewById(R.id.beginner_checkbox);
-        Intermediate = (CheckBox) bottomSheetDialog.findViewById(R.id.intermediate_checkbox);
-        Advanced = (CheckBox) bottomSheetDialog.findViewById(R.id.advanced_checkbox);
+        Beginner = bottomSheetDialog.findViewById(R.id.beginner_checkbox);
+        Intermediate = bottomSheetDialog.findViewById(R.id.intermediate_checkbox);
+        Advanced = bottomSheetDialog.findViewById(R.id.advanced_checkbox);
         priceRange = bottomSheetDialog.findViewById(R.id.price_range);
         Button applyFilters = bottomSheetDialog.findViewById(R.id.apply_btn);
         Button resetFilters = bottomSheetDialog.findViewById(R.id.reset_btn);
 
         enrollSwitch.setChecked(true);
+
+        Callback<Category> spinnerCallback = new Callback<Category>() {
+            @Override
+            public void OnFinish(ArrayList<Category> categoryList) {
+                Collections.sort(categoryList, (category, t1) -> category.getName().compareTo(t1.getName()));
+                ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
+                        (CourseListActivity.this,
+                                R.layout.spinner_item_dark,
+                                categoryList);
+                categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                categoryFilter.setAdapter(categoriesAdapter);
+            }
+        };
+        Database<Category> categoryDatabase = new CategoryDatabase();
+        categoryDatabase.getItems(spinnerCallback);
 
         //add "$" label
         assert priceRange != null;
