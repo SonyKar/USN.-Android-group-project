@@ -14,7 +14,7 @@
         android:layout_height="@dimen/avatar_size"
         android:layout_gravity="center"
         android:paddingTop="5dp"
-        android:src="@drawable/cosmi_avatar" />
+        android:src="@drawable/user_icon" />
 
     <TextView
         android:id="@+id/nav_name"
