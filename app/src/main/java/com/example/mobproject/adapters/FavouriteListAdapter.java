@@ -76,7 +76,8 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         }
 
 
-        String finalScore = Math.round(data.get(position).getRating() * 100.0) / 100.0 + holder.itemView.getContext().getString(R.string.ratingOutOf);//function to calculate final score
+        double finalScoreValue = Math.round(data.get(position).getRating() * 100.0) / 100.0;
+        String finalScore = finalScoreValue + holder.itemView.getContext().getString(R.string.ratingOutOf);//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
         SimpleDateFormat sdf = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.date_format));
