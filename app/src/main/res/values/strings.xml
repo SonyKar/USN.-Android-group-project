@@ -134,7 +134,7 @@
     <string name="find_a_course">Find a course…</string>
     <string name="enrollment_message">Successful enrollment!</string>
     <string name="open_enroll">Open to enroll</string>
-    <string name="close_enroll">Close to enroll</string>
+    <string name="close_enroll">Closed to enroll</string>
     <string name="date_format">dd.MM.yyyy</string>
     <string name="favourites_log">favourites</string>
     <string name="date_format_2">dd/MM/yyyy</string>

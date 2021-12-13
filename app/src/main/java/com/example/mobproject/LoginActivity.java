@@ -10,9 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.UserInfo;
-import com.example.mobproject.constants.UserType;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
@@ -20,7 +18,6 @@ import com.example.mobproject.validations.Validator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -136,17 +133,14 @@ public class LoginActivity extends AppCompatActivity {
     private final View.OnClickListener switchToSignUp = view -> {
         Intent toSignUp = new Intent(this, SignUpActivity.class);
         startActivity(toSignUp);
-        finish();
     };
 
     private final View.OnClickListener switchToNewPass = view -> {
         Intent toNewPass = new Intent(this, ForgotPasswordActivity.class);
         startActivity(toNewPass);
-        finish();
     };
 
-    // TODO If you sign out, then navigate to forgot password or
-    //  sign up activity and then press back button, you are navigated back to course activity,
-    //  either login activity
+    @Override
+    public void onBackPressed() {}
 }
 
