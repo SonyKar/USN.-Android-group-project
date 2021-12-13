@@ -39,6 +39,7 @@ import com.squareup.picasso.Picasso;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class CoursePageActivity extends AppCompatActivity {
@@ -250,6 +251,7 @@ public class CoursePageActivity extends AppCompatActivity {
             //set difficulty color
             courseDifficulty.setTextColor(getResources().getIntArray(R.array.difficultyColors)[difficulty]);
 
+            //if(courseInfo.isOpenEnroll())
             if(courseInfo.isOpenEnroll())
             {
                 courseEnroll.setText(R.string.open_to_enroll);

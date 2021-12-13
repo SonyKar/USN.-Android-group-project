@@ -99,6 +99,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         holder.coursePrice.setText(currency);
 
         //TODO set enroll false after start
+
         boolean enroll = data.get(position).isOpenEnroll();
         String openEnroll = holder.itemView.getContext().getString(R.string.open_enroll);
         String closeEnroll = holder.itemView.getContext().getString(R.string.close_enroll);
