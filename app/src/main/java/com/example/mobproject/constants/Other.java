@@ -7,5 +7,7 @@ public class Other {
     public static final String SHARED_PREF_USERTYPE = "userType";
     public static final String SHARED_PREF_NODATA = "No data";
     public static final String SHARED_PREF_PASSWORD = "password";
+    public static final String PROFILE_PHOTO_EXTENSION = ".png";
+
 
 }
