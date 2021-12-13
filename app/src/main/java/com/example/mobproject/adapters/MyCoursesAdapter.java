@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobproject.CoursePageActivity;
 import com.example.mobproject.R;
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.constants.Other;
 import com.example.mobproject.models.Course;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -96,8 +97,8 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
 
         String categoryId = data.get(position).getCategoryId().getId();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child("categoryImages")
-                .child(categoryId+".jpg");
+        StorageReference profileImgRef = storageReference.child(Other.CATEGORY_STORAGE_FOLDER)
+                .child(categoryId+Other.CATEGORY_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(holder.courseImage));
     }
