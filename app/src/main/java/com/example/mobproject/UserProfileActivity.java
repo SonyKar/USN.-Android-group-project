@@ -83,7 +83,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
         //setting the profile picture
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child("profileImages")
+        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
                 .child(userInfo.getUserId()+ Other.PROFILE_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(profilePicture));

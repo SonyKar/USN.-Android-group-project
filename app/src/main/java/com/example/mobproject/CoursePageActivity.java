@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobproject.adapters.CommentAdapter;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.constants.Other;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.CourseController;
 import com.example.mobproject.db.CourseDatabase;
@@ -114,8 +115,8 @@ public class CoursePageActivity extends AppCompatActivity {
 
         //set commentAvatar
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child("profileImages")
-                .child(userInfo.getUserId()+".jpg");
+        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
+                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(commentAvatar));
     }
@@ -276,8 +277,8 @@ public class CoursePageActivity extends AppCompatActivity {
 
             String categoryId = courseInfo.getCategoryId().getId();
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-            StorageReference profileImgRef = storageReference.child("categoryImages")
-                    .child(categoryId+".jpg");
+            StorageReference profileImgRef = storageReference.child(Other.CATEGORY_STORAGE_FOLDER)
+                    .child(categoryId+Other.CATEGORY_PHOTO_EXTENSION);
             profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                     Picasso.get().load(uri).into(courseImage));
         }
