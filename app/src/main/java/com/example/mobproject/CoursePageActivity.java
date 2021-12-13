@@ -1,6 +1,8 @@
 package com.example.mobproject;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -146,6 +148,18 @@ public class CoursePageActivity extends AppCompatActivity {
     }
 
     private void initEnrolledButton(){
+        //disable and change button color if teacher user
+        UserInfo userInfo = new UserInfo(this);
+        String userTypeString = userInfo.getUserType();
+
+        if (userTypeString.equals("1")){
+            enrollMe.setEnabled(false);
+            enrollMe.setText(R.string.cannot_enroll_teacher);
+            enrollMe.setTextColor(Color.parseColor("#FFFFFF"));
+            enrollMe.setTypeface(null, Typeface.NORMAL);
+        }
+
+
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
         DocumentReference courseRef = db.collection(DatabaseCollections.ENROLLED_COLLECTION)
                 .document(courseId);
@@ -157,7 +171,7 @@ public class CoursePageActivity extends AppCompatActivity {
                         isEnrolled = true;
                         break;
                     }
-                if(isEnrolled)
+                if(isEnrolled)//also checked if the user is a teacher
                     enrollMe.setEnabled(false);
             }
         };

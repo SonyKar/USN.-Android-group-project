@@ -156,6 +156,7 @@
     <string name="date_format">dd.MM.yyyy</string>
     <string name="favourites_log">favourites</string>
     <string name="date_format_2">dd/MM/yyyy</string>
+    <string name="cannot_enroll_teacher">Teachers cannot enroll</string>
 
 
 </resources>
