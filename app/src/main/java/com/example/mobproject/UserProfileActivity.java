@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mobproject.constants.Other;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.constants.UserType;
 import com.example.mobproject.db.EnrolledCoursesDatabase;
@@ -83,7 +84,7 @@ public class UserProfileActivity extends AppCompatActivity {
         //setting the profile picture
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference profileImgRef = storageReference.child("profileImages")
-                .child(userInfo.getUserId()+".jpg");
+                .child(userInfo.getUserId()+ Other.PROFILE_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(profilePicture));
     }

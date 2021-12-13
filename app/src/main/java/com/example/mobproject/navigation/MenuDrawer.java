@@ -57,7 +57,7 @@ public class MenuDrawer {
                 ImageView profilePicture = tmp.findViewById(R.id.menu_avatar);
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference();
                 StorageReference profileImgRef = storageReference.child("profileImages")
-                        .child(userInfo.getUserId()+".jpg");
+                        .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
                 profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                         Picasso.get().load(uri).into(profilePicture));
             }

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.mobproject.constants.DatabaseCollections;
+import com.example.mobproject.constants.Other;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
@@ -60,7 +61,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference profileImgRef = storageReference.child("profileImages")
-                .child(userInfo.getUserId()+".jpg");
+                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(profilePicture));
 
@@ -118,7 +119,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void pictureUpload(Uri imageUri){
         StorageReference fileRef = storageReference.child("profileImages")
-                .child(userInfo.getUserId()+".jpg");
+                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
         fileRef.putFile(imageUri).addOnSuccessListener(taskSnapshot ->
                 fileRef.getDownloadUrl().addOnSuccessListener(uri ->{
                     profilePicture.setImageURI(uri);
