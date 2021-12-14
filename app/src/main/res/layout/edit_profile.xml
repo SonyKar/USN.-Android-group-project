@@ -64,7 +64,7 @@
                     android:textColor="@color/primary_light_purple"
                     android:textColorHint="@color/grey_purple"
                     android:textSize="@dimen/field"
-                    android:autofillHints="" />
+                    android:autofillHints="name" />
 
                 <EditText
                     android:id="@+id/lname_edit"
@@ -84,7 +84,7 @@
                     android:textColor="@color/primary_light_purple"
                     android:textColorHint="@color/grey_purple"
                     android:textSize="@dimen/field"
-                    android:autofillHints="" />
+                    android:autofillHints="name" />
 
                 <EditText
                     android:id="@+id/email_edit"
@@ -104,7 +104,7 @@
                     android:textColor="@color/primary_light_purple"
                     android:textColorHint="@color/grey_purple"
                     android:textSize="@dimen/field"
-                    android:autofillHints="" />
+                    android:autofillHints="emailAddress" />
 
                 <Button
                     android:id="@+id/save_profile"

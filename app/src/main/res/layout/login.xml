@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/math_background">
@@ -36,7 +34,9 @@
         android:paddingStart="@dimen/field_padding_start"
         android:paddingEnd="@dimen/field_padding_start"
         android:paddingBottom="@dimen/field_padding_bottom"
-        android:textSize="@dimen/field" />
+        android:textSize="@dimen/field"
+        android:autofillHints="emailAddress"
+    />
 
     <EditText
         android:id="@+id/login_password"
@@ -50,7 +50,9 @@
         android:paddingStart="@dimen/field_padding_start"
         android:paddingEnd="@dimen/field_padding_start"
         android:paddingBottom="@dimen/field_padding_bottom"
-        android:textSize="@dimen/field" />
+        android:textSize="@dimen/field"
+        android:autofillHints="password"
+    />
 
     <Button
         android:id="@+id/btn_forgot_pass"
@@ -71,7 +73,6 @@
         android:background="@drawable/button"
         android:drawableStart="@drawable/ic_loading_white"
         android:drawablePadding="-45dp"
-        android:onClick="onLogin"
         android:paddingStart="20dp"
         android:text="@string/signin"
         android:textColor="@color/primary_purple"

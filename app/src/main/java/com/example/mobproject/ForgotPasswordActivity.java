@@ -1,54 +1,43 @@
 package com.example.mobproject;
 
 import android.os.Bundle;
-import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+import com.example.mobproject.validations.Validator;
+import com.google.firebase.auth.FirebaseAuth;
 
-    private EditText sendEmail;
-    private Button newPass;
-    private Boolean validSendEmail;
+public class ForgotPasswordActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_password);
 
-        sendEmail = findViewById(R.id.send_email);
-        newPass = findViewById(R.id.new_pass);
+        EditText emailEditText = findViewById(R.id.send_email);
+        Button newPasswordButton = findViewById(R.id.new_pass);
 
-        newPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                emailValidation();
-                //finish();
-            }
-        });
+        newPasswordButton.setOnClickListener(view -> newPasswordButtonClickHandler(emailEditText));
     }
 
-    private void emailValidation(){
-        //Check login email address
-        if(sendEmail.getText().toString().isEmpty()){
-            sendEmail.setError(getResources().getString(R.string.email_error));
-            validSendEmail = false;
-        } else if(!Patterns.EMAIL_ADDRESS.matcher(sendEmail.getText().toString()).matches()){
-            sendEmail.setError(getResources().getString(R.string.error_invalid_email));
-            validSendEmail = false;
-        } else{
-            validSendEmail = true;
+    private void newPasswordButtonClickHandler(EditText emailEditText) {
+        String email = emailEditText.getText().toString();
+        if (email.isEmpty()) {
+            emailEditText.setError(getResources().getString(R.string.email_error));
+        } else if (Validator.isInvalidEmail(email)) {
+            emailEditText.setError(getResources().getString(R.string.error_invalid_email));
+        } else {
+            resetPassword(email);
         }
+    }
 
-        if(validSendEmail){
-            Toast.makeText(getApplicationContext(),
-                    "Password generated!",
-                    Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
+    private void resetPassword(String email) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    Toast.makeText(this, "The password reset link was sent to specified email", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
     }
 }

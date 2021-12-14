@@ -1,5 +1,6 @@
 package com.example.mobproject.constants;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -14,6 +15,10 @@ public class UserInfo {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(view.getApplicationContext());
     }
 
+    public UserInfo(Context context) {
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
     public String getUserId() {
         return sharedPreferences.getString(Other.SHARED_PREF_USERID, Other.SHARED_PREF_NODATA);
     }
@@ -22,6 +27,7 @@ public class UserInfo {
         return sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA);
     }
 
+    // TODO not need for password anymore?
     public String getUserPassword() {
         return sharedPreferences.getString(Other.SHARED_PREF_PASSWORD,Other.SHARED_PREF_NODATA);
     }
@@ -36,5 +42,9 @@ public class UserInfo {
 
     public void setUserPassword(String userPassword){
         sharedPreferences.edit().putString(Other.SHARED_PREF_PASSWORD, userPassword).apply();
+    }
+
+    public void resetUserInfo() {
+        sharedPreferences.edit().clear().apply();
     }
 }
