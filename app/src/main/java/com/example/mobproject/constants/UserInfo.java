@@ -6,8 +6,6 @@ import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mobproject.constants.Other;
-
 public class UserInfo {
     SharedPreferences sharedPreferences;
 
@@ -27,21 +25,12 @@ public class UserInfo {
         return sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA);
     }
 
-    // TODO not need for password anymore?
-    public String getUserPassword() {
-        return sharedPreferences.getString(Other.SHARED_PREF_PASSWORD,Other.SHARED_PREF_NODATA);
-    }
-
     public void setUserId(String uid) {
         sharedPreferences.edit().putString(Other.SHARED_PREF_USERID, uid).apply();
     }
 
     public void setUserType(String userType) {
         sharedPreferences.edit().putString(Other.SHARED_PREF_USERTYPE, userType).apply();
-    }
-
-    public void setUserPassword(String userPassword){
-        sharedPreferences.edit().putString(Other.SHARED_PREF_PASSWORD, userPassword).apply();
     }
 
     public void resetUserInfo() {

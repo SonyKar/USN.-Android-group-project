@@ -24,7 +24,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void newPasswordButtonClickHandler(EditText emailEditText) {
         String email = emailEditText.getText().toString();
-        if (email.isEmpty()) {
+        if (email.trim().isEmpty()) {
             emailEditText.setError(getResources().getString(R.string.email_error));
         } else if (Validator.isInvalidEmail(email)) {
             emailEditText.setError(getResources().getString(R.string.error_invalid_email));
