@@ -158,11 +158,11 @@ public class CoursePageActivity extends AppCompatActivity {
         DocumentReference courseRef = db.collection(DatabaseCollections.ENROLLED_COLLECTION)
                 .document(courseId);
 
-        enrolledDatabase.getItems(userId, new Callback<DocumentReference>() {
+        enrolledDatabase.getItems(userId, new Callback<Course>() {
             @Override
-            public void OnFinish(ArrayList<DocumentReference> enrolledReferences) {
-                for(DocumentReference docRef : enrolledReferences) {
-                    if (courseRef.getId().equals(docRef.getId())) {
+            public void OnFinish(ArrayList<Course> enrolledList) {
+                for(Course enrolledCourse : enrolledList) {
+                    if (courseRef.getId().equals(enrolledCourse.getId())) {
                         isEnrolled = true;
                         break;
                     }
