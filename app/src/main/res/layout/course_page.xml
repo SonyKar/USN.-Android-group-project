@@ -65,6 +65,7 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:minWidth="48dp"
                         android:minHeight="48dp"
+                        android:visibility="gone"
                         app:srcCompat="@drawable/ic_edit" />
 
                 </RelativeLayout>
