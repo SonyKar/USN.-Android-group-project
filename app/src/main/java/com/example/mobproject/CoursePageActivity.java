@@ -139,13 +139,13 @@ public class CoursePageActivity extends AppCompatActivity {
 
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
 
-        enrolledDatabase.getItems(userId, new Callback<DocumentReference>() {
+        enrolledDatabase.getItems(userId, new Callback<Course>() {
             @Override
-            public void OnFinish(ArrayList<DocumentReference> enrolledReferences) {
+            public void OnFinish(ArrayList<Course> enrolledReferences) {
                 boolean isEnrolled = false;
 
-                for (DocumentReference docRef : enrolledReferences) {
-                    if (courseId.equals(docRef.getId())) {
+                for (Course course : enrolledReferences) {
+                    if (courseId.equals(course.getId())) {
                         isEnrolled = true;
                         break;
                     }
