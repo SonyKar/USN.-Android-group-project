@@ -15,6 +15,7 @@ import com.example.mobproject.db.EnrolledCoursesDatabase;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
+import com.example.mobproject.models.Course;
 import com.example.mobproject.models.User;
 import com.example.mobproject.navigation.MenuDrawer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -72,13 +73,13 @@ public class UserProfileActivity extends AppCompatActivity {
                 favouritesDatabase.getItems(userID, favouritesCallback);
 
                 EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
-                Callback<DocumentReference> enrolledCallback = new Callback<DocumentReference>() {
+                Callback<Course> enrolledCallback = new Callback<Course>() {
                     @Override
-                    public void OnFinish(ArrayList<DocumentReference> enrolledList) {
+                    public void OnFinish(ArrayList<Course> enrolledList) {
                         userCourses.setText(String.valueOf(enrolledList.size()));
                     }
                 };
-                enrolledDatabase.getItems(userID,enrolledCallback);
+                enrolledDatabase.getItems(userID, enrolledCallback);
             }
         });
         //setting the profile picture

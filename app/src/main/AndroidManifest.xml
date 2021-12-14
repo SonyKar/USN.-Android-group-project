@@ -21,6 +21,7 @@
         <activity android:name=".FavouriteListActivity" />
         <activity android:name=".CourseListActivity" />
         <activity android:name=".MyCoursesListActivity" />
+        <activity android:name=".ChangePasswordActivity" />
 
         <activity android:name=".LoginActivity"
             android:exported="true">

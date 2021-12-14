@@ -57,6 +57,7 @@ public class EditProfileActivity extends AppCompatActivity {
         lNameEdit = findViewById(R.id.lname_edit);
         emailEdit = findViewById(R.id.email_edit);
         Button saveProfile = findViewById(R.id.save_profile);
+        Button changePassword = findViewById(R.id.btn_change_pass);
         profilePicture = findViewById(R.id.profile_avatar_edit);
 
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -67,6 +68,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         profilePicture.setOnClickListener(changeProfilePicture);
         saveProfile.setOnClickListener(saveAndGoBackToProfile);
+        changePassword.setOnClickListener(goToChangePassword);
+
         pictureResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -105,6 +108,8 @@ public class EditProfileActivity extends AppCompatActivity {
     };
 
     private final View.OnClickListener saveAndGoBackToProfile = view -> saveProfile();
+
+    private final View.OnClickListener goToChangePassword = view -> changePassword();
 
     private final View.OnClickListener changeProfilePicture = view ->{
         Intent gallery = new Intent(Intent.ACTION_PICK,
@@ -149,6 +154,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         break;
                     }
                 }
+
                 if(isValidated) {
                     DocumentReference userType = FirebaseFirestore.getInstance()
                             .collection(DatabaseCollections.USERTYPES_COLLECTION).document(userInfo.getUserType());
@@ -187,6 +193,11 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent backToUser = new Intent(this, UserProfileActivity.class);
         startActivity(backToUser);
         finish();
+    }
+
+    private void changePassword(){
+        Intent toChangePassword = new Intent(this, ChangePasswordActivity.class);
+        startActivity(toChangePassword);
     }
 
     public boolean onSupportNavigateUp() {

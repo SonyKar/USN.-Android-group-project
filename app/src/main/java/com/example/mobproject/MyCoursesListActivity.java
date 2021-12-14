@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.adapters.CourseAdapter;
 import com.example.mobproject.adapters.MyCoursesAdapter;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.EnrolledCoursesDatabase;
+import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.example.mobproject.navigation.MenuDrawer;
@@ -20,11 +22,15 @@ import java.util.ArrayList;
 
 public class MyCoursesListActivity extends AppCompatActivity {
     private UserInfo userInfo;
+    private ArrayList<DocumentReference> favouriteList;
+    private String userId;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_courses_list);
         userInfo = new UserInfo(this);
+        userId = userInfo.getUserId();
         //fillCourses();
 
         MenuDrawer.actionBarInit(this);
@@ -40,41 +46,25 @@ public class MyCoursesListActivity extends AppCompatActivity {
 
         String userId = userInfo.getUserId();
         Context context = this;
-//        Callback<Course> recyclerViewCallback = new Callback<Course>() {
-//            @Override
-//            public void OnFinish(ArrayList<Course> arrayList) {
-//                RecyclerView myCourseListRecyclerView = findViewById(R.id.my_courses_list);
-//                myCourseListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-//                MyCoursesAdapter adapter = new MyCoursesAdapter(context, arrayList);
-//                myCourseListRecyclerView.setAdapter(adapter);
-//            }
-//        };
 
-        //TODO operatie pe cord deschis: scoate inima
-
-        Callback<DocumentReference> recyclerViewCallback = new Callback<DocumentReference>() {
+        Callback<Course> recyclerViewCallback = new Callback<Course>() {
             @Override
-            public void OnFinish(ArrayList<DocumentReference> enrolledReferences) {
-                ArrayList<Course> enrolledCourseList = new ArrayList<>();
-                CourseDatabase courseDatabase = new CourseDatabase();
-                Callback<Course> courseCallback = new Callback<Course>() {
+            public void OnFinish(ArrayList<Course> enrolledCourseList) {
+                RecyclerView myCourseListRecyclerView = findViewById(R.id.my_courses_list);
+                myCourseListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+                FavouriteCoursesDatabase favouriteCoursesDatabase = new FavouriteCoursesDatabase();
+                favouriteCoursesDatabase.getItems(userId, new Callback<DocumentReference>() {
                     @Override
-                    public void OnFinish(ArrayList<Course> arrayList) {
-                        enrolledCourseList.add(arrayList.get(0));
-                        if (enrolledCourseList.size() == enrolledReferences.size()) {
-                            RecyclerView myCourseListRecyclerView = findViewById(R.id.my_courses_list);
-                            myCourseListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-                            MyCoursesAdapter adapter = new MyCoursesAdapter(context, enrolledCourseList);
-                            myCourseListRecyclerView.setAdapter(adapter);
-                        }
+                    public void OnFinish(ArrayList<DocumentReference> arrayList) {
+                        favouriteList = arrayList;
+                        MyCoursesAdapter adapter = new MyCoursesAdapter(context, enrolledCourseList,
+                                favouriteList, userId);
+                        myCourseListRecyclerView.setAdapter(adapter);
                     }
-                };
-
-                for (DocumentReference courseRef : enrolledReferences) {
-                    courseDatabase.getItem(courseRef.getId(), courseCallback);
-                }
+                });
             }
         };
+
         EnrolledCoursesDatabase database = new EnrolledCoursesDatabase();
         database.getItems(userId, recyclerViewCallback);
 

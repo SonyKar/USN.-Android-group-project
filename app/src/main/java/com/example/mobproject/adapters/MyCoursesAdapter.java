@@ -18,9 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.CoursePageActivity;
 import com.example.mobproject.R;
+import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
 import com.example.mobproject.constants.Other;
+import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.models.Course;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -35,11 +39,18 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
     private final LayoutInflater layoutInflater;
     private final ArrayList<Course> data;//change to List<Course>
     private final String[] difficulties;
+    private final String userId;
+    private final ArrayList<DocumentReference> favouriteReferences;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public MyCoursesAdapter(Context context, ArrayList<Course> data){
+    public MyCoursesAdapter(Context context, ArrayList<Course> data, ArrayList<DocumentReference> favouriteReferences,
+                            String userId){
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
+        this.favouriteReferences = favouriteReferences;
+        this.userId = userId;
+
     }
 
 
@@ -94,6 +105,28 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
         holder.courseEnroll.setTextColor( enroll ?
                 Color.parseColor("#22E865") :
                 Color.parseColor("#F61616"));
+
+        if (isFavourite(data.get(position).getId())) {
+            holder.addToFav.setImageResource(R.drawable.ic_favourite_red);
+        } else {
+            holder.addToFav.setImageResource(R.drawable.ic_favourite_black);
+        }
+
+        FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
+        String courseId = data.get(position).getId();
+        DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION)
+                .document(courseId);
+        holder.addToFav.setOnClickListener(view -> {
+            if (!isFavourite(courseId)) {
+                holder.addToFav.setImageResource(R.drawable.ic_favourite_red);
+                favouriteDatabase.insertItem(userId, courseId);
+                favouriteReferences.add(courseRef);
+            } else {
+                holder.addToFav.setImageResource(R.drawable.ic_favourite_black);
+                favouriteDatabase.removeItem(userId, courseId);
+                favouriteReferences.remove(courseRef);
+            }
+        });
 
         String categoryId = data.get(position).getCategoryId().getId();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -153,5 +186,15 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
             toCourseProfile.putExtra(Intents.COURSE_ID, data.get(getAdapterPosition()).getId());
             startActivity(view.getContext() , toCourseProfile, new Bundle());
         }
+    }
+
+    public boolean isFavourite(String courseID) {
+        DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION)
+                .document(courseID);
+        for(DocumentReference docRef : favouriteReferences)
+            if(courseRef.equals(docRef))
+                return true;
+
+        return false;
     }
 }

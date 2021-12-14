@@ -114,8 +114,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         } else {
             holder.addToFav.setImageResource(R.drawable.ic_favourite_black);
         }
-        FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
 
+        FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
         String courseId = data.get(position).getId();
         DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION)
                 .document(courseId);
