@@ -85,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
 
                             String userId = auth.getUid();
                             userInfo.setUserId(userId);
-                            userInfo.setUserPassword(password);
                             UserDatabase userDatabase = new UserDatabase();
                             userDatabase.getItem(userId, new Callback<User>() {
                                 @Override

@@ -2,7 +2,6 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/math_background">
@@ -22,7 +21,8 @@
             android:layout_marginBottom="@dimen/drawable_padding"
             android:layout_gravity="start"
             android:background="?android:attr/selectableItemBackground"
-            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+            android:contentDescription="Back button" />
 
         <TextView
             android:id="@+id/create_course_text"
@@ -46,7 +46,9 @@
             android:paddingStart="@dimen/field_padding_start"
             android:paddingEnd="@dimen/field_padding_start"
             android:paddingBottom="@dimen/field_padding_bottom"
-            android:textSize="@dimen/field" />
+            android:textSize="@dimen/field"
+            android:importantForAutofill="no"
+        />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,7 +90,9 @@
             android:paddingStart="@dimen/field_padding_start"
             android:paddingEnd="@dimen/field_padding_start"
             android:paddingBottom="@dimen/field_padding_bottom"
-            android:textSize="@dimen/field" />
+            android:textSize="@dimen/field"
+            android:importantForAutofill="no"
+        />
 
 
         <RelativeLayout
@@ -130,7 +134,8 @@
                     android:scaleType="fitEnd"
                     android:stateListAnimator="@null"
                     app:srcCompat="@drawable/ic_date"
-                    />
+                    android:contentDescription="Select starting date"
+                />
 
             </LinearLayout>
 
@@ -167,7 +172,8 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:scaleType="fitEnd"
                     app:srcCompat="@drawable/ic_date"
-                    />
+                    android:contentDescription="Select end date"
+                />
 
             </LinearLayout>
 
