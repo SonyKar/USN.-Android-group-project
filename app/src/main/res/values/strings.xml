@@ -140,6 +140,12 @@
     <string name="date_format_2">dd/MM/yyyy</string>
     <string name="cannot_enroll_teacher">Teachers cannot enroll</string>
     <string name="cannot_enroll_message">Cannot enroll</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="change_password">Change password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="password_change_message">Password successfully updated!</string>
+    <string name="same_pass_error">Enter a different password!</string>
 
 
 </resources>
