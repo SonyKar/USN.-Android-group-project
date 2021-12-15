@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
 
         Button forgotPass = findViewById(R.id.btn_forgot_pass);
-        Button btnToSignUp = findViewById(R.id.btn_tosignup);
+        Button btnToSignUp = findViewById(R.id.btn_toSignup);
         loginBtn = findViewById(R.id.login_btn);
         loginEmail = findViewById(R.id.login_email);
         loginPass = findViewById(R.id.login_password);
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                             loginBtn.setEnabled(true);
 
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(getApplicationContext(), "Email or Password incorrect!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.credentials_error), Toast.LENGTH_SHORT).show();
                             Log.w("Sign in", "signInWithEmail:failure", task.getException());
                         }
                     });

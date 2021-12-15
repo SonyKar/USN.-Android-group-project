@@ -70,13 +70,13 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         startDateTxv = findViewById(R.id.start_date);
         endDateTxv = findViewById(R.id.end_date);
         createCourse = findViewById(R.id.create_course_btn);
-        difficultyGroup = findViewById(R.id.difficulty_radgr);
-        CheckBox monday = findViewById(R.id.monday_chck);
-        CheckBox tuesday = findViewById(R.id.tuesday_chck);
-        CheckBox wednesday = findViewById(R.id.wedn_chck);
-        CheckBox thursday = findViewById(R.id.thurs_chck);
-        CheckBox friday = findViewById(R.id.friday_chck);
-        CheckBox saturday = findViewById(R.id.saturday_chck);
+        difficultyGroup = findViewById(R.id.difficulty_radio_group);
+        CheckBox monday = findViewById(R.id.monday_checkbox);
+        CheckBox tuesday = findViewById(R.id.tuesday_checkbox);
+        CheckBox wednesday = findViewById(R.id.wednesday_checkbox);
+        CheckBox thursday = findViewById(R.id.thursday_checkbox);
+        CheckBox friday = findViewById(R.id.friday_checkbox);
+        CheckBox saturday = findViewById(R.id.saturday_checkbox);
         descriptionEdt = findViewById(R.id.description_box);
         ImageButton backBtn = findViewById(R.id.back_to_main_btn);
 
@@ -203,7 +203,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         String dateString = dayOfMonth + "/" + (month + 1) + "/" + year;
         Date date = null;
         try {
-            date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(dateString);
+            date = new SimpleDateFormat(getResources().getString(R.string.date_format), Locale.getDefault()).parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -331,7 +331,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
                     courseDatabase.updateItem(courseId, course);
                 }
             } else {
-                Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.something_wrong_error), Toast.LENGTH_SHORT).show();
             }
             goBack();
         }

@@ -118,7 +118,7 @@ public class CourseListActivity extends AppCompatActivity {
 
         ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(CourseListActivity.this,
                 R.array.sorting_criteria,
-                R.layout.spinner_dropdwon_layout);
+                R.layout.spinner_dropdown_layout);
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         sortingCategory.setAdapter(categoriesAdapter);
@@ -175,7 +175,7 @@ public class CourseListActivity extends AppCompatActivity {
         assert priceRange != null;
         priceRange.setLabelFormatter(value -> {
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
-            currencyFormat.setCurrency(Currency.getInstance("USD"));
+            currencyFormat.setCurrency(Currency.getInstance(getResources().getString(R.string.dollars_name)));
 
             return currencyFormat.format(value);
         });

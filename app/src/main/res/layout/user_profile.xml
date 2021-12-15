@@ -32,7 +32,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:ignore="UselessParent">
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -66,7 +67,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/field_padding_bottom"
                             android:gravity="center"
-                            android:text="Loading..."
+                            android:text=""
                             android:textAllCaps="true"
                             android:textColor="@color/black"
                             android:textSize="@dimen/profile_name"
@@ -81,14 +82,14 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/field_padding_start"
                             android:gravity="center"
-                            android:text="@string/student_status"
+                            android:text=""
                             android:textAllCaps="true"
                             android:textColor="@color/secondary_pink"
-                            android:textSize="15dp"
+                            android:textSize="@dimen/comment_text_size"
                             android:textStyle="bold" />
 
                         <LinearLayout
-                            android:id="@+id/profile_infos"
+                            android:id="@+id/profile_info"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_below="@+id/user_status"
@@ -106,7 +107,7 @@
                                 android:layout_weight="0.5"
                                 android:drawablePadding="@dimen/drawable_padding"
                                 android:gravity="center_vertical"
-                                android:text="0"
+                                android:text="@string/default_no_enrolled_courses"
                                 android:textColor="@color/primary_dark_purple"
                                 android:textSize="@dimen/profile_numbers"
                                 android:textStyle="bold"
@@ -119,7 +120,7 @@
                                 android:layout_weight="0.5"
                                 android:drawablePadding="@dimen/drawable_padding"
                                 android:gravity="center_vertical"
-                                android:text="0"
+                                android:text="@string/default_no_favourite_courses"
                                 android:textColor="@color/primary_dark_purple"
                                 android:textSize="@dimen/profile_numbers"
                                 android:textStyle="bold"
@@ -131,14 +132,14 @@
                             android:id="@+id/profile_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/profile_infos"
+                            android:layout_below="@+id/profile_info"
                             android:layout_alignStart="@+id/profile_avatar"
                             android:layout_alignEnd="@+id/profile_avatar"
                             android:layout_marginTop="@dimen/field_padding_bottom"
                             android:layout_marginBottom="@dimen/margin_bottom"
                             android:drawablePadding="@dimen/drawable_padding"
                             android:gravity="center_vertical"
-                            android:text="cosmina_lucaci@yahoo.com"
+                            android:text=""
                             android:textColor="@color/black"
                             app:drawableStartCompat="@drawable/ic_email_black" />
 
@@ -161,7 +162,8 @@
                     app:fabCustomSize="50dp"
                     app:maxImageSize="30dp"
                     app:pressedTranslationZ="0dp"
-                    app:srcCompat="@drawable/ic_edit_profile" />
+                    app:srcCompat="@drawable/ic_edit_profile"
+                    android:contentDescription="@string/edit_button_desc" />
 
 
             </RelativeLayout>

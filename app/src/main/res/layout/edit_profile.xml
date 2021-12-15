@@ -47,7 +47,7 @@
 
 
                 <EditText
-                    android:id="@+id/fname_edit"
+                    android:id="@+id/fName_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/profile_avatar_edit"
@@ -67,10 +67,10 @@
                     android:textSize="@dimen/field" />
 
                 <EditText
-                    android:id="@+id/lname_edit"
+                    android:id="@+id/lName_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/fname_edit"
+                    android:layout_below="@+id/fName_edit"
                     android:drawableStart="@drawable/ic_account_edit"
                     android:background="@drawable/edittext_bottom_line"
                     android:drawablePadding="@dimen/drawable_padding_field"
@@ -90,7 +90,7 @@
                     android:id="@+id/email_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lname_edit"
+                    android:layout_below="@+id/lName_edit"
                     android:layout_marginTop="@dimen/margin_field"
                     android:autofillHints="emailAddress"
                     android:background="@drawable/edittext_bottom_line"

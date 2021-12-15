@@ -23,10 +23,10 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/padding_menu"
         android:layout_marginBottom="@dimen/padding_menu"
-        android:text="@string/insert_name"
+        android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:textSize="@dimen/toolbar_title" />
 
     <View
         android:layout_width="match_parent"

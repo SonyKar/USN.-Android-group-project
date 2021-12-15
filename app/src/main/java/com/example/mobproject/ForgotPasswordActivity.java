@@ -36,7 +36,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private void resetPassword(String email) {
         FirebaseAuth.getInstance().sendPasswordResetEmail(email)
                 .addOnCompleteListener(task -> {
-                    Toast.makeText(this, "The password reset link was sent to specified email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.password_reset), Toast.LENGTH_SHORT).show();
                     finish();
                 });
     }

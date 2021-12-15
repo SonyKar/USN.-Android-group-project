@@ -89,7 +89,7 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
         String finalScore = finalScoreValue + holder.itemView.getContext().getString(R.string.ratingOutOf);//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
-        SimpleDateFormat sdf = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.date_format));
+        SimpleDateFormat sdf = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.date_format), Locale.getDefault());
         String period = sdf.format(data.get(position).getStartDate()) + " - " + sdf.format(data.get(position).getEndDate());//startDate + " - " + endDate
         holder.coursePeriod.setText(period);
 
@@ -156,7 +156,7 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
             coursePrice = itemView.findViewById(R.id.card_view_price);
             courseEnroll = itemView.findViewById(R.id.card_view_enroll);
             courseImage = itemView.findViewById(R.id.course_img);
-            addToFav = itemView.findViewById(R.id.add_to_fav_cardview);
+            addToFav = itemView.findViewById(R.id.add_to_fav_cardView);
 
 
 

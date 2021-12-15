@@ -13,7 +13,7 @@
         >
 
         <TextView
-            android:id="@+id/thankyou_mess"
+            android:id="@+id/thank_you_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_field"
             android:gravity="center"
-            android:textSize="@dimen/message"
+            android:textSize="@dimen/message_text"
             android:textColor="@color/white"
             android:text="@string/signup_message" />
 

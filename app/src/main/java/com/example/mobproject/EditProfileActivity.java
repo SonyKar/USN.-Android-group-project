@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,8 +54,8 @@ public class EditProfileActivity extends AppCompatActivity {
         userInfo = new UserInfo(this);
         appContext = getApplicationContext();
 
-        fNameEdit = findViewById(R.id.fname_edit);
-        lNameEdit = findViewById(R.id.lname_edit);
+        fNameEdit = findViewById(R.id.fName_edit);
+        lNameEdit = findViewById(R.id.lName_edit);
         emailEdit = findViewById(R.id.email_edit);
         saveProfile = findViewById(R.id.save_profile);
         Button changePassword = findViewById(R.id.btn_change_pass);
@@ -119,7 +118,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (gallery.resolveActivity(getPackageManager()) != null) {
             pictureResultLauncher.launch(gallery);
         } else {
-            Toast.makeText(this, "There is no app that supports this action",
+            Toast.makeText(this, getResources().getString(R.string.no_support_app_error),
                     Toast.LENGTH_SHORT).show();
         }
     };
@@ -132,7 +131,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     profilePicture.setImageURI(uri);
                     Picasso.get().load(uri).into(profilePicture);}))
                 .addOnFailureListener(e ->
-                Toast.makeText(EditProfileActivity.this,"Failed to upload image", Toast.LENGTH_LONG).show());
+                Toast.makeText(EditProfileActivity.this,getResources().getString(R.string.image_upload_error), Toast.LENGTH_LONG).show());
     }
 
     private void saveProfile() {
