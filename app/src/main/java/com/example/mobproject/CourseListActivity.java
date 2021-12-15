@@ -160,7 +160,7 @@ public class CourseListActivity extends AppCompatActivity {
         categoryDatabase.getItems(new Callback<Category>() {
             @Override
             public void OnFinish(ArrayList<Category> categoryList) {
-                Collections.sort(categoryList, (category, nextCategory) -> nextCategory.getName().compareTo(category.getName()));
+                Collections.sort(categoryList, (category, nextCategory) -> category.getName().compareTo(nextCategory.getName()));
                 categoryList.add(0, new Category("All"));
                 ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
                         (CourseListActivity.this,
