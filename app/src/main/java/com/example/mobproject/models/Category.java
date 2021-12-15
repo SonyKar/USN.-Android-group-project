@@ -1,5 +1,7 @@
 package com.example.mobproject.models;
 
+import androidx.annotation.NonNull;
+
 public class Category {
     private String id;
     private String name;
@@ -7,8 +9,9 @@ public class Category {
     public Category(String name) {
         this.name = name;
     }
-    public Category(){}
 
+    public Category() {
+    }
 
     public String getId() {
         return id;
@@ -26,6 +29,7 @@ public class Category {
         this.name = name;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return getName();

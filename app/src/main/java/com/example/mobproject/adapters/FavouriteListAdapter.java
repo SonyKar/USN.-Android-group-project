@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdapter.ViewHolder>{
+public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdapter.ViewHolder> {
 
     private final LayoutInflater layoutInflater;
     private final ArrayList<Course> data;
@@ -40,7 +40,7 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
     private final String userId;
     private boolean isFavourite = true;
 
-    public FavouriteListAdapter(Context context, ArrayList<Course> data, String userId){
+    public FavouriteListAdapter(Context context, ArrayList<Course> data, String userId) {
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
@@ -65,7 +65,7 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         int difficulty = data.get(position).getDifficulty();
 
         holder.courseDifficulty.setText(difficulties[difficulty]);
-        switch(difficulty){
+        switch (difficulty) {
             case 0:
                 holder.courseDifficulty.setTextColor(Color.parseColor("#22E865"));
                 break;
@@ -95,14 +95,14 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         String closeEnroll = holder.itemView.getContext().getString(R.string.close_enroll);
         holder.courseEnroll.setText(enroll ? openEnroll : closeEnroll);
 
-        holder.courseEnroll.setTextColor( enroll ?
+        holder.courseEnroll.setTextColor(enroll ?
                 Color.parseColor("#22E865") :
                 Color.parseColor("#F61616"));
 
         String categoryId = data.get(position).getCategoryId().getId();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference profileImgRef = storageReference.child(Other.CATEGORY_STORAGE_FOLDER)
-                .child(categoryId+Other.CATEGORY_PHOTO_EXTENSION);
+                .child(categoryId + Other.CATEGORY_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(holder.courseImage));
 
@@ -113,7 +113,7 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         TextView courseTitle, courseDifficulty, courseFinalScore, coursePeriod, coursePrice, courseEnroll;
         ImageView courseImage;
         ImageButton addToFav;
@@ -136,12 +136,11 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
                 String courseId = data.get(getAdapterPosition()).getId();
                 if (isFavourite) {
                     addToFav.setImageResource(R.drawable.ic_favourite_red);
-                    favouritesDatabase.insertItem(userId,courseId);
+                    favouritesDatabase.insertItem(userId, courseId);
                     isFavourite = false;
-                }
-                else {
+                } else {
                     addToFav.setImageResource(R.drawable.ic_favourite_black);
-                    favouritesDatabase.removeItem(userId,courseId);
+                    favouritesDatabase.removeItem(userId, courseId);
                     isFavourite = true;
                 }
 //                itemView.setVisibility(View.GONE);
@@ -155,7 +154,7 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         public void onClick(View view) {
             Intent toCourseProfile = new Intent(view.getContext(), CoursePageActivity.class);
             toCourseProfile.putExtra(Intents.COURSE_ID, data.get(getAdapterPosition()).getId());
-            startActivity(view.getContext() , toCourseProfile, new Bundle());
+            startActivity(view.getContext(), toCourseProfile, new Bundle());
         }
     }
 }

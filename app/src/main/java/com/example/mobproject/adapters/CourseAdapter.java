@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,16 +43,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private final String userId;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
     public CourseAdapter(Context context, ArrayList<Course> data,
-                         ArrayList<DocumentReference> favouriteReferences, String userId){
+                         ArrayList<DocumentReference> favouriteReferences, String userId) {
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
         this.userId = userId;
         this.favouriteReferences = favouriteReferences;
-        Log.d(context.getString(R.string.favourites_log), String.valueOf(favouriteReferences));
-
     }
 
     @NonNull
@@ -74,7 +70,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         int difficulty = data.get(position).getDifficulty();
 
         holder.courseDifficulty.setText(difficulties[difficulty]);
-        switch(difficulty){
+        switch (difficulty) {
             case 0:
                 holder.courseDifficulty.setTextColor(Color.parseColor("#22E865"));
                 break;
@@ -98,15 +94,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         String currency = format.format(data.get(position).getPrice());
         holder.coursePrice.setText(currency);
 
-        //TODO set enroll false after start
-
         boolean enroll = data.get(position).isOpenEnroll();
         String openEnroll = holder.itemView.getContext().getString(R.string.open_enroll);
         String closeEnroll = holder.itemView.getContext().getString(R.string.close_enroll);
         holder.courseEnroll.setText(enroll ? openEnroll : closeEnroll);
 
-        holder.courseEnroll.setTextColor( enroll ?
-                Color.parseColor("#22E865"):
+        holder.courseEnroll.setTextColor(enroll ?
+                Color.parseColor("#22E865") :
                 Color.parseColor("#F61616"));
 
         if (isFavourite(data.get(position).getId())) {
@@ -122,11 +116,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         holder.addToFav.setOnClickListener(view -> {
             if (!isFavourite(courseId)) {
                 holder.addToFav.setImageResource(R.drawable.ic_favourite_red);
-                favouriteDatabase.insertItem(userId,courseId);
+                favouriteDatabase.insertItem(userId, courseId);
                 favouriteReferences.add(courseRef);
             } else {
                 holder.addToFav.setImageResource(R.drawable.ic_favourite_black);
-                favouriteDatabase.removeItem(userId,courseId);
+                favouriteDatabase.removeItem(userId, courseId);
                 favouriteReferences.remove(courseRef);
             }
         });
@@ -134,13 +128,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         String categoryId = data.get(position).getCategoryId().getId();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference profileImgRef = storageReference.child(Other.CATEGORY_STORAGE_FOLDER)
-                .child(categoryId+ Other.CATEGORY_PHOTO_EXTENSION);
+                .child(categoryId + Other.CATEGORY_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(holder.courseImage));
-
-//        ImageView image = data.get(position);//get from DB
-//        holder.courseImage.setImageResource(image);
-
     }
 
     @Override
@@ -173,16 +163,16 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         @Override
         public void onClick(View view) {
             Intent toCourseProfile = new Intent(view.getContext(), CoursePageActivity.class);
-            toCourseProfile.putExtra(Intents.COURSE_ID, data.get(getAdapterPosition()).getId());
-            startActivity(view.getContext() , toCourseProfile, new Bundle());
+            toCourseProfile.putExtra(Intents.COURSE_ID, data.get(getAbsoluteAdapterPosition()).getId());
+            startActivity(view.getContext(), toCourseProfile, new Bundle());
         }
     }
 
     public boolean isFavourite(String courseID) {
         DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION)
                 .document(courseID);
-        for(DocumentReference docRef : favouriteReferences)
-            if(courseRef.equals(docRef))
+        for (DocumentReference docRef : favouriteReferences)
+            if (courseRef.equals(docRef))
                 return true;
 
         return false;

@@ -7,7 +7,8 @@ public class Comment {
     private DocumentReference userId;
     private String commentText;
 
-    public Comment() {}
+    public Comment() {
+    }
 
     public Comment(DocumentReference userId, String commentText) {
         this.userId = userId;
@@ -32,9 +33,5 @@ public class Comment {
 
     public String getCommentText() {
         return commentText;
-    }
-
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
     }
 }

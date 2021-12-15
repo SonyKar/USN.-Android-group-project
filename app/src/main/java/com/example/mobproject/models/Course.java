@@ -18,12 +18,11 @@ public class Course {
     private double price;
     private int difficulty;
     private DocumentReference ownerId;
-    private boolean openEnroll;
     private Date startDate;
     private Date endDate;
     private int rateCounter;
     private int studentCounter;
-    private List<Integer> meetDays = new ArrayList<>();
+    private final List<Integer> meetDays = new ArrayList<>();
     private String description;
     private List<DocumentReference> commentsReferences = new ArrayList<>();
 
@@ -45,7 +44,6 @@ public class Course {
         this.meetDays.addAll(meetDays);
         this.commentsReferences = commentsReferences;
         this.description = description;
-        this.openEnroll = true;
         this.rating = rating;
         this.studentCounter = studentCounter;
         this.rateCounter = rateCounter;
@@ -130,40 +128,8 @@ public class Course {
         this.rating = rating;
     }
 
-    public void setCategoryId(DocumentReference categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
-    }
-
-    public void setOwnerId(DocumentReference ownerId) {
-        this.ownerId = ownerId;
-    }
-
-    public void setOpenEnroll(boolean openEnroll) {
-        this.openEnroll = openEnroll;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setMeetDays(List<Integer> meetDays) {
-        this.meetDays = meetDays;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setRateCounter(int rateCounter) {

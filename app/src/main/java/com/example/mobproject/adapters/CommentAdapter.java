@@ -66,9 +66,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                 holder.commentUserText.setText(comment);
             }
         });
-
-        /*CircleImageView avatar = data.get(position);//get avatar from DB
-        holder.userAvatar.setImageResource(avatar);*/
     }
 
     @Override
