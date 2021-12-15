@@ -213,13 +213,10 @@ public class CoursePageActivity extends AppCompatActivity {
 
     private final View.OnClickListener onEnrollHandler = view -> {
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
-//        if (!isEnrolled) {
         enrolledDatabase.insertItem(userId, courseId);
         Toast.makeText(getApplicationContext(), getString(R.string.enrollment_message), Toast.LENGTH_SHORT).show();
         Log.d("enrollment", "Successful enrollment");
         enrollMe.setEnabled(false);
-//            isEnrolled = !isEnrolled;
-//        }
     };
 
     private final Callback<Course> initValuesCallback = new Callback<Course>() {
