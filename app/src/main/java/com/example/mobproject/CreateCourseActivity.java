@@ -47,7 +47,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
     private EditText createCourseName, createCoursePrice, descriptionEdt;
     private Spinner categorySpinner;
     private RadioGroup difficultyGroup;
-
+    private Button createCourse;
     private boolean isValid = true;
     private Course courseInfo = null;
     private final List<Integer> daysChecked = new ArrayList<>();
@@ -69,7 +69,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         ImageButton endDateBtn = findViewById(R.id.end_date_btn);
         startDateTxv = findViewById(R.id.start_date);
         endDateTxv = findViewById(R.id.end_date);
-        Button createCourse = findViewById(R.id.create_course_btn);
+        createCourse = findViewById(R.id.create_course_btn);
         difficultyGroup = findViewById(R.id.difficulty_radgr);
         CheckBox monday = findViewById(R.id.monday_chck);
         CheckBox tuesday = findViewById(R.id.tuesday_chck);
@@ -278,6 +278,9 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         createCourseValidation();
 
         if (isValid) {
+            //disable register button
+            createCourse.setEnabled(false);
+
             Category selectedCategory = (Category) categorySpinner.getSelectedItem();
             String spinnerCategoryId = selectedCategory.getId();
             DocumentReference docRefCategory = FirebaseFirestore.getInstance().

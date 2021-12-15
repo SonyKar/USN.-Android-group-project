@@ -23,6 +23,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     EditText currentPass, newPass, confirmNewPass;
     boolean isValidated = true;
     UserInfo userInfo;
+    private Button savePassword;
     public static Context appContext;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         currentPass = findViewById(R.id.current_pass);
         newPass = findViewById(R.id.new_pass);
         confirmNewPass = findViewById(R.id.confirm_new_pass);
-        Button savePassword = findViewById(R.id.save_password);
+        savePassword = findViewById(R.id.save_password);
         
         Objects.requireNonNull(this.getSupportActionBar()).setDisplayShowTitleEnabled(false);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,10 +69,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         user.updatePassword(newPassword)
                                 .addOnCompleteListener(task1 -> {
                                     if (task1.isSuccessful()) {
+                                        //disable savePassword button
+                                        savePassword.setEnabled(false);
+
                                         Log.d("pass_update", "Password successfully changed!");
                                         Toast.makeText(getApplicationContext(), getString(R.string.password_change_message), Toast.LENGTH_SHORT).show();
                                         goToProfile();
                                     } else { // updating password was not successful
+                                        //enable button
+                                        savePassword.setEnabled(true);
+
                                         Toast.makeText(this, "Something went wrong! Please, try again later!", Toast.LENGTH_SHORT).show();
                                     }
                                 });

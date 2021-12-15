@@ -28,7 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private EditText signupEmail, signupFirstName, signupLastName, signupPass, signupConfPass;
     private RadioGroup status;
-
+    private Button register;
     private User user;
     private String userId;
     private boolean isValid = true;
@@ -43,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
         signupEmail = findViewById(R.id.signup_email);
         signupPass = findViewById(R.id.signup_password);
         signupConfPass = findViewById(R.id.signup_conf_password);
-        Button register = findViewById(R.id.signup_btn);
+        register = findViewById(R.id.signup_btn);
         status = findViewById(R.id.rad_status);
         Button btnToLogin = findViewById(R.id.btn_to_login);
 
@@ -73,6 +73,9 @@ public class SignUpActivity extends AppCompatActivity {
         DocumentReference userType = FirebaseFirestore.getInstance().document(refPath);
 
         if (isValid) {
+            //disable register button
+            register.setEnabled(false);
+
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {

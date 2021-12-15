@@ -115,6 +115,7 @@
                     android:layout_marginTop="@dimen/padding"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
+                    android:drawablePadding="-45dp"
                     android:text="@string/change_password"
                     android:textAllCaps="false"
                     android:textColor="@color/grey_purple"
@@ -126,7 +127,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btn_change_pass"
                     android:layout_centerInParent="true"
-
                     android:layout_marginBottom="@dimen/padding"
                     android:background="@drawable/button_pink"
                     android:text="@string/save"
