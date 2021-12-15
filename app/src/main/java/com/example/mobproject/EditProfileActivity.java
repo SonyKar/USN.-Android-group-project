@@ -1,21 +1,37 @@
 package com.example.mobproject;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Other;
@@ -24,14 +40,25 @@ import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
 import com.example.mobproject.validations.Validator;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -42,6 +69,8 @@ public class EditProfileActivity extends AppCompatActivity {
     public static Context appContext;
     ActivityResultLauncher<Intent> pictureResultLauncher;
     StorageReference storageReference;
+    Uri uri;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,25 +88,29 @@ public class EditProfileActivity extends AppCompatActivity {
         Button saveProfile = findViewById(R.id.save_profile);
         profilePicture = findViewById(R.id.profile_avatar_edit);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
-        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
-                Picasso.get().load(uri).into(profilePicture));
 
+        initEditProfile();
         profilePicture.setOnClickListener(changeProfilePicture);
         saveProfile.setOnClickListener(saveAndGoBackToProfile);
+
         pictureResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK&&result.getData()!=null) {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData()!=null) {
+
                         Intent data = result.getData();
-                        Uri uri = data.getData();
-                        pictureUpload(uri);
+                        if(data.getExtras()!=null){
+                        Bitmap photo = (Bitmap) data.getExtras().get("data");
+                        profilePicture.setImageBitmap(photo);
+                        encodeBitmapAndSave(photo);
+                        }
+                        else{
+                            uri = data.getData();
+                            Picasso.get().load(uri).into(profilePicture);
+                            pictureUpload(uri);
+                        }
                     }
                 });
-
-        initEditProfile();
 
         Objects.requireNonNull(this.getSupportActionBar()).setDisplayShowTitleEnabled(false);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -87,6 +120,11 @@ public class EditProfileActivity extends AppCompatActivity {
     private void initEditProfile() {
         UserDatabase userDatabase = new UserDatabase();
         userDatabase.getItem(userInfo.getUserId(), getUserData);
+        storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
+                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
+        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
+                Picasso.get().load(uri).into(profilePicture));
     }
 
     private final Callback<User> getUserData = new Callback<User>() {
@@ -107,26 +145,70 @@ public class EditProfileActivity extends AppCompatActivity {
     private final View.OnClickListener saveAndGoBackToProfile = view -> saveProfile();
 
     private final View.OnClickListener changeProfilePicture = view ->{
-        Intent gallery = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        if (gallery.resolveActivity(getPackageManager()) != null) {
-            pictureResultLauncher.launch(gallery);
-        } else {
-            Toast.makeText(this, "There is no app that supports this action",
-                    Toast.LENGTH_SHORT).show();
-        }
+
+        final CharSequence[] optionsMenu = {"Take Photo", "Choose from Gallery", "Exit" }; // create a menuOption Array
+        // create a dialog for showing the optionsMenu
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        // set the items in builder
+        builder.setItems(optionsMenu, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (optionsMenu[i].equals("Take Photo")) {
+                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    try {
+                        createImageUri();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    pictureResultLauncher.launch(takePicture);
+
+                    } else if (optionsMenu[i].equals("Choose from Gallery")) {
+                        Intent gallery = new Intent(Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        if (gallery.resolveActivity(getPackageManager()) != null) {
+                            pictureResultLauncher.launch(gallery);
+                        }
+                    } else if (optionsMenu[i].equals("Exit")) {
+                        dialogInterface.dismiss();
+                    }
+                }
+        });
+        builder.show();
     };
+
 
     private void pictureUpload(Uri imageUri){
         StorageReference fileRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
                 .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
-        fileRef.putFile(imageUri).addOnSuccessListener(taskSnapshot ->
-                fileRef.getDownloadUrl().addOnSuccessListener(uri ->{
-                    profilePicture.setImageURI(uri);
-                    Picasso.get().load(uri).into(profilePicture);}))
-                .addOnFailureListener(e ->
+        UploadTask uploadTask = fileRef.putFile(imageUri);
+        uploadTask.addOnFailureListener(e ->
                 Toast.makeText(EditProfileActivity.this,"Failed to upload image", Toast.LENGTH_LONG).show());
     }
+
+    public void encodeBitmapAndSave(Bitmap bitmap) {
+        StorageReference fileRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
+                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        UploadTask uploadTask = fileRef.putBytes(data);
+        uploadTask.addOnFailureListener(exception -> exception.printStackTrace());
+    }
+        private void createImageUri() throws IOException {
+            // Create an image file name
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File image = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+            uri = FileProvider.getUriForFile(this,
+                    getApplicationContext().getPackageName() + ".provider",
+                    image);
+        }
 
     private void saveProfile() {
         isValidated = true;

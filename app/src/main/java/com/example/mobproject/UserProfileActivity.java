@@ -99,6 +99,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private final View.OnClickListener switchToEditProfile = view -> {
         Intent toEditProfile = new Intent(this, EditProfileActivity.class);
         startActivity(toEditProfile);
+        finish();
     };
 
     private final View.OnClickListener switchToMyCourses = view -> {
