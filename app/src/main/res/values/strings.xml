@@ -28,7 +28,7 @@
     <string name="discover_courses">Discover Courses</string>
     <string name="status_error">Choose a status!</string>
     <string name="create_edit_course_text">Let\'s customize your course!</string>
-
+    <string name="student_counter">%1$d students</string>
 
     <string name="category_txt">Category</string>
 

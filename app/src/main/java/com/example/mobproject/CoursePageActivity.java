@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -42,7 +41,7 @@ import java.util.Locale;
 public class CoursePageActivity extends AppCompatActivity {
     private RatingBar finalRating;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
-            courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView;
+            courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView, no_students;
     private ImageView commentAvatar, courseImage;
     private FloatingActionButton addToFav;
     private Button enrollMe;
@@ -77,6 +76,7 @@ public class CoursePageActivity extends AppCompatActivity {
         commentTextView = findViewById(R.id.comment_input);
         commentAvatar = findViewById(R.id.comment_avatar);
         courseImage = findViewById(R.id.course_bg);
+        no_students = findViewById(R.id.no_students);
 
         userInfo = new UserInfo(this);
         userId = userInfo.getUserId();
@@ -214,15 +214,25 @@ public class CoursePageActivity extends AppCompatActivity {
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
         enrolledDatabase.insertItem(userId, courseId);
         Toast.makeText(getApplicationContext(), getString(R.string.enrollment_message), Toast.LENGTH_SHORT).show();
-        Log.d("enrollment", "Successful enrollment");
+
+        CourseDatabase courseDatabase = new CourseDatabase();
+        courseDatabase.incrementStudentCounter(courseId);
+        incrementStudentCounter();
+
         enrollMe.setEnabled(false);
     };
+
+    private void incrementStudentCounter() {
+        no_students.setText(getResources().getString(R.string.student_counter, courseInfo.getStudentCounter() + 1));
+    }
 
     private final Callback<Course> initValuesCallback = new Callback<Course>() {
         @Override
         public void OnFinish(ArrayList<Course> courseList) {
             courseInfo = courseList.get(0);
             courseName.setText(courseInfo.getName());
+
+            no_students.setText(getResources().getString(R.string.student_counter, courseInfo.getStudentCounter()));
 
             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
             String currency = format.format(courseInfo.getPrice());
