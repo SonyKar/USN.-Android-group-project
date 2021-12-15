@@ -47,7 +47,6 @@ public class CoursePageActivity extends AppCompatActivity {
     private FloatingActionButton addToFav;
     private Button enrollMe;
     private ImageButton editCourse;
-
     private UserInfo userInfo;
     private String courseId;
     private Course courseInfo;
