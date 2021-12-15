@@ -11,6 +11,8 @@ public class Other {
     public static final String PROFILE_STORAGE_FOLDER = "profileImages";
     public static final String CATEGORY_PHOTO_EXTENSION = ".jpg";
     public static final String CATEGORY_STORAGE_FOLDER = "categoryImages";
-
-
+    public static final int EDIT_MODE = 1;
+    public static final int CREATE_MODE = 0;
+    public static final int START_DATE = 0;
+    public static final int END_DATE = 1;
 }

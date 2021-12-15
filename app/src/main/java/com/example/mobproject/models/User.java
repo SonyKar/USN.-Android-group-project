@@ -8,7 +8,8 @@ public class User {
     private String email;
     private DocumentReference userType;
 
-    public User() {}
+    public User() {
+    }
 
     // Constructor to create the user
     public User(String name, String email, DocumentReference userType) {
@@ -37,13 +38,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public DocumentReference getUserType() {
+        return userType;
     }
-
-    public DocumentReference getUserType() { return userType; }
-
-    public void setUserType(DocumentReference userType) { this.userType = userType; }
-
-
 }

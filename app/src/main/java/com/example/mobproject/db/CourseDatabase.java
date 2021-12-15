@@ -7,6 +7,7 @@ import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.example.mobproject.models.Error;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -52,6 +53,11 @@ public class CourseDatabase extends Database<Course> {
         newCourseRef.set(item);
 
         return null;
+    }
+
+    public void incrementStudentCounter(String id) {
+        DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document(id);
+        courseRef.update("studentCounter", FieldValue.increment(1));
     }
 
     @Override

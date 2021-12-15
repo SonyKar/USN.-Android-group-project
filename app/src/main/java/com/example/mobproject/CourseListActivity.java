@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.adapters.CourseAdapter;
 import com.example.mobproject.constants.Difficulty;
+import com.example.mobproject.constants.SortType;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.CourseFilter;
 import com.example.mobproject.controllers.CourseSort;
@@ -155,10 +156,11 @@ public class CourseListActivity extends AppCompatActivity {
 
         enrollSwitch.setChecked(true);
 
-        Callback<Category> spinnerCallback = new Callback<Category>() {
+        Database<Category> categoryDatabase = new CategoryDatabase();
+        categoryDatabase.getItems(new Callback<Category>() {
             @Override
             public void OnFinish(ArrayList<Category> categoryList) {
-                Collections.sort(categoryList, (category, nextCategory) -> category.getName().compareTo(nextCategory.getName()));
+                Collections.sort(categoryList, (category, nextCategory) -> nextCategory.getName().compareTo(category.getName()));
                 categoryList.add(0, new Category("All"));
                 ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
                         (CourseListActivity.this,
@@ -167,9 +169,7 @@ public class CourseListActivity extends AppCompatActivity {
                 categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 categoryFilter.setAdapter(categoriesAdapter);
             }
-        };
-        Database<Category> categoryDatabase = new CategoryDatabase();
-        categoryDatabase.getItems(spinnerCallback);
+        });
 
         //add "$" label
         assert priceRange != null;
@@ -257,28 +257,28 @@ public class CourseListActivity extends AppCompatActivity {
         if (courseList != null) {
             CourseSort courseSort = new CourseSort();
             switch (sortType) {
-                case 0:
+                case SortType.NAME_ASC:
                     courseList = courseSort.sortByName(courseList, true);
                     break;
-                case 1:
+                case SortType.NAME_DESC:
                     courseList = courseSort.sortByName(courseList, false);
                     break;
-                case 2:
+                case SortType.PRICE_ASC:
                     courseList = courseSort.sortByPrice(courseList, true);
                     break;
-                case 3:
+                case SortType.PRICE_DESC:
                     courseList = courseSort.sortByPrice(courseList, false);
                     break;
-                case 4:
+                case SortType.RATING_ASC:
                     courseList = courseSort.sortByRating(courseList, true);
                     break;
-                case 5:
+                case SortType.RATING_DESC:
                     courseList = courseSort.sortByRating(courseList, false);
                     break;
-                case 6:
+                case SortType.TIME_ASC:
                     courseList = courseSort.sortByTime(courseList, true);
                     break;
-                case 7:
+                case SortType.TIME_DESC:
                     courseList = courseSort.sortByTime(courseList, false);
                     break;
             }

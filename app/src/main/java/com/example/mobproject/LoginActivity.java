@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
         validateInputs(email, password);
 
-        if(isValid) {
+        if (isValid) {
             //disable loginBtn
             loginBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_loading_purple, 0, 0, 0);
             loginBtn.setEnabled(false);
@@ -70,7 +70,11 @@ public class LoginActivity extends AppCompatActivity {
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-                            Callback<User> onCompleteLoginCallback = new Callback<User>() {
+                            String userId = auth.getUid();
+                            userInfo.setUserId(userId);
+                            UserDatabase userDatabase = new UserDatabase();
+
+                            userDatabase.getItem(auth.getUid(), new Callback<User>() {
                                 @Override
                                 public void OnFinish(ArrayList<User> arrayList) {
                                     User user = arrayList.get(0);
@@ -81,21 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                                         switchToCourseList();
                                     }
                                 }
-                            };
-
-                            String userId = auth.getUid();
-                            userInfo.setUserId(userId);
-                            UserDatabase userDatabase = new UserDatabase();
-                            userDatabase.getItem(userId, new Callback<User>() {
-                                @Override
-                                public void OnFinish(ArrayList<User> arrayList) {
-                                    User user = arrayList.get(0);
-                                    DocumentReference userTypeRef = user.getUserType();
-                                    userInfo.setUserType(userTypeRef.getId());
-                                }
                             });
-
-                            userDatabase.getItem(auth.getUid(), onCompleteLoginCallback);
                         } else {
                             loginBtn.setCompoundDrawables(null, null, null, null);
                             loginBtn.setEnabled(true);
@@ -109,15 +99,17 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     private void validateInputs(String email, String password) {
-        if(email.trim().isEmpty()){
+        isValid = true;
+
+        if (email.trim().isEmpty()) {
             loginEmail.setError(getResources().getString(R.string.email_error));
             isValid = false;
-        } else if(Validator.isInvalidEmail(email)){
+        } else if (Validator.isInvalidEmail(email)) {
             loginEmail.setError(getResources().getString(R.string.error_invalid_email));
             isValid = false;
         }
 
-        if(password.trim().isEmpty()){
+        if (password.trim().isEmpty()) {
             loginPass.setError(getResources().getString(R.string.password_error));
             isValid = false;
         }
@@ -140,6 +132,7 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+    }
 }
 

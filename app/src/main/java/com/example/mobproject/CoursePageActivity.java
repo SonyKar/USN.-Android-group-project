@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.adapters.CommentAdapter;
-import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
 import com.example.mobproject.constants.Other;
 import com.example.mobproject.constants.UserInfo;
@@ -31,7 +29,6 @@ import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -39,24 +36,21 @@ import com.squareup.picasso.Picasso;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Locale;
 
 public class CoursePageActivity extends AppCompatActivity {
-
     private RatingBar finalRating;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
-    courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView;
+            courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView, no_students;
     private ImageView commentAvatar, courseImage;
     private FloatingActionButton addToFav;
+    private Button enrollMe;
+    private ImageButton editCourse;
+    private UserInfo userInfo;
     private String courseId;
     private Course courseInfo;
     private String userId;
-    private Button enrollMe;
     private boolean isFavourite = false;
-    private boolean isEnrolled = false;
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private ImageButton editCourse;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,8 +76,10 @@ public class CoursePageActivity extends AppCompatActivity {
         commentTextView = findViewById(R.id.comment_input);
         commentAvatar = findViewById(R.id.comment_avatar);
         courseImage = findViewById(R.id.course_bg);
-        UserInfo userInfo1 = new UserInfo(this);
-        userId = userInfo1.getUserId();
+        no_students = findViewById(R.id.no_students);
+
+        userInfo = new UserInfo(this);
+        userId = userInfo.getUserId();
 
         backToMain.setOnClickListener(switchToMain);
         addToFav.setOnClickListener(onFavouriteHandler);
@@ -92,21 +88,15 @@ public class CoursePageActivity extends AppCompatActivity {
         postCommentButton.setOnClickListener(postCommentHandler);
         enrollMe.setOnClickListener(onEnrollHandler);
 
-
         // get course ID
         Intent intent = getIntent();
         courseId = intent.getStringExtra(Intents.COURSE_ID);
 
         // set values for all fields
-        //Database<Course> database = new CourseDatabase();
-        //database.getItem(courseId, initValuesCallback);
-
-        //check course availability - open to enroll?
-        //if user is already enrolled or currentDate > startDate
-        //enrollMe.setEnabled(false);
+        Database<Course> database = new CourseDatabase();
+        database.getItem(courseId, initValuesCallback);
 
         //make button invisible for Student User
-        UserInfo userInfo = new UserInfo(this);
         String userTypeString = userInfo.getUserType();
         if (userTypeString.equals("0"))
             editCourse.setVisibility(View.GONE);
@@ -117,64 +107,59 @@ public class CoursePageActivity extends AppCompatActivity {
         //set commentAvatar
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
+                .child(userInfo.getUserId() + Other.PROFILE_PHOTO_EXTENSION);
         profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Picasso.get().load(uri).into(commentAvatar));
     }
 
     private void initFavouriteButton() {
         FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
-        DocumentReference courseReference = db.collection(DatabaseCollections
-                .COURSES_COLLECTION).document(courseId);
 
-        final Callback<DocumentReference> favouriteCallback = new Callback<DocumentReference>() {
+        favouriteDatabase.getItems(userId, new Callback<DocumentReference>() {
             @Override
             public void OnFinish(ArrayList<DocumentReference> favouriteReferences) {
                 for (DocumentReference docRef : favouriteReferences)
-                    if (courseReference.equals(docRef)) {
+                    if (courseId.equals(docRef.getId())) {
                         isFavourite = true;
                         break;
                     }
                 if (isFavourite) {
                     addToFav.setImageResource(R.drawable.ic_favourite_red);
-//                    favouriteDatabase.insertItem(userId,courseId);
-                }
-                else {
+                } else {
                     addToFav.setImageResource(R.drawable.ic_favourite_purple);
-//                    favouriteDatabase.removeItem(userId,courseId);
                 }
             }
-        };
-
-        favouriteDatabase.getItems(userId, favouriteCallback);
+        });
     }
 
-    private void initEnrolledButton(){
+    private void initEnrolledButton() {
         //disable and change button color if teacher user
-        UserInfo userInfo = new UserInfo(this);
         String userTypeString = userInfo.getUserType();
 
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
-        DocumentReference courseRef = db.collection(DatabaseCollections.ENROLLED_COLLECTION)
-                .document(courseId);
 
         enrolledDatabase.getItems(userId, new Callback<Course>() {
             @Override
-            public void OnFinish(ArrayList<Course> enrolledList) {
-                for(Course enrolledCourse : enrolledList) {
-                    if (courseRef.getId().equals(enrolledCourse.getId())) {
+            public void OnFinish(ArrayList<Course> enrolledReferences) {
+                boolean isEnrolled = false;
+
+                for (Course course : enrolledReferences) {
+                    if (courseId.equals(course.getId())) {
                         isEnrolled = true;
                         break;
                     }
                 }
 
-                Database<Course> database = new CourseDatabase();
-                database.getItem(courseId, initValuesCallback);
+                //init enrollMe button
+                if (isEnrolled || !courseInfo.isOpenEnroll()) {
+                    enrollMe.setEnabled(false);
+                    enrollMe.setText(R.string.cannot_enroll_message);
+                }
             }
         });
 
         //check enrollMe button
-        if (userTypeString.equals("1")){
+        if (userTypeString.equals("1")) {
             enrollMe.setEnabled(false);
             enrollMe.setText(R.string.cannot_enroll_teacher);
             enrollMe.setTextColor(Color.parseColor("#FFFFFF"));
@@ -206,11 +191,10 @@ public class CoursePageActivity extends AppCompatActivity {
     };
 
     private final View.OnClickListener onEditHandler = view -> {
-        int isEdit = 1;
         Intent toEditCourse = new Intent(CoursePageActivity.this,
                 CreateCourseActivity.class);
-        toEditCourse.putExtra("EDIT_COURSE", isEdit);
-        toEditCourse.putExtra("COURSE_ID", courseId);
+        toEditCourse.putExtra(Intents.EDIT_TYPE, Other.EDIT_MODE);
+        toEditCourse.putExtra(Intents.COURSE_ID, courseId);
         startActivity(toEditCourse);
     };
 
@@ -218,30 +202,37 @@ public class CoursePageActivity extends AppCompatActivity {
         FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
         if (isFavourite) {
             addToFav.setImageResource(R.drawable.ic_favourite_red);
-            favouriteDatabase.insertItem(userId,courseId);
-        }
-        else {
+            favouriteDatabase.insertItem(userId, courseId);
+        } else {
             addToFav.setImageResource(R.drawable.ic_favourite_purple);
-            favouriteDatabase.removeItem(userId,courseId);
+            favouriteDatabase.removeItem(userId, courseId);
         }
         isFavourite = !isFavourite;
     };
 
     private final View.OnClickListener onEnrollHandler = view -> {
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
-        if(!isEnrolled){
-            enrolledDatabase.insertItem(userId, courseId);
-            Toast.makeText(getApplicationContext(), getString(R.string.enrollment_message), Toast.LENGTH_SHORT).show();
-            Log.d("enrollment", "Successful enrollment");
-            enrollMe.setEnabled(false);
-        }
+        enrolledDatabase.insertItem(userId, courseId);
+        Toast.makeText(getApplicationContext(), getString(R.string.enrollment_message), Toast.LENGTH_SHORT).show();
+
+        CourseDatabase courseDatabase = new CourseDatabase();
+        courseDatabase.incrementStudentCounter(courseId);
+        incrementStudentCounter();
+
+        enrollMe.setEnabled(false);
     };
+
+    private void incrementStudentCounter() {
+        no_students.setText(getResources().getString(R.string.student_counter, courseInfo.getStudentCounter() + 1));
+    }
 
     private final Callback<Course> initValuesCallback = new Callback<Course>() {
         @Override
         public void OnFinish(ArrayList<Course> courseList) {
             courseInfo = courseList.get(0);
             courseName.setText(courseInfo.getName());
+
+            no_students.setText(getResources().getString(R.string.student_counter, courseInfo.getStudentCounter()));
 
             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
             String currency = format.format(courseInfo.getPrice());
@@ -253,21 +244,10 @@ public class CoursePageActivity extends AppCompatActivity {
             //set difficulty color
             courseDifficulty.setTextColor(getResources().getIntArray(R.array.difficultyColors)[difficulty]);
 
-            //init enrollMe button
-            if(isEnrolled || !courseInfo.isOpenEnroll()){
-                enrollMe.setEnabled(false);
-                enrollMe.setText(R.string.cannot_enroll_message);
-            }
-
-
-
-            //if(courseInfo.isOpenEnroll())
-            if(courseInfo.isOpenEnroll())
-            {
+            if (courseInfo.isOpenEnroll()) {
                 courseEnroll.setText(R.string.open_to_enroll);
                 courseEnroll.setTextColor(getResources().getColor(R.color.beginner_green));
-            }
-            else {
+            } else {
                 courseEnroll.setText(R.string.cannot_enroll);
                 courseEnroll.setTextColor(getResources().getColor(R.color.advanced_red));
             }
@@ -277,21 +257,23 @@ public class CoursePageActivity extends AppCompatActivity {
             coursePeriod.setText(dateString);
 
             StringBuilder meetingDaysString = new StringBuilder();
-            for(int day : courseInfo.getMeetDays()){
+            for (int day : courseInfo.getMeetDays()) {
                 meetingDaysString.append(" ").append(getResources().getStringArray(R.array.meeting_days)[day]);
             }
             courseMeetingDays.setText(meetingDaysString.toString());
+
             DocumentReference ownerId = courseInfo.getOwnerId();
-            if(!userId.equals(ownerId.getId()))
-                editCourse.setVisibility(View.GONE);
+            if (userId.equals(ownerId.getId()))
+                editCourse.setVisibility(View.VISIBLE);
+
             updateComments();
             updateTotalRating();
 
             String categoryId = courseInfo.getCategoryId().getId();
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-            StorageReference profileImgRef = storageReference.child(Other.CATEGORY_STORAGE_FOLDER)
-                    .child(categoryId+Other.CATEGORY_PHOTO_EXTENSION);
-            profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
+            StorageReference categoryProfileImgRef = storageReference.child(Other.CATEGORY_STORAGE_FOLDER)
+                    .child(categoryId + Other.CATEGORY_PHOTO_EXTENSION);
+            categoryProfileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
                     Picasso.get().load(uri).into(courseImage));
         }
     };
@@ -307,7 +289,7 @@ public class CoursePageActivity extends AppCompatActivity {
     }
 
     private void updateTotalRating() {
-        float finalRatingValue = (float)(Math.round(courseInfo.getRating() * 100.0) / 100.0);
+        float finalRatingValue = (float) (Math.round(courseInfo.getRating() * 100.0) / 100.0);
         String finalRatingString = String.valueOf(finalRatingValue);
         String finalRatingText = finalRatingString + getString(R.string.ratingOutOf);
 

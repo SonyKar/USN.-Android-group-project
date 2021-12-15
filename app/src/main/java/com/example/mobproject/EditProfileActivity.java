@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -67,6 +68,7 @@ public class EditProfileActivity extends AppCompatActivity {
     boolean isValidated = true;
     UserInfo userInfo;
     public static Context appContext;
+    private Button saveProfile;
     ActivityResultLauncher<Intent> pictureResultLauncher;
     StorageReference storageReference;
     Uri uri;
@@ -85,13 +87,15 @@ public class EditProfileActivity extends AppCompatActivity {
         fNameEdit = findViewById(R.id.fname_edit);
         lNameEdit = findViewById(R.id.lname_edit);
         emailEdit = findViewById(R.id.email_edit);
-        Button saveProfile = findViewById(R.id.save_profile);
+        saveProfile = findViewById(R.id.save_profile);
+        Button changePassword = findViewById(R.id.btn_change_pass);
         profilePicture = findViewById(R.id.profile_avatar_edit);
 
 
         initEditProfile();
         profilePicture.setOnClickListener(changeProfilePicture);
         saveProfile.setOnClickListener(saveAndGoBackToProfile);
+        changePassword.setOnClickListener(goToChangePassword);
 
         pictureResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -144,6 +148,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private final View.OnClickListener saveAndGoBackToProfile = view -> saveProfile();
 
+    private final View.OnClickListener goToChangePassword = view -> changePassword();
+
     private final View.OnClickListener changeProfilePicture = view ->{
 
         final CharSequence[] optionsMenu = {"Take Photo", "Choose from Gallery", "Exit" }; // create a menuOption Array
@@ -176,7 +182,6 @@ public class EditProfileActivity extends AppCompatActivity {
         });
         builder.show();
     };
-
 
     private void pictureUpload(Uri imageUri){
         StorageReference fileRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
@@ -231,7 +236,11 @@ public class EditProfileActivity extends AppCompatActivity {
                         break;
                     }
                 }
+
                 if(isValidated) {
+                    //disable saveProfile button
+                    saveProfile.setEnabled(false);
+
                     DocumentReference userType = FirebaseFirestore.getInstance()
                             .collection(DatabaseCollections.USERTYPES_COLLECTION).document(userInfo.getUserType());
                     User user = new User(name, email, userType);
@@ -269,6 +278,11 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent backToUser = new Intent(this, UserProfileActivity.class);
         startActivity(backToUser);
         finish();
+    }
+
+    private void changePassword(){
+        Intent toChangePassword = new Intent(this, ChangePasswordActivity.class);
+        startActivity(toChangePassword);
     }
 
     public boolean onSupportNavigateUp() {
