@@ -203,7 +203,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         String dateString = dayOfMonth + "/" + (month + 1) + "/" + year;
         Date date = null;
         try {
-            date = new SimpleDateFormat(getResources().getString(R.string.date_format), Locale.getDefault()).parse(dateString);
+            date = new SimpleDateFormat(getResources().getString(R.string.date_format_2), Locale.getDefault()).parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
