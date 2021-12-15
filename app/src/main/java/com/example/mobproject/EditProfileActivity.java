@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -40,6 +41,7 @@ public class EditProfileActivity extends AppCompatActivity {
     boolean isValidated = true;
     UserInfo userInfo;
     public static Context appContext;
+    private Button saveProfile;
     ActivityResultLauncher<Intent> pictureResultLauncher;
     StorageReference storageReference;
 
@@ -56,7 +58,7 @@ public class EditProfileActivity extends AppCompatActivity {
         fNameEdit = findViewById(R.id.fname_edit);
         lNameEdit = findViewById(R.id.lname_edit);
         emailEdit = findViewById(R.id.email_edit);
-        Button saveProfile = findViewById(R.id.save_profile);
+        saveProfile = findViewById(R.id.save_profile);
         Button changePassword = findViewById(R.id.btn_change_pass);
         profilePicture = findViewById(R.id.profile_avatar_edit);
 
@@ -156,6 +158,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
 
                 if(isValidated) {
+                    //disable saveProfile button
+                    saveProfile.setEnabled(false);
+
                     DocumentReference userType = FirebaseFirestore.getInstance()
                             .collection(DatabaseCollections.USERTYPES_COLLECTION).document(userInfo.getUserType());
                     User user = new User(name, email, userType);
