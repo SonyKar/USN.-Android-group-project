@@ -108,6 +108,8 @@ public class SignUpActivity extends AppCompatActivity {
     };
 
     private void validateInputs(String fName, String lName, String email, String password, String repeatPassword) {
+        isValid = true;
+
         // validate signup FIRST NAME
         if (fName.trim().isEmpty()) {
             signupFirstName.setError(getResources().getString(R.string.first_name_error));

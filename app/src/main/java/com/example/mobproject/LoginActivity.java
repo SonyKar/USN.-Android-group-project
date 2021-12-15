@@ -99,6 +99,8 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     private void validateInputs(String email, String password) {
+        isValid = true;
+
         if (email.trim().isEmpty()) {
             loginEmail.setError(getResources().getString(R.string.email_error));
             isValid = false;

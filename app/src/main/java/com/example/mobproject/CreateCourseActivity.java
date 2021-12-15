@@ -114,6 +114,8 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
     }
 
     private void createCourseValidation() {
+        isValid = true;
+
         //validate course Name
         if (createCourseName.getText().toString().trim().isEmpty()) {
             createCourseName.setError(getResources().getString(R.string.first_name_error));
