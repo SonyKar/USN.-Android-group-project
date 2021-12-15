@@ -82,7 +82,7 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         String finalScore = finalScoreValue + holder.itemView.getContext().getString(R.string.ratingOutOf);//function to calculate final score
         holder.courseFinalScore.setText(finalScore);
 
-        SimpleDateFormat sdf = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.date_format));
+        SimpleDateFormat sdf = new SimpleDateFormat(holder.itemView.getContext().getString(R.string.date_format), Locale.getDefault());
         String period = sdf.format(data.get(position).getStartDate()) + " - " + sdf.format(data.get(position).getEndDate());//startDate + " - " + endDate
         holder.coursePeriod.setText(period);
 
@@ -127,13 +127,13 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
             coursePrice = itemView.findViewById(R.id.card_view_price);
             courseEnroll = itemView.findViewById(R.id.card_view_enroll);
             courseImage = itemView.findViewById(R.id.course_img);
-            addToFav = itemView.findViewById(R.id.add_to_fav_cardview);
+            addToFav = itemView.findViewById(R.id.add_to_fav_cardView);
 
             addToFav.setImageResource(R.drawable.ic_favourite_red);
 
             addToFav.setOnClickListener(view -> {
                 FavouriteCoursesDatabase favouritesDatabase = new FavouriteCoursesDatabase();
-                String courseId = data.get(getAdapterPosition()).getId();
+                String courseId = data.get(getAbsoluteAdapterPosition()).getId();
                 if (isFavourite) {
                     addToFav.setImageResource(R.drawable.ic_favourite_red);
                     favouritesDatabase.insertItem(userId, courseId);
@@ -153,7 +153,7 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
         @Override
         public void onClick(View view) {
             Intent toCourseProfile = new Intent(view.getContext(), CoursePageActivity.class);
-            toCourseProfile.putExtra(Intents.COURSE_ID, data.get(getAdapterPosition()).getId());
+            toCourseProfile.putExtra(Intents.COURSE_ID, data.get(getAbsoluteAdapterPosition()).getId());
             startActivity(view.getContext(), toCourseProfile, new Bundle());
         }
     }

@@ -67,8 +67,8 @@ public class EditProfileActivity extends AppCompatActivity {
         userInfo = new UserInfo(this);
         appContext = getApplicationContext();
 
-        fNameEdit = findViewById(R.id.fname_edit);
-        lNameEdit = findViewById(R.id.lname_edit);
+        fNameEdit = findViewById(R.id.fName_edit);
+        lNameEdit = findViewById(R.id.lName_edit);
         emailEdit = findViewById(R.id.email_edit);
         saveProfile = findViewById(R.id.save_profile);
         Button changePassword = findViewById(R.id.btn_change_pass);

@@ -6,6 +6,7 @@
     <dimen name="padding">25dp</dimen>
     <dimen name="margin_field">20dp</dimen>
     <dimen name="message">18dp</dimen>
+    <dimen name="message_text">18sp</dimen>
     <dimen name="padding_menu">10dp</dimen>
     <dimen name="shadow_toolbar">4dp</dimen>
     <dimen name="nav_header_height">200dp</dimen>
@@ -28,7 +29,7 @@
     <dimen name="drawable_padding">10dp</dimen>
     <dimen name="fab_margin_bottom">15dp</dimen>
     <dimen name="toolbar_title">20sp</dimen>
-    <dimen name="card_view_infos">12sp</dimen>
+    <dimen name="card_view_info">12sp</dimen>
     <dimen name="card_view_price_size">17sp</dimen>
     <dimen name="card_view_enroll">13sp</dimen>
     <dimen name="card_view_shadow">10dp</dimen>

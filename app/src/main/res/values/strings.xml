@@ -1,41 +1,6 @@
 <resources>
+<!--    General    -->
     <string name="app_name">MobProject</string>
-    <string name="signin">Sign In</string>
-    <string name="signup">Sign Up</string>
-    <string name="create_acc">Create account</string>
-    <string name="email_address">Email address</string>
-    <string name="password">Password</string>
-    <string name="conf_password">Confirm Password</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="name"><b>Name</b></string>
-    <string name="price"><b>Price</b></string>
-    <string name="status">Status</string>
-    <string name="student">Student</string>
-    <string name="teacher">Teacher</string>
-    <string name="email_error">INSERT email address!!</string>
-    <string name="error_invalid_email">INVALID email address!!</string>
-    <string name="error_taken_email">The email is already taken!</string>
-    <string name="password_error">INSERT password!!</string>
-    <string name="conf_password_error">CONFIRM password!!</string>
-    <string name="password_match_error">Passwords don\'t match!!</string>
-    <string name="first_name_error">INSERT first name!!</string>
-    <string name="last_name_error">INSERT last name!!</string>
-    <string name="forgot_password">Forgot Password?</string>
-    <string name="generate_password">New Password</string>
-    <string name="successful_signup">Thank you for registering!</string>
-    <string name="signup_message">Choose your favourite course and learn from the best teachers online!</string>
-    <string name="discover_courses">Discover Courses</string>
-    <string name="status_error">Choose a status!</string>
-    <string name="create_edit_course_text">Let\'s customize your course!</string>
-    <string name="student_counter">%1$d students</string>
-
-    <string name="category_txt">Category</string>
-
-    <string name="start_date">Start Date</string>
-    <string name="end_date">End Date</string>
-    <string name="pick_date">Choose Date!</string>
-    <string name ="meetings_txt">Meetings on:</string>
 
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
@@ -64,58 +29,6 @@
         <item>@string/advanced</item>
     </string-array>
 
-    <string name="description"><b>Description</b></string>
-    <string name="create_course">CREATE COURSE</string>
-    <string name="start_date_error">Select start date!</string>
-    <string name="end_date_error">Select end date!</string>
-    <string name="price_error">Insert price!</string>
-    <string name="chronology_error">Choose correct dates!</string>
-    <string name="course_created_mess">Course saved!</string>
-    <string name="difficulty_error">Select difficulty!</string>
-    <string name="days_error">Select course days!</string>
-    <string name="description_error">Add description!</string>
-    <string name="profile">Profile</string>
-    <string name="courses">Courses</string>
-    <string name="my_courses">My Courses</string>
-    <string name="favourites">Favourites</string>
-    <string name="create_course_nav">Create Course</string>
-    <string name="logout">Log Out</string>
-    <string name="insert_name">Insert Name</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="forgot_password_btn">Forgot Password?</string>
-    <string name="don_t_have_an_account">Don\'t have an account?</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="_32_students">32 students</string>
-    <string name="open_to_enroll">Open to enroll</string>
-    <string name="mathematics_for_computer_games_development">Mathematics for Computer Games Development</string>
-    <string name="hard">HARD</string>
-    <string name="teacher_name_ex">Esmeralda Fernandez</string>
-    <string name="period_txt">Period: </string>
-    <string name="meetings_every">Meetings every: </string>
-    <string name="rate_this_course">RATE THIS COURSE</string>
-    <string name="leave_a_comment">LEAVE A COMMENT</string>
-    <string name="post">Post</string>
-    <string name="add_a_comment">Add a comment…</string>
-    <string name="default_no_comments">0</string>
-    <string name="default_final_rating_score">0/5</string>
-    <string name="enroll_me">Enroll me</string>
-    <string name="save">Save</string>
-    <string name="default_course_price">0 $</string>
-    <string name="search_a_course">Search a course…</string>
-    <string name="cannot_enroll">Cannot enroll</string>
-    <string name="student_status">Student</string>
-    <string name="sort_by">Sort by</string>
-    <string name="filters">Filters</string>
-    <string name="price_range">Price range</string>
-    <string name="category">Category</string>
-    <string name="reset">Reset</string>
-    <string name="apply">Apply</string>
-    <string name="course_id">COURSE_ID</string>
-    <string name="ratingOutOf">/5</string>
-    <string name="comment_error">Please, fill out the comment message first</string>
-
     <string-array name="sorting_criteria">
         <item>Name: Ascending</item>
         <item>Name: Descending</item>
@@ -127,8 +40,110 @@
         <item>Start Date: Late to Early</item>
     </string-array>
 
+<!--    Input labels    -->
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="conf_password">Confirm Password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="name"><b>Name</b></string>
+    <string name="price"><b>Price</b></string>
+    <string name="status">Status</string>
+    <string name="student">Student</string>
+    <string name="teacher">Teacher</string>
+    <string name="category_txt">Category</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="pick_date">Choose Date!</string>
+    <string name ="meetings_txt">Meetings on:</string>
+    <string name="description"><b>Description</b></string>
+    <string name="add_a_comment">Add a comment…</string>
+    <string name="search_a_course">Search a course…</string>
+    <string name="price_range">Price range</string>
+    <string name="category">Category</string>
+
+<!--    Errors    -->
+    <string name="something_wrong_error">"Something went wrong! Please, try again later!"</string>
+    <string name="email_error">Email address field can\'t be empty!</string>
+    <string name="error_invalid_email">Please, enter a valid email address!</string>
+    <string name="error_taken_email">The email is already taken!</string>
+    <string name="incorrect_password_error">You entered incorrect password!</string>
+    <string name="password_error">Password field can\'t be empty!</string>
+    <string name="conf_password_error">Confirm your password!</string>
+    <string name="password_match_error">Passwords don\'t match!</string>
+    <string name="first_name_error">First name field can\'t be empty!</string>
+    <string name="last_name_error">Last name field can\'t be empty!</string>
+    <string name="start_date_error">Please, select start date!</string>
+    <string name="end_date_error">Please, select end date!</string>
+    <string name="price_error">Price field can\'t be empty!</string>
+    <string name="chronology_error">Start date can\'t be later then end date!</string>
+    <string name="difficulty_error">Please, select difficulty!</string>
+    <string name="days_error">Please, select course days!</string>
+    <string name="description_error">Description field can\'t be empty!</string>
+    <string name="comment_error">Comment message can\'t be empty!</string>
+    <string name="image_upload_error">Failed to upload the image!</string>
+    <string name="no_support_app_error">There is no app that supports this action!</string>
+    <string name="credentials_error">Email or Password incorrect!</string>
+
+<!--    Views text    -->
+    <string name="have_account">Already have an account?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="create_acc">Create account</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="forgot_password_btn">Forgot Password?</string>
+    <string name="generate_password">New Password</string>
+    <string name="successful_signup">Thank you for registering!</string>
+    <string name="signup_message">Choose your favourite course and learn from the best teachers online!</string>
+    <string name="discover_courses">Discover Courses</string>
+    <string name="status_error">Choose a status!</string>
+    <string name="create_edit_course_text">Let\'s customize your course!</string>
+    <string name="student_counter">%1$d students</string>
+    <string name="create_course">CREATE COURSE</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="open_to_enroll">Open to enroll</string>
+    <string name="period_txt">Period: </string>
+    <string name="meetings_every">Meetings every: </string>
+    <string name="rate_this_course">RATE THIS COURSE</string>
+    <string name="leave_a_comment">LEAVE A COMMENT</string>
+    <string name="post">Post</string>
+    <string name="enroll_me">Enroll me</string>
+    <string name="save">Save</string>
+    <string name="sort_by">Sort by</string>
+    <string name="filters">Filters</string>
+    <string name="cannot_enroll">Cannot enroll</string>
+    <string name="ratingOutOf">/5</string>
+    <string name="reset">Reset</string>
+    <string name="apply">Apply</string>
+
+<!--    Toast text    -->
+    <string name="course_created_mess">Course saved!</string>
+    <string name="password_reset">The password reset link was sent to specified email!</string>
+
+<!--    Navbar    -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="profile">Profile</string>
+    <string name="courses">Courses</string>
+    <string name="my_courses">My Courses</string>
+    <string name="favourites">Favourites</string>
+    <string name="create_course_nav">Create Course</string>
+    <string name="logout">Log Out</string>
+
+<!--    Defaults    -->
+    <string name="default_no_enrolled_courses">0</string>
+    <string name="default_no_favourite_courses">0</string>
+    <string name="default_no_comments">0</string>
+    <string name="default_final_rating_score">0/5</string>
+    <string name="default_course_price">0$</string>
+    <string name="default_title">Mathematics for Computer Games Development</string>
+    <string name="default_difficulty">HARD</string>
+    <string name="default_teacher_name">Esmeralda Fernandez</string>
+    <string name="default_date">10/10/2021 \- 10/01/2022</string>
+
 <!-- Currencies -->
     <string name="dollars">$</string>
+    <string name="dollars_name">USD</string>
     <string name="Favourites">Favourites</string>
 
     <string name="find_a_course">Find a course…</string>
@@ -147,5 +162,13 @@
     <string name="password_change_message">Password successfully updated!</string>
     <string name="same_pass_error">Enter a different password!</string>
 
+<!--  Content description  -->
+    <string name="course_image_desc">Image for course category</string>
+    <string name="favourite_button_desc">Favourite button</string>
+    <string name="filter_button_desc">Filter fab button</string>
+    <string name="back_button_desc">Back button</string>
+    <string name="edit_button_desc">Edit button</string>
+    <string name="comment_number_desc">Comment number icon</string>
+    <string name="select_date_desc">Select date icon</string>
 
 </resources>

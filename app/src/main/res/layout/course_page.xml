@@ -41,8 +41,9 @@
                         android:id="@+id/course_bg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"/>
-                        <!--android:src="@drawable/artificial_intelligence_background"-->
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/course_image_desc" />
+
 
                     <ImageButton
                         android:id="@+id/back_btn"
@@ -53,7 +54,8 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:minWidth="48dp"
                         android:minHeight="48dp"
-                        app:srcCompat="@drawable/ic_back" />
+                        app:srcCompat="@drawable/ic_back"
+                        android:contentDescription="@string/back_button_desc" />
 
                     <ImageButton
                         android:id="@+id/edit_btn"
@@ -66,7 +68,8 @@
                         android:minWidth="48dp"
                         android:minHeight="48dp"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/ic_edit" />
+                        app:srcCompat="@drawable/ic_edit"
+                        android:contentDescription="@string/edit_button_desc" />
 
                 </RelativeLayout>
 
@@ -87,10 +90,10 @@
                         android:layout_weight="0.5"
                         android:drawablePadding="@dimen/drawable_start_padding_2"
                         android:elevation="@dimen/elevation"
-                        android:gravity="left"
-                        android:text="@string/_32_students"
+                        android:gravity="start"
+                        android:text=""
                         android:textColor="@color/dark_grey"
-                        android:textSize="@dimen/no_students_size"
+                        android:textSize="@dimen/message_text"
                         app:drawableStartCompat="@drawable/ic_no_students" />
 
                     <TextView
@@ -98,10 +101,10 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:text="@string/cannot_enroll"
                         android:textColor="@color/advanced_red"
-                        android:textSize="@dimen/no_students_size"
+                        android:textSize="@dimen/message_text"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -112,7 +115,7 @@
                     android:layout_marginStart="@dimen/padding"
                     android:layout_marginTop="@dimen/padding"
                     android:layout_marginEnd="@dimen/padding"
-                    android:text="@string/mathematics_for_computer_games_development"
+                    android:text="@string/default_title"
                     android:textColor="@color/black"
                     android:textSize="@dimen/field"
                     android:textStyle="bold" />
@@ -128,15 +131,15 @@
 
                     <TextView
                         android:id="@+id/difficulty_course_page"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:layout_gravity="center_vertical"
                         android:gravity="start"
-                        android:text="@string/hard"
+                        android:text="@string/default_difficulty"
                         android:textColor="@color/advanced_red"
                         android:textStyle="bold"
-                        android:textSize="12dp"/>
+                        android:textSize="@dimen/card_view_info"/>
 
                     <RatingBar
                         android:id="@+id/final_rating"
@@ -171,13 +174,13 @@
                     android:layout_marginStart="@dimen/padding"
                     android:layout_marginTop="@dimen/course_page_field_distance"
                     android:layout_marginEnd="@dimen/padding"
-                    android:text="@string/teacher_name_ex"
+                    android:text="@string/default_teacher_name"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
 
                 <TextView
-                    android:id="@+id/course_descr"
+                    android:id="@+id/course_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/padding"
@@ -187,7 +190,7 @@
                     android:gravity="start|top"
                     android:maxLines="5"
                     android:scrollbars="vertical"
-                    android:text="Explore the evolution of the spa industry from ancient civilizations to new frontiers of convergence integrating spas, medicine, healthcare, tourism, and hospitality. Study the industry from an international perspective, with emphasis on current business models and positioning for future trends."
+                    android:text=""
                     android:textColor="@color/black" />
 
 
@@ -215,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.85"
                         android:gravity="start"
-                        android:text="10/10/2021 - 10/01/2022"
+                        android:text="@string/default_date"
                         android:textColor="@color/primary_purple"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -244,7 +247,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:gravity="start"
-                        android:text="Mon Th"
+                        android:text=""
                         android:textColor="@color/primary_purple"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -266,7 +269,7 @@
                         android:layout_gravity="center_vertical"
                         android:text="@string/rate_this_course"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/course_page_field_label"
+                        android:textSize="@dimen/comment_text_size"
                         android:textStyle="bold" />
 
                     <RatingBar
@@ -291,9 +294,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/course_rating_margin_left"
-
-                        android:text="0/5"
+                        android:layout_marginEnd="@dimen/course_rating_margin_left"
+                        android:layout_marginStart="0dp"
+                        android:text="@string/default_final_rating_score"
                         android:textColor="@color/primary_dark_purple"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -307,7 +310,7 @@
                     android:layout_marginEnd="@dimen/padding"
                     android:text="@string/leave_a_comment"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/course_page_field_label"
+                    android:textSize="@dimen/comment_text_size"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -351,7 +354,8 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:importantForAutofill="no" />
 
                         <Button
                             android:id="@+id/post_btn"
@@ -383,7 +387,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        app:srcCompat="@drawable/ic_baseline_comment_24" />
+                        app:srcCompat="@drawable/ic_baseline_comment_24"
+                        android:contentDescription="@string/comment_number_desc" />
 
                     <TextView
                         android:id="@+id/no_comments"
@@ -427,7 +432,8 @@
             app:elevation="0dp"
             app:fabCustomSize="35dp"
             app:maxImageSize="35dp"
-            app:pressedTranslationZ="0dp" />
+            app:pressedTranslationZ="0dp"
+            android:contentDescription="@string/favourite_button_desc" />
 
     </RelativeLayout>
 
@@ -447,7 +453,8 @@
             android:layout_height="wrap_content"
             android:background="@color/grey_purple"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/course_price"

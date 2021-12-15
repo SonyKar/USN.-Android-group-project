@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -13,6 +14,7 @@
         android:layout_height="140dp"
         android:backgroundTint="@color/light_grey"
         android:elevation="@dimen/card_view_shadow"
+        android:paddingStart="0dp"
         android:paddingEnd="5dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
@@ -27,7 +29,6 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-
             <ImageView
                 android:id="@+id/course_img"
                 android:layout_width="match_parent"
@@ -36,8 +37,7 @@
                 android:layout_gravity="start"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                />
-<!--            app:srcCompat="@drawable/artificial_intelligence_background"-->
+                android:contentDescription="@string/course_image_desc" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     android:id="@+id/course_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/mathematics_for_computer_games_development"
+                    android:text="@string/default_title"
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold" />
@@ -70,9 +70,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:gravity="start"
-                        android:text="@string/hard"
+                        android:text="@string/default_difficulty"
                         android:textColor="@color/advanced_red"
-                        android:textSize="@dimen/card_view_infos"
+                        android:textSize="@dimen/card_view_info"
                         android:textStyle="bold" />
 
                     <TextView
@@ -81,9 +81,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:gravity="end"
-                        android:text="4.27/5.00"
+                        android:text="@string/default_final_rating_score"
                         android:textColor="@color/primary_dark_purple"
-                        android:textSize="@dimen/card_view_infos"
+                        android:textSize="@dimen/card_view_info"
                         android:textStyle="bold" />
 
 
@@ -96,9 +96,9 @@
                     android:layout_above="@+id/card_view_last_row"
                     android:layout_below="@+id/card_view_row2"
                     android:gravity="bottom"
-                    android:text="10/10/2021 - 10/01/2022"
+                    android:text="@string/default_date"
                     android:textColor="@color/primary_dark_purple"
-                    android:textSize="@dimen/card_view_infos"
+                    android:textSize="@dimen/card_view_info"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_weight="0.3"
-                        android:text="$ 500"
+                        android:text="@string/default_course_price"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -134,15 +134,17 @@
                         android:textStyle="bold" />
 
                     <ImageButton
-                        android:id="@+id/add_to_fav_cardview"
+                        android:id="@+id/add_to_fav_cardView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_weight="0.2"
                         android:backgroundTint="@color/transparent_grey"
+                        android:contentDescription="@string/favourite_button_desc"
                         android:paddingTop="1dp"
                         android:paddingBottom="1dp"
-                        app:srcCompat="@drawable/ic_favourite_black" />
+                        app:srcCompat="@drawable/ic_favourite_black"
+                        tools:ignore="TouchTargetSizeCheck" />
                 </LinearLayout>
 
             </RelativeLayout>

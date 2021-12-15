@@ -18,12 +18,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
             android:gravity="center"
-            android:text="@string/signup"
+            android:text="@string/sign_up"
             android:textColor="@color/white"
             android:textSize="@dimen/title" />
 
         <EditText
-            android:id="@+id/signup_fname"
+            android:id="@+id/signup_fName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_account"
@@ -39,7 +39,7 @@
         />
 
         <EditText
-            android:id="@+id/signup_lname"
+            android:id="@+id/signup_lName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_field"
@@ -132,7 +132,7 @@
                     android:id="@+id/rad_student"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:text="Student"
+                    android:text="@string/student"
                     android:textAllCaps="true"
                     android:textStyle="bold"
                     android:checked="true"
@@ -142,7 +142,7 @@
                     android:id="@+id/rad_teacher"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:text="Teacher"
+                    android:text="@string/teacher"
                     android:textAllCaps="true"
                     android:textStyle="bold"
                     android:buttonTint="@color/white"/>
@@ -171,14 +171,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
-                android:text="Already have an account?" />
+                android:text="@string/have_account" />
 
             <Button
                 android:id="@+id/btn_to_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="Sign In"
+                android:text="@string/sign_in"
                 android:textAllCaps="false" />
 
         </LinearLayout>

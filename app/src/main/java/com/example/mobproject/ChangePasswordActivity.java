@@ -2,7 +2,6 @@ package com.example.mobproject;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,22 +71,21 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                         //disable savePassword button
                                         savePassword.setEnabled(false);
 
-                                        Log.d("pass_update", "Password successfully changed!");
                                         Toast.makeText(getApplicationContext(), getString(R.string.password_change_message), Toast.LENGTH_SHORT).show();
                                         goToProfile();
                                     } else { // updating password was not successful
                                         //enable button
                                         savePassword.setEnabled(true);
 
-                                        Toast.makeText(this, "Something went wrong! Please, try again later!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, getResources().getString(R.string.something_wrong_error), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     } else { // incorrect password
-                        currentPass.setError("Enter correct password");
+                        currentPass.setError(getResources().getString(R.string.incorrect_password_error));
                     }
                 });
             } else { // null user
-                Toast.makeText(this, "Something went wrong! Please, try again later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.something_wrong_error), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -96,11 +94,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
         isValidated = true;
         
         if (currentPassword.trim().isEmpty()) {
-            currentPass.setError(getResources().getString(R.string.first_name_error));
+            currentPass.setError(getResources().getString(R.string.password_error));
             isValidated = false;
         }
         if (newPassword.trim().isEmpty()) {
-            newPass.setError(getResources().getString(R.string.last_name_error));
+            newPass.setError(getResources().getString(R.string.conf_password_error));
             isValidated = false;
         }
         if (!newPassword.equals(confirmNewPassword)) {

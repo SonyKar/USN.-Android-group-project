@@ -170,7 +170,8 @@
             android:background="@drawable/button_pink"
             android:text="@string/reset"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/apply_btn"
@@ -182,7 +183,8 @@
             android:background="@drawable/button_pink"
             android:text="@string/apply"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            style="?android:attr/buttonBarButtonStyle" />
 
     </LinearLayout>
 

@@ -154,7 +154,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             coursePrice = itemView.findViewById(R.id.card_view_price);
             courseEnroll = itemView.findViewById(R.id.card_view_enroll);
             courseImage = itemView.findViewById(R.id.course_img);
-            addToFav = itemView.findViewById(R.id.add_to_fav_cardview);
+            addToFav = itemView.findViewById(R.id.add_to_fav_cardView);
 
 
             itemView.setOnClickListener(this);

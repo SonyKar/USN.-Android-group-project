@@ -25,8 +25,10 @@ import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.db.EnrolledCoursesDatabase;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
+import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
+import com.example.mobproject.models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
@@ -41,7 +43,7 @@ import java.util.Locale;
 public class CoursePageActivity extends AppCompatActivity {
     private RatingBar finalRating;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
-            courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView, no_students;
+            courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView, no_students, teacherName;
     private ImageView commentAvatar, courseImage;
     private FloatingActionButton addToFav;
     private Button enrollMe;
@@ -63,7 +65,7 @@ public class CoursePageActivity extends AppCompatActivity {
         editCourse = findViewById(R.id.edit_btn);
         addToFav = findViewById(R.id.add_to_fav);
         courseEnroll = findViewById(R.id.open_to_enroll_course_page);
-        courseDescription = findViewById(R.id.course_descr);
+        courseDescription = findViewById(R.id.course_description);
         ImageButton backToMain = findViewById(R.id.back_btn);
         courseName = findViewById(R.id.course_name);
         coursePrice = findViewById(R.id.course_price);
@@ -77,6 +79,7 @@ public class CoursePageActivity extends AppCompatActivity {
         commentAvatar = findViewById(R.id.comment_avatar);
         courseImage = findViewById(R.id.course_bg);
         no_students = findViewById(R.id.no_students);
+        teacherName = findViewById(R.id.teacher_name);
 
         userInfo = new UserInfo(this);
         userId = userInfo.getUserId();
@@ -233,6 +236,14 @@ public class CoursePageActivity extends AppCompatActivity {
             courseName.setText(courseInfo.getName());
 
             no_students.setText(getResources().getString(R.string.student_counter, courseInfo.getStudentCounter()));
+
+            UserDatabase userDatabase = new UserDatabase();
+            userDatabase.getItem(courseInfo.getOwnerId().getId(), new Callback<User>() {
+                @Override
+                public void OnFinish(ArrayList<User> arrayList) {
+                    teacherName.setText(arrayList.get(0).getName());
+                }
+            });
 
             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
             String currency = format.format(courseInfo.getPrice());

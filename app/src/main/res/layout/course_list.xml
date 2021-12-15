@@ -59,10 +59,8 @@
                        android:paddingBottom="@dimen/drawable_padding"
                        android:autofillHints=""
                        android:inputType="textCapSentences" />
-
                </RelativeLayout>
            </androidx.appcompat.widget.Toolbar>
-
 
            <FrameLayout
                android:id="@+id/fragment_container"
@@ -78,7 +76,8 @@
                    android:layout_marginEnd="@dimen/padding"
                    android:layout_marginTop="@dimen/drawable_padding"
                    android:orientation="vertical"
-                   android:weightSum="1">
+                   android:weightSum="1"
+                   tools:ignore="UselessParent">
 
                    <LinearLayout
                        android:id="@+id/sorting_layout"
@@ -104,11 +103,11 @@
                            android:layout_width="0dp"
                            android:layout_height="wrap_content"
                            android:paddingStart="15dp"
+                           android:paddingEnd="0dp"
                            android:layout_weight="0.7"
                            android:background="@drawable/sorting_container"
                            android:orientation="horizontal">
 
-<!--TODO android:popupBackground="@color/light_grey"-->
                            <Spinner
                                android:id="@+id/sort_spn"
                                android:layout_width="match_parent"
@@ -148,7 +147,8 @@
                        app:fabCustomSize="50dp"
                        app:maxImageSize="30dp"
                        app:pressedTranslationZ="0dp"
-                       app:srcCompat="@drawable/ic_filter" />
+                       app:srcCompat="@drawable/ic_filter"
+                       android:contentDescription="@string/filter_button_desc" />
 
                </RelativeLayout>
            </FrameLayout>
