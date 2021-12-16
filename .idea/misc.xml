@@ -5,17 +5,15 @@
       <map>
         <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/course_page.xml" value="0.15416666666666667" />
         <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/create_course.xml" value="0.140625" />
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/forgot_password.xml" value="0.1" />
+        <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/layout/login.xml" value="0.1" />
         <entry key="..\:/Schule/MobProjects/USN.-Android-group-project/app/src/main/res/xml/provider_paths.xml" value="0.1625" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/button.xml" value="0.19537037037037036" />
-        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/ic_current_pass.xml" value="0.3828125" />
-        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/ic_email_edit.xml" value="0.3828125" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/ic_favourite_black.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/ic_favourite_red.xml" value="0.2520833333333333" />
-        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/ic_password.xml" value="0.3828125" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/drawable/login_bg.xml" value="0.22083333333333333" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/card_view.xml" value="0.25" />
-        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/change_password.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/comments_card_view.xml" value="0.67" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/course_list.xml" value="0.1" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/course_page.xml" value="0.33" />
@@ -24,7 +22,7 @@
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/favourite_list.xml" value="0.1" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/filter_drawer.xml" value="0.1" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/forgot_pass.xml" value="0.25" />
-        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/login.xml" value="0.25" />
+        <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/login.xml" value="0.22" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/nav_header.xml" value="0.19375" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/sign_up.xml" value="0.33" />
         <entry key="..\:/Users/cosmi/AndroidStudioProjects/MobProject/app/src/main/res/layout/signup_msg.xml" value="0.33" />

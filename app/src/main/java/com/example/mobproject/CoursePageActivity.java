@@ -1,5 +1,6 @@
 package com.example.mobproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.adapters.CommentAdapter;
+import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
 import com.example.mobproject.constants.Other;
 import com.example.mobproject.constants.UserInfo;
@@ -31,6 +33,8 @@ import com.example.mobproject.models.Course;
 import com.example.mobproject.models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -52,6 +56,7 @@ public class CoursePageActivity extends AppCompatActivity {
     private String courseId;
     private Course courseInfo;
     private String userId;
+    private String categoryName;
     private boolean isFavourite = false;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -281,11 +286,21 @@ public class CoursePageActivity extends AppCompatActivity {
             updateTotalRating();
 
             String categoryId = courseInfo.getCategoryId().getId();
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-            StorageReference categoryProfileImgRef = storageReference.child(Other.CATEGORY_STORAGE_FOLDER)
-                    .child(categoryId + Other.CATEGORY_PHOTO_EXTENSION);
-            categoryProfileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
-                    Picasso.get().load(uri).into(courseImage));
+            DocumentReference categoryRef = FirebaseFirestore.getInstance()
+                    .collection(DatabaseCollections.CATEGORIES_COLLECTION).document(categoryId);
+            categoryRef.get().addOnCompleteListener(task ->{
+                if ( task.isSuccessful() ) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if ( documentSnapshot != null && documentSnapshot.exists() ){
+                        categoryName = (String) documentSnapshot.get("fileName");
+                        Context context = courseImage.getContext();
+                        int drawableId = context.getResources().getIdentifier(
+                                categoryName, "drawable", context.getPackageName());
+                        Picasso.get().load(drawableId).into(courseImage);
+                    }
+                }
+            });
+
         }
     };
 

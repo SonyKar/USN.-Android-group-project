@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 public class Category {
     private String id;
     private String name;
+    private String fileName;
 
     public Category(String name) {
         this.name = name;
@@ -27,6 +28,14 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @NonNull
