@@ -255,7 +255,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
     private final Callback<Category> spinnerInitCallback = new Callback<Category>() {
         @Override
         public void OnFinish(ArrayList<Category> categoryList) {
-            Collections.sort(categoryList, (category, t1) -> category.getName().compareTo(t1.getName()));
+            Collections.sort(categoryList, (category, t1) -> t1.getName().compareTo(category.getName()));
             int categoryPosition = 0;
             if (courseInfo != null) {
                 for (Category category : categoryList) {
