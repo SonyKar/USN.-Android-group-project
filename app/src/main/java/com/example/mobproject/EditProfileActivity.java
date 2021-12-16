@@ -32,6 +32,7 @@ import com.example.mobproject.models.User;
 import com.example.mobproject.validations.Validator;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -107,6 +108,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private void initEditProfile() {
         UserDatabase userDatabase = new UserDatabase();
         userDatabase.getItem(userInfo.getUserId(), getUserData);
+        storageReference = FirebaseStorage.getInstance().getReference();
         PictureController.getProfilePicture(userInfo.getUserId(), profilePicture);
     }
 
