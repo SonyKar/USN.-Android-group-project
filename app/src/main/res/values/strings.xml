@@ -84,6 +84,7 @@
     <string name="image_upload_error">Failed to upload the image!</string>
     <string name="no_support_app_error">There is no app that supports this action!</string>
     <string name="credentials_error">Email or Password incorrect!</string>
+    <string name="connection_error_message">Error establishing a database connection</string>
     <string name="upload_error">Failed to upload image</string>
 
 <!--    Views text    -->

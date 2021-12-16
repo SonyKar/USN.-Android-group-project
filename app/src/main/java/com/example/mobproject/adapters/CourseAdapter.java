@@ -16,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobproject.ConnectionErrorActivity;
+import com.example.mobproject.CourseListActivity;
 import com.example.mobproject.CoursePageActivity;
 import com.example.mobproject.R;
 import com.example.mobproject.constants.DatabaseCollections;
@@ -42,9 +44,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private final String userId;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final UserInfo userInfo;
+    private final Context context;
 
     public CourseAdapter(Context context, ArrayList<Course> data,
                          ArrayList<DocumentReference> favouriteReferences, String userId) {
+        this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
@@ -140,8 +144,15 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                     int drawableId = context.getResources().getIdentifier(categoryName, "drawable", context.getPackageName());
                     Picasso.get().load(drawableId).into(holder.courseImage);
                 }
+            } else {
+                connectionError();
             }
         });
+    }
+
+    private void connectionError() {
+        Intent toConnectionError = new Intent(context, ConnectionErrorActivity.class);
+        context.startActivity(toConnectionError);
     }
 
     @Override
