@@ -11,6 +11,7 @@ public class Other {
     public static final String SHARED_PREF_ENROLLED ="enrolled";
     public static final String SHARED_PREF_FAVOURITES = "favourites";
     public static final String PROFILE_PHOTO_EXTENSION = ".png";
+    public static final String TEMPORARY_PHOTO_EXTENSION = ".png";
     public static final String PROFILE_STORAGE_FOLDER = "profileImages";
     public static final int EDIT_MODE = 1;
     public static final int CREATE_MODE = 0;

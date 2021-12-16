@@ -84,6 +84,7 @@
     <string name="image_upload_error">Failed to upload the image!</string>
     <string name="no_support_app_error">There is no app that supports this action!</string>
     <string name="credentials_error">Email or Password incorrect!</string>
+    <string name="upload_error">Failed to upload image</string>
 
 <!--    Views text    -->
     <string name="have_account">Already have an account?</string>
@@ -151,8 +152,9 @@
     <string name="open_enroll">Open to enroll</string>
     <string name="close_enroll">Closed to enroll</string>
     <string name="date_format">dd.MM.yyyy</string>
-    <string name="favourites_log">favourites</string>
     <string name="date_format_2">dd/MM/yyyy</string>
+    <string name="datetime_format">yyyyMMdd_HHmmss</string>
+    <string name="favourites_log">favourites</string>
     <string name="cannot_enroll_teacher">Teachers cannot enroll</string>
     <string name="cannot_enroll_message">Cannot enroll</string>
     <string name="current_password">Current password</string>
@@ -170,5 +172,10 @@
     <string name="edit_button_desc">Edit button</string>
     <string name="comment_number_desc">Comment number icon</string>
     <string name="select_date_desc">Select date icon</string>
+
+<!--  Modals menus  -->
+    <string name="take_photo">Take Photo</string>
+    <string name="gallery_photo">Choose from Gallery</string>
+    <string name="close">Cancel</string>
 
 </resources>

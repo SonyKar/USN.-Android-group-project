@@ -23,6 +23,7 @@ import com.example.mobproject.constants.Intents;
 import com.example.mobproject.constants.Other;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.CourseController;
+import com.example.mobproject.controllers.PictureController;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.db.EnrolledCoursesDatabase;
@@ -35,8 +36,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -48,7 +47,7 @@ public class CoursePageActivity extends AppCompatActivity {
     private RatingBar finalRating;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
             courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView, no_students, teacherName;
-    private ImageView commentAvatar, courseImage;
+    private ImageView courseImage;
     private FloatingActionButton addToFav;
     private Button enrollMe;
     private ImageButton editCourse;
@@ -81,7 +80,7 @@ public class CoursePageActivity extends AppCompatActivity {
         numberOfComments = findViewById(R.id.no_comments);
         Button postCommentButton = findViewById(R.id.post_btn);
         commentTextView = findViewById(R.id.comment_input);
-        commentAvatar = findViewById(R.id.comment_avatar);
+        ImageView commentAvatar = findViewById(R.id.comment_avatar);
         courseImage = findViewById(R.id.course_bg);
         no_students = findViewById(R.id.no_students);
         teacherName = findViewById(R.id.teacher_name);
@@ -112,12 +111,8 @@ public class CoursePageActivity extends AppCompatActivity {
         initFavouriteButton();
         initEnrolledButton();
 
-        //set commentAvatar
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId() + Other.PROFILE_PHOTO_EXTENSION);
-        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
-                Picasso.get().load(uri).into(commentAvatar));
+        //set your commentAvatar
+        PictureController.getProfilePicture(userId, commentAvatar);
     }
 
     private void initFavouriteButton() {

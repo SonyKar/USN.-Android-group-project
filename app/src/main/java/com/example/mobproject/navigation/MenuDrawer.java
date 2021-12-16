@@ -22,6 +22,7 @@ import com.example.mobproject.R;
 import com.example.mobproject.UserProfileActivity;
 import com.example.mobproject.constants.Other;
 import com.example.mobproject.constants.UserInfo;
+import com.example.mobproject.controllers.PictureController;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
@@ -55,11 +56,7 @@ public class MenuDrawer {
                 TextView textView = tmp.findViewById(R.id.nav_name);
                 textView.setText(user.getName());
                 ImageView profilePicture = tmp.findViewById(R.id.menu_avatar);
-                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                        .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
-                profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
-                        Picasso.get().load(uri).into(profilePicture));
+                PictureController.getProfilePicture(userInfo.getUserId(), profilePicture);
             }
         });
 
