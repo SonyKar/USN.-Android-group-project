@@ -29,7 +29,6 @@
         <activity android:name=".CourseListActivity" />
         <activity android:name=".MyCoursesListActivity" />
         <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".ConnectionErrorActivity" />
 
         <activity android:name=".LoginActivity"
             android:exported="true">
