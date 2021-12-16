@@ -1,12 +1,8 @@
 package com.example.mobproject.db;
 
 import com.example.mobproject.constants.DatabaseCollections;
-import com.example.mobproject.constants.ErrorCodes;
-import com.example.mobproject.constants.ErrorMessages;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Comment;
-import com.example.mobproject.models.Course;
-import com.example.mobproject.models.Error;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -42,49 +38,25 @@ public class CommentDatabase extends Database<Comment> {
     }
 
     @Override
-    public Error insertItem(Comment item) {
-        Error error;
+    public void insertItem(Comment item) {
         DocumentReference newCommentRef = db.collection(DatabaseCollections.COMMENTS_COLLECTION).document();
-
-        if ((error = validateItem(item)) != null) {
-            return error;
-        }
-
         newCommentRef.set(item);
-
-        return null;
     }
 
     public DocumentReference insertItem(Comment item, Callback<DocumentReference> callback) {
-//        Error error;
         DocumentReference newCommentRef = db.collection(DatabaseCollections.COMMENTS_COLLECTION).document();
-
-//        if ((error = validateItem(item)) != null) {
-//            return error;
-//        }
-
         newCommentRef.set(item);
-        callback.OnFinish(new ArrayList<DocumentReference>() { { add(newCommentRef); } });
+        callback.OnFinish(new ArrayList<DocumentReference>() {
+            {
+                add(newCommentRef);
+            }
+        });
 
         return newCommentRef;
     }
 
     @Override
-    public Error updateItem(String id, Comment item) {
-        return null;
-    }
+    public void updateItem(String id, Comment item) {
 
-    @Override
-    public Error removeItem(String id) {
-        return null;
-    }
-
-    @Override
-    public Error validateItem(Comment item) {
-        if (item.getCommentText().trim().isEmpty()) {
-            return new Error(ErrorCodes.EMPTY_FIELDS, ErrorMessages.EMPTY_FIELDS);
-        }
-
-        return null;
     }
 }

@@ -36,28 +36,13 @@ public class FavouriteCoursesDatabase {
         });
     }
 
-    public void insertItem (String userId, String courseId) {
+    public void insertItem(String userId, String courseId) {
         DocumentReference docRef = db.collection(DatabaseCollections.FAVOURITES_COLLECTION).document(userId);
         DocumentReference courseToInsert = db.collection(DatabaseCollections.COURSES_COLLECTION)
                 .document(courseId);
 
         docRef.update("courses", FieldValue.arrayUnion(courseToInsert));
     }
-
-//    public Error updateItem(String id,  item) {
-//        Error error;
-//        DocumentReference courseRef = db.collection(DatabaseCollections.FAVOURITES_COLLECTION).document(id);
-//
-//        if ((error = validateItem(item)) != null) {
-//            return error;
-//        }
-//
-//        courseRef.set(item);
-//
-//        return null;
-//
-//    }
-
 
     public void removeItem(String userId, String courseId) {
         DocumentReference docRef = db.collection(DatabaseCollections.FAVOURITES_COLLECTION)
