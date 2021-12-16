@@ -6,9 +6,8 @@ import android.preference.PreferenceManager;
 
 import com.example.mobproject.EditProfileActivity;
 import com.example.mobproject.constants.DatabaseCollections;
-import com.example.mobproject.constants.Other;
+import com.example.mobproject.constants.SharedPreferencesInfo;
 import com.example.mobproject.interfaces.Callback;
-import com.example.mobproject.models.Error;
 import com.example.mobproject.models.User;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -50,16 +49,16 @@ public class UserDatabase extends Database<User> {
     }
 
     @Override
-    public Error insertItem(User item) {
-        return null;
+    public void insertItem(User item) {
+
     }
 
     @Override
-    public Error updateItem(String id, User item) {
+    public void updateItem(String id, User item) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Context appContext = EditProfileActivity.getContextOfApplication();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext);
-        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(user.getEmail()), sharedPreferences.getString(Other.SHARED_PREF_PASSWORD, Other.SHARED_PREF_NODATA_STRING));
+        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(Objects.requireNonNull(user).getEmail()), sharedPreferences.getString(SharedPreferencesInfo.SHARED_PREF_PASSWORD, SharedPreferencesInfo.SHARED_PREF_NODATA_STRING));
 
         user.reauthenticate(credential).addOnSuccessListener(unused -> user.updateEmail(item.getEmail())
                 .addOnSuccessListener(unused1 -> db.collection(DatabaseCollections.USER_COLLECTION).document(id)
@@ -68,145 +67,5 @@ public class UserDatabase extends Database<User> {
                                 "email", item.getEmail(),
                                 "userType", item.getUserType()
                         )));
-
-        return null;
     }
-
-    @Override
-    public Error removeItem(String id) {
-        return null;
-    }
-
-    @Override
-    public Error validateItem(User item) {
-        return null;
-    }
-
-//    @Override
-//    User getItem(String id) {
-//        User user = null;
-//
-//        for (User tmpUser : users) {
-//            if (tmpUser.getId().equals(id)) {
-//                user = tmpUser;
-//                break;
-//            }
-//        }
-//
-//        return user;
-//    }
-//
-//    @Override
-//    ArrayList<User> getItems() {
-//        // Read from the database
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-//                    String id = singleSnapshot.getKey();
-//                    User user = singleSnapshot.getValue(User.class);
-//                    if (user != null) {
-//                        user.setId(id);
-//                        users.add(user);
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("Read users", error.getMessage());
-//            }
-//        });
-//
-//        return users;
-//    }
-//
-//    @Override
-//    Error updateItem(String id, User item) {
-//        Error error = validateItem(item);
-//
-//        if (error == null) {
-//            Error EXISTENT_EMAIL = isExistentEmail(item.getEmail());
-//            if (EXISTENT_EMAIL != null) return EXISTENT_EMAIL;
-//            reference.child(id).setValue(item);
-//        }
-//
-//        return error;
-//    }
-//
-//    @Override
-//    public void getItem(String id, Callback<User> callback) {
-//
-//    }
-//
-//    @Override
-//    public void getItems(Callback<User> callback) {
-//
-//    }
-//
-//    @Override
-//    Error insertItem(User item) {
-//        Error error = validateItem(item);
-//
-//        if (error == null) {
-//            Error EXISTENT_EMAIL = isExistentEmail(item.getEmail());
-//            if (EXISTENT_EMAIL != null) return EXISTENT_EMAIL;
-//            reference.push().setValue(item);
-////            users.add(item);
-//        }
-//
-//        return error;
-//    }
-//
-//    @Nullable
-//    private Error isExistentEmail(String email) {
-//        for (User user : users) {
-//            if (user.getEmail().equals(email)) {
-//                return new Error(ErrorCodes.EXISTENT_EMAIL, ErrorMessages.EXISTENT_EMAIL);
-//            }
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    Error removeItem(String id) {
-//        Query userQuery = reference.child(id);
-//        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot userSnapshot: snapshot.getChildren()) {
-//                    userSnapshot.getRef().removeValue();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.e("Remove user", error.getMessage());
-//            }
-//        });
-//
-//        return null;
-//    }
-//
-//    @Override
-//    Error validateItem(User item) {
-//
-//        if (!UserValidation.isEmail(item.getEmail())) {
-//            return new Error(ErrorCodes.INVALID_EMAIL, ErrorMessages.INVALID_EMAIL);
-//        }
-//
-//        if (!UserValidation.isCorrectType(item.getUserType())) {
-//            return new Error(ErrorCodes.INVALID_USER_TYPE, ErrorMessages.INVALID_USER_TYPE);
-//        }
-//
-//        if (!UserValidation.isEmpty(item)) {
-//            return new Error(ErrorCodes.EMPTY_FIELDS, ErrorMessages.EMPTY_FIELDS);
-//        }
-//
-//        return null;
-//    }
-
 }

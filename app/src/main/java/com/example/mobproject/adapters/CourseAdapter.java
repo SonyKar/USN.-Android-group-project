@@ -42,9 +42,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private final String userId;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final UserInfo userInfo;
+    private final Context context;
 
     public CourseAdapter(Context context, ArrayList<Course> data,
                          ArrayList<DocumentReference> favouriteReferences, String userId) {
+        this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);

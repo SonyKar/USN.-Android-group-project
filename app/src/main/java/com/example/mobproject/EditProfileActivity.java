@@ -23,15 +23,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
 import com.example.mobproject.constants.DatabaseCollections;
-import com.example.mobproject.constants.Other;
+import com.example.mobproject.constants.Pictures;
 import com.example.mobproject.constants.UserInfo;
+import com.example.mobproject.controllers.PictureController;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
 import com.example.mobproject.validations.Validator;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class EditProfileActivity extends AppCompatActivity {
@@ -83,15 +84,14 @@ public class EditProfileActivity extends AppCompatActivity {
         pictureResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK && result.getData()!=null) {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
 
                         Intent data = result.getData();
-                        if(data.getExtras()!=null){
-                        Bitmap photo = (Bitmap) data.getExtras().get("data");
-                        profilePicture.setImageBitmap(photo);
-                        encodeBitmapAndSave(photo);
-                        }
-                        else{
+                        if (data.getExtras() != null) {
+                            Bitmap photo = (Bitmap) data.getExtras().get("data");
+                            profilePicture.setImageBitmap(photo);
+                            encodeBitmapAndSave(photo);
+                        } else {
                             uri = data.getData();
                             Picasso.get().load(uri).into(profilePicture);
                             pictureUpload(uri);
@@ -107,11 +107,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private void initEditProfile() {
         UserDatabase userDatabase = new UserDatabase();
         userDatabase.getItem(userInfo.getUserId(), getUserData);
-        storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
-        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
-                Picasso.get().load(uri).into(profilePicture));
+        PictureController.getProfilePicture(userInfo.getUserId(), profilePicture);
     }
 
     private final Callback<User> getUserData = new Callback<User>() {
@@ -133,16 +129,16 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private final View.OnClickListener goToChangePassword = view -> changePassword();
 
-    private final View.OnClickListener changeProfilePicture = view ->{
+    private final View.OnClickListener changeProfilePicture = view -> {
 
-        final CharSequence[] optionsMenu = {"Take Photo", "Choose from Gallery", "Exit" }; // create a menuOption Array
+        final CharSequence[] optionsMenu = {getResources().getString(R.string.take_photo), getResources().getString(R.string.gallery_photo), getResources().getString(R.string.close)}; // create a menuOption Array
         // create a dialog for showing the optionsMenu
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         // set the items in builder
         builder.setItems(optionsMenu, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (optionsMenu[i].equals("Take Photo")) {
+                if (optionsMenu[i].equals(getResources().getString(R.string.take_photo))) {
                     Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     try {
                         createImageUri();
@@ -152,51 +148,52 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
                     pictureResultLauncher.launch(takePicture);
 
-                    } else if (optionsMenu[i].equals("Choose from Gallery")) {
-                        Intent gallery = new Intent(Intent.ACTION_PICK,
-                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        if (gallery.resolveActivity(getPackageManager()) != null) {
-                            pictureResultLauncher.launch(gallery);
-                        }
-                    } else if (optionsMenu[i].equals("Exit")) {
-                        dialogInterface.dismiss();
+                } else if (optionsMenu[i].equals(getResources().getString(R.string.gallery_photo))) {
+                    Intent gallery = new Intent(Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    if (gallery.resolveActivity(getPackageManager()) != null) {
+                        pictureResultLauncher.launch(gallery);
                     }
+                } else if (optionsMenu[i].equals(getResources().getString(R.string.close))) {
+                    dialogInterface.dismiss();
                 }
+            }
         });
         builder.show();
     };
 
-    private void pictureUpload(Uri imageUri){
-        StorageReference fileRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
+    private void pictureUpload(Uri imageUri) {
+        StorageReference fileRef = storageReference.child(Pictures.PROFILE_STORAGE_FOLDER)
+                .child(userInfo.getUserId() + Pictures.PROFILE_PHOTO_EXTENSION);
         UploadTask uploadTask = fileRef.putFile(imageUri);
         uploadTask.addOnFailureListener(e ->
-                Toast.makeText(EditProfileActivity.this,"Failed to upload image", Toast.LENGTH_LONG).show());
+                Toast.makeText(EditProfileActivity.this, getResources().getString(R.string.upload_error), Toast.LENGTH_LONG).show());
     }
 
     public void encodeBitmapAndSave(Bitmap bitmap) {
-        StorageReference fileRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId()+Other.PROFILE_PHOTO_EXTENSION);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
+        StorageReference fileRef = storageReference.child(Pictures.PROFILE_STORAGE_FOLDER)
+                .child(userInfo.getUserId() + Pictures.PROFILE_PHOTO_EXTENSION);
+        ByteArrayOutputStream biteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, biteArrayOutputStream);
+        byte[] data = biteArrayOutputStream.toByteArray();
         UploadTask uploadTask = fileRef.putBytes(data);
         uploadTask.addOnFailureListener(Throwable::printStackTrace);
     }
-        private void createImageUri() throws IOException {
-            // Create an image file name
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String imageFileName = "JPEG_" + timeStamp + "_";
-            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            File image = File.createTempFile(
-                    imageFileName,  /* prefix */
-                    ".jpg",         /* suffix */
-                    storageDir      /* directory */
-            );
-            uri = FileProvider.getUriForFile(this,
-                    getApplicationContext().getPackageName() + ".provider",
-                    image);
-        }
+
+    private void createImageUri() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat(getResources().getString(R.string.datetime_format), Locale.getDefault()).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                Pictures.TEMPORARY_PHOTO_EXTENSION,         /* suffix */
+                storageDir      /* directory */
+        );
+        uri = FileProvider.getUriForFile(this,
+                getApplicationContext().getPackageName() + ".provider",
+                image);
+    }
 
     private void saveProfile() {
         isValidated = true;
@@ -208,19 +205,19 @@ public class EditProfileActivity extends AppCompatActivity {
         validateInputs(fName, lName, email);
         UserDatabase userDatabase = new UserDatabase();
         UserInfo userInfo = new UserInfo(this);
-        userDatabase.getItems( new Callback<User>() {
+        userDatabase.getItems(new Callback<User>() {
             @Override
             public void OnFinish(ArrayList<User> userList) {
                 String userId = userInfo.getUserId();
-                for(User user: userList){
-                    if((!user.getId().equals(userId)) && user.getEmail().equals(email)) {
+                for (User user : userList) {
+                    if ((!user.getId().equals(userId)) && user.getEmail().equals(email)) {
                         emailEdit.setError(getResources().getString(R.string.error_taken_email));
                         isValidated = false;
                         break;
                     }
                 }
 
-                if(isValidated) {
+                if (isValidated) {
                     //disable saveProfile button
                     saveProfile.setEnabled(false);
 
@@ -263,7 +260,7 @@ public class EditProfileActivity extends AppCompatActivity {
         finish();
     }
 
-    private void changePassword(){
+    private void changePassword() {
         Intent toChangePassword = new Intent(this, ChangePasswordActivity.class);
         startActivity(toChangePassword);
     }
@@ -273,7 +270,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         return false;
     }
-    public static Context getContextOfApplication(){
+
+    public static Context getContextOfApplication() {
         return appContext;
     }
 }

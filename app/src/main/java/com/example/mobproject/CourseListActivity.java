@@ -107,9 +107,26 @@ public class CourseListActivity extends AppCompatActivity {
                 });
             }
         };
-
         Database<Course> database = new CourseDatabase();
         database.getItems(recyclerViewCallback);
+//        if (initCourseList == null) {
+//            Database<Course> database = new CourseDatabase();
+//            database.getItems(recyclerViewCallback);
+//        } else {
+//            filteredCourseList = initCourseList;
+//            courseListRecyclerView = findViewById(R.id.course_list);
+//            courseListRecyclerView.setLayoutManager(new LinearLayoutManager(activityContext));
+//            FavouriteCoursesDatabase favouriteCoursesDatabase = new FavouriteCoursesDatabase();
+//                favouriteCoursesDatabase.getItems(userId, new Callback<DocumentReference>() {
+//                    @Override
+//                    public void OnFinish(ArrayList<DocumentReference> arrayList) {
+//                        favouriteList = arrayList;
+//                        CourseAdapter adapter = new CourseAdapter(activityContext, filteredCourseList, favouriteList, userId);
+//                        courseListRecyclerView.setAdapter(adapter);
+//                        sortBarInit();
+//                    }
+//                });
+//        }
     }
 
     private void sortBarInit() {
@@ -160,7 +177,7 @@ public class CourseListActivity extends AppCompatActivity {
         categoryDatabase.getItems(new Callback<Category>() {
             @Override
             public void OnFinish(ArrayList<Category> categoryList) {
-                Collections.sort(categoryList, (category, nextCategory) -> category.getName().compareTo(nextCategory.getName()));
+                Collections.sort(categoryList, (category, nextCategory) -> nextCategory.getName().compareTo(category.getName()));
                 categoryList.add(0, new Category("All"));
                 ArrayAdapter<Category> categoriesAdapter = new ArrayAdapter<>
                         (CourseListActivity.this,

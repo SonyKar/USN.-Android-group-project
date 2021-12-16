@@ -3,8 +3,6 @@ package com.example.mobproject.db;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Category;
-import com.example.mobproject.models.Course;
-import com.example.mobproject.models.Error;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -41,22 +39,12 @@ public class CategoryDatabase extends Database<Category> {
 
 
     @Override
-    public Error insertItem(Category item) {
-        return null;
+    public void insertItem(Category item) {
+
     }
 
     @Override
-    public Error updateItem(String id, Category item) {
-        return null;
-    }
+    public void updateItem(String id, Category item) {
 
-    @Override
-    public Error removeItem(String id) {
-        return null;
-    }
-
-    @Override
-    public Error validateItem(Category item) {
-        return null;
     }
 }

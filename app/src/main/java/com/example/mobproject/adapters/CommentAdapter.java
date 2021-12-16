@@ -10,16 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.R;
-import com.example.mobproject.constants.Other;
+import com.example.mobproject.controllers.PictureController;
 import com.example.mobproject.db.CommentDatabase;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Comment;
 import com.example.mobproject.models.User;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,13 +50,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                 userDatabase.getItem(arrayList.get(0).getUserId().getId(), new Callback<User>() {
                     @Override
                     public void OnFinish(ArrayList<User> arrayList) {
-                        String name = arrayList.get(0).getName();
+                        User user = arrayList.get(0);
+                        String name = user.getName();
                         holder.commentUserName.setText(name); //fName + " " + lName
-                        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-                        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                                .child(arrayList.get(0).getId()+Other.PROFILE_PHOTO_EXTENSION);
-                        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
-                                Picasso.get().load(uri).into(holder.userAvatar));
+                        PictureController.getProfilePicture(user.getId(), holder.userAvatar);
                     }
                 });
 

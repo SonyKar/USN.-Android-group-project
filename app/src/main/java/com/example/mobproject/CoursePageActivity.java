@@ -20,23 +20,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobproject.adapters.CommentAdapter;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
-import com.example.mobproject.constants.Other;
+import com.example.mobproject.constants.Course;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.CourseController;
+import com.example.mobproject.controllers.PictureController;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.db.EnrolledCoursesDatabase;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
-import com.example.mobproject.models.Course;
 import com.example.mobproject.models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -48,13 +46,13 @@ public class CoursePageActivity extends AppCompatActivity {
     private RatingBar finalRating;
     private TextView ratingScore, finalRatingScore, courseEnroll, courseDescription, courseName, coursePrice,
             courseDifficulty, coursePeriod, courseMeetingDays, numberOfComments, commentTextView, no_students, teacherName;
-    private ImageView commentAvatar, courseImage;
+    private ImageView courseImage;
     private FloatingActionButton addToFav;
     private Button enrollMe;
     private ImageButton editCourse;
     private UserInfo userInfo;
     private String courseId;
-    private Course courseInfo;
+    private com.example.mobproject.models.Course courseInfo;
     private String userId;
     private String categoryName;
     private boolean isFavourite = false;
@@ -81,7 +79,7 @@ public class CoursePageActivity extends AppCompatActivity {
         numberOfComments = findViewById(R.id.no_comments);
         Button postCommentButton = findViewById(R.id.post_btn);
         commentTextView = findViewById(R.id.comment_input);
-        commentAvatar = findViewById(R.id.comment_avatar);
+        ImageView commentAvatar = findViewById(R.id.comment_avatar);
         courseImage = findViewById(R.id.course_bg);
         no_students = findViewById(R.id.no_students);
         teacherName = findViewById(R.id.teacher_name);
@@ -101,7 +99,7 @@ public class CoursePageActivity extends AppCompatActivity {
         courseId = intent.getStringExtra(Intents.COURSE_ID);
 
         // set values for all fields
-        Database<Course> database = new CourseDatabase();
+        Database<com.example.mobproject.models.Course> database = new CourseDatabase();
         database.getItem(courseId, initValuesCallback);
 
         //make button invisible for Student User
@@ -112,12 +110,8 @@ public class CoursePageActivity extends AppCompatActivity {
         initFavouriteButton();
         initEnrolledButton();
 
-        //set commentAvatar
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId() + Other.PROFILE_PHOTO_EXTENSION);
-        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
-                Picasso.get().load(uri).into(commentAvatar));
+        //set your commentAvatar
+        PictureController.getProfilePicture(userId, commentAvatar);
     }
 
     private void initFavouriteButton() {
@@ -146,12 +140,12 @@ public class CoursePageActivity extends AppCompatActivity {
 
         EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
 
-        enrolledDatabase.getItems(userId, new Callback<Course>() {
+        enrolledDatabase.getItems(userId, new Callback<com.example.mobproject.models.Course>() {
             @Override
-            public void OnFinish(ArrayList<Course> enrolledReferences) {
+            public void OnFinish(ArrayList<com.example.mobproject.models.Course> enrolledReferences) {
                 boolean isEnrolled = false;
 
-                for (Course course : enrolledReferences) {
+                for (com.example.mobproject.models.Course course : enrolledReferences) {
                     if (courseId.equals(course.getId())) {
                         isEnrolled = true;
                         break;
@@ -183,7 +177,7 @@ public class CoursePageActivity extends AppCompatActivity {
         courseId = intent.getStringExtra(Intents.COURSE_ID);
 
         // set values for all fields
-        Database<Course> database = new CourseDatabase();
+        Database<com.example.mobproject.models.Course> database = new CourseDatabase();
         database.getItem(courseId, initValuesCallback);
 
     }
@@ -201,7 +195,7 @@ public class CoursePageActivity extends AppCompatActivity {
     private final View.OnClickListener onEditHandler = view -> {
         Intent toEditCourse = new Intent(CoursePageActivity.this,
                 CreateCourseActivity.class);
-        toEditCourse.putExtra(Intents.EDIT_TYPE, Other.EDIT_MODE);
+        toEditCourse.putExtra(Intents.EDIT_TYPE, Course.EDIT_MODE);
         toEditCourse.putExtra(Intents.COURSE_ID, courseId);
         startActivity(toEditCourse);
     };
@@ -237,9 +231,9 @@ public class CoursePageActivity extends AppCompatActivity {
         no_students.setText(getResources().getString(R.string.student_counter, courseInfo.getStudentCounter() + 1));
     }
 
-    private final Callback<Course> initValuesCallback = new Callback<Course>() {
+    private final Callback<com.example.mobproject.models.Course> initValuesCallback = new Callback<com.example.mobproject.models.Course>() {
         @Override
-        public void OnFinish(ArrayList<Course> courseList) {
+        public void OnFinish(ArrayList<com.example.mobproject.models.Course> courseList) {
             courseInfo = courseList.get(0);
             courseName.setText(courseInfo.getName());
 

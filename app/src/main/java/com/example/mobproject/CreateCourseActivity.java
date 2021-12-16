@@ -20,14 +20,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
-import com.example.mobproject.constants.Other;
+import com.example.mobproject.constants.Course;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.CategoryDatabase;
 import com.example.mobproject.db.CourseDatabase;
 import com.example.mobproject.db.Database;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Category;
-import com.example.mobproject.models.Course;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -49,7 +48,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
     private RadioGroup difficultyGroup;
     private Button createCourse;
     private boolean isValid = true;
-    private Course courseInfo = null;
+    private com.example.mobproject.models.Course courseInfo = null;
     private final List<Integer> daysChecked = new ArrayList<>();
     private Date startDate, endDate;
     private int startEndDateType;
@@ -85,11 +84,11 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         meetDaysCheckboxes.addAll(Arrays.asList(monday, tuesday, wednesday, thursday, friday, saturday));
 
         Intent intent = getIntent();
-        isEdit = intent.getIntExtra(Intents.EDIT_TYPE, Other.CREATE_MODE);
+        isEdit = intent.getIntExtra(Intents.EDIT_TYPE, Course.CREATE_MODE);
 
-        if (isEdit == Other.EDIT_MODE) {
+        if (isEdit == Course.EDIT_MODE) {
             courseId = intent.getStringExtra(Intents.COURSE_ID);
-            Database<Course> courseDatabase = new CourseDatabase();
+            Database<com.example.mobproject.models.Course> courseDatabase = new CourseDatabase();
             if (courseId != null)
                 courseDatabase.getItem(courseId, initEditCourseCallback);
         } else {
@@ -98,15 +97,15 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         }
 
         backBtn.setOnClickListener(view -> goBack());
-        startDateBtn.setOnClickListener(view -> showDatePickerDialog(startDate, Other.START_DATE));
-        endDateBtn.setOnClickListener(view -> showDatePickerDialog(endDate, Other.END_DATE));
+        startDateBtn.setOnClickListener(view -> showDatePickerDialog(startDate, Course.START_DATE));
+        endDateBtn.setOnClickListener(view -> showDatePickerDialog(endDate, Course.END_DATE));
 
         //Save Button Listener
         createCourse.setOnClickListener(saveButtonClickHandler);
     }
 
     private void goBack() {
-        if (isEdit == Other.CREATE_MODE) {
+        if (isEdit == Course.CREATE_MODE) {
             Intent backToMain = new Intent(this, CourseListActivity.class);
             startActivity(backToMain);
         }
@@ -209,10 +208,10 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
         }
 
         if (date != null) {
-            if (startEndDateType == Other.START_DATE) { //start date
+            if (startEndDateType == Course.START_DATE) { //start date
                 startDate = date;
                 startDateTxv.setText(dateString);
-            } else if (startEndDateType == Other.END_DATE) { //end date
+            } else if (startEndDateType == Course.END_DATE) { //end date
                 endDate = date;
                 endDateTxv.setText(dateString);
             }
@@ -220,10 +219,10 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
 
     }
 
-    private final Callback<Course> initEditCourseCallback = new Callback<Course>() {
+    private final Callback<com.example.mobproject.models.Course> initEditCourseCallback = new Callback<com.example.mobproject.models.Course>() {
         @Override
-        public void OnFinish(ArrayList<Course> arrayList) {
-            Course course = arrayList.get(0);
+        public void OnFinish(ArrayList<com.example.mobproject.models.Course> arrayList) {
+            com.example.mobproject.models.Course course = arrayList.get(0);
             courseInfo = course;
             createCourseName.setText(course.getName());
             createCoursePrice.setText(String.valueOf(course.getPrice()));
@@ -255,7 +254,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
     private final Callback<Category> spinnerInitCallback = new Callback<Category>() {
         @Override
         public void OnFinish(ArrayList<Category> categoryList) {
-            Collections.sort(categoryList, (category, t1) -> category.getName().compareTo(t1.getName()));
+            Collections.sort(categoryList, (category, t1) -> t1.getName().compareTo(category.getName()));
             int categoryPosition = 0;
             if (courseInfo != null) {
                 for (Category category : categoryList) {
@@ -314,9 +313,9 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
                 comments = courseInfo.getCommentsReferences();
             }
 
-            Course course = null;
+            com.example.mobproject.models.Course course = null;
             try {
-                course = new Course(courseName, docRefCategory, price, difficultyId,
+                course = new com.example.mobproject.models.Course(courseName, docRefCategory, price, difficultyId,
                         docRefOwner, startDate, endDate, daysChecked, courseDesc, rateCounter,
                         studentCounter, rating, comments);
             } catch (ParseException e) {
@@ -325,7 +324,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
 
             if (course != null) {
                 CourseDatabase courseDatabase = new CourseDatabase();
-                if (isEdit == Other.CREATE_MODE) {
+                if (isEdit == Course.CREATE_MODE) {
                     courseDatabase.insertItem(course);
                     userInfo.setUserCoursesNo(userInfo.getUserCoursesNo()+1);
                 } else {

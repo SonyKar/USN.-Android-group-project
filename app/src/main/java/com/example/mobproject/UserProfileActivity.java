@@ -8,17 +8,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mobproject.constants.Other;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.constants.UserType;
+import com.example.mobproject.controllers.PictureController;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
 import com.example.mobproject.navigation.MenuDrawer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -60,15 +57,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 userStatus.setText(UserType.values()[userType].toString());
                 userFavourites.setText(String.valueOf(userInfo.getUserFavouritesNo()));
                 userCourses.setText(String.valueOf(userInfo.getUserCoursesNo()));
-
             }
         });
-        //setting the profile picture
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId()+ Other.PROFILE_PHOTO_EXTENSION);
-        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
-                Picasso.get().load(uri).into(profilePicture));
+        PictureController.getProfilePicture(userID, profilePicture);
     }
 
     @Override

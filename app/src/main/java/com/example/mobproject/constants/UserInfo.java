@@ -18,35 +18,35 @@ public class UserInfo {
     }
 
     public String getUserId() {
-        return sharedPreferences.getString(Other.SHARED_PREF_USERID, Other.SHARED_PREF_NODATA_STRING);
+        return sharedPreferences.getString(SharedPreferencesInfo.SHARED_PREF_USERID, SharedPreferencesInfo.SHARED_PREF_NODATA_STRING);
     }
 
     public String getUserType() {
-        return sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA_STRING);
+        return sharedPreferences.getString(SharedPreferencesInfo.SHARED_PREF_USERTYPE, SharedPreferencesInfo.SHARED_PREF_NODATA_STRING);
     }
 
     public void setUserId(String uid) {
-        sharedPreferences.edit().putString(Other.SHARED_PREF_USERID, uid).apply();
+        sharedPreferences.edit().putString(SharedPreferencesInfo.SHARED_PREF_USERID, uid).apply();
     }
 
     public void setUserType(String userType) {
-        sharedPreferences.edit().putString(Other.SHARED_PREF_USERTYPE, userType).apply();
+        sharedPreferences.edit().putString(SharedPreferencesInfo.SHARED_PREF_USERTYPE, userType).apply();
     }
 
     public int getUserCoursesNo(){
-        return sharedPreferences.getInt(Other.SHARED_PREF_ENROLLED, Other.SHARED_PREF_NODATA_INT);
+        return sharedPreferences.getInt(SharedPreferencesInfo.SHARED_PREF_ENROLLED, SharedPreferencesInfo.SHARED_PREF_NODATA_INT);
     }
 
     public void setUserCoursesNo(int number){
-        sharedPreferences.edit().putInt(Other.SHARED_PREF_ENROLLED, number).apply();
+        sharedPreferences.edit().putInt(SharedPreferencesInfo.SHARED_PREF_ENROLLED, number).apply();
     }
 
     public int getUserFavouritesNo(){
-        return sharedPreferences.getInt(Other.SHARED_PREF_FAVOURITES, Other.SHARED_PREF_NODATA_INT);
+        return sharedPreferences.getInt(SharedPreferencesInfo.SHARED_PREF_FAVOURITES, SharedPreferencesInfo.SHARED_PREF_NODATA_INT);
     }
 
     public void setUserFavouritesNo(int number){
-        sharedPreferences.edit().putInt(Other.SHARED_PREF_FAVOURITES, number).apply();
+        sharedPreferences.edit().putInt(SharedPreferencesInfo.SHARED_PREF_FAVOURITES, number).apply();
     }
 
     public void resetUserInfo() {
