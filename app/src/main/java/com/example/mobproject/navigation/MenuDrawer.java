@@ -87,7 +87,7 @@ public class MenuDrawer {
         //check userType
         SharedPreferences sharedPreferences = context.getSharedPreferences(Other.sharedPrefFile, Context.MODE_PRIVATE);
 
-        if (sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA).equals("0"))
+        if (sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA_STRING).equals("0"))
 
         navigationView.getMenu().findItem(R.id.nav_create_course).setVisible(false);
 

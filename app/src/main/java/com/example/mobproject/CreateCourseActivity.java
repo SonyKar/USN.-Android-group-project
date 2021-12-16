@@ -327,6 +327,7 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
                 CourseDatabase courseDatabase = new CourseDatabase();
                 if (isEdit == Other.CREATE_MODE) {
                     courseDatabase.insertItem(course);
+                    userInfo.setUserCoursesNo(userInfo.getUserCoursesNo()+1);
                 } else {
                     courseDatabase.updateItem(courseId, course);
                 }

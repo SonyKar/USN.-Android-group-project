@@ -11,8 +11,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.constants.UserInfo;
+import com.example.mobproject.db.CourseDatabase;
+import com.example.mobproject.db.EnrolledCoursesDatabase;
+import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
+import com.example.mobproject.models.Course;
 import com.example.mobproject.models.User;
 import com.example.mobproject.validations.Validator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -73,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
                             String userId = auth.getUid();
                             userInfo.setUserId(userId);
                             UserDatabase userDatabase = new UserDatabase();
-
                             userDatabase.getItem(auth.getUid(), new Callback<User>() {
                                 @Override
                                 public void OnFinish(ArrayList<User> arrayList) {
@@ -82,10 +85,48 @@ public class LoginActivity extends AppCompatActivity {
                                     if (userType != null) {
                                         String userTypeId = userType.getId();
                                         userInfo.setUserType(userTypeId);
+
+                                        if(userTypeId.equals("0")) {
+                                            EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
+                                            enrolledDatabase.getItems(userId, new Callback<Course>() {
+                                                @Override
+                                                public void OnFinish(ArrayList<Course> enrolledList) {
+                                                    userInfo.setUserCoursesNo(enrolledList.size());
+                                                }
+                                            });
+                                        }
+                                        else
+                                        {
+                                            CourseDatabase courseDatabase = new CourseDatabase();
+                                            courseDatabase.getItems(new Callback<Course>() {
+                                                @Override
+                                                public void OnFinish(ArrayList<Course> courseList) {
+                                                    int userCourses = 0;
+                                                    for(Course course : courseList){
+                                                        if(course.getOwnerId().getId().equals(userId))
+                                                            userCourses++;
+                                                    }
+                                                    userInfo.setUserCoursesNo(userCourses);
+                                                }
+                                            });
+                                        }
+
                                         switchToCourseList();
                                     }
                                 }
                             });
+
+                            FavouriteCoursesDatabase favouritesDatabase = new FavouriteCoursesDatabase();
+                            Callback<DocumentReference> favouritesCallback = new Callback<DocumentReference>() {
+                                @Override
+                                public void OnFinish(ArrayList<DocumentReference> favouritesList) {
+                                    userInfo.setUserFavouritesNo(favouritesList.size());
+                                }
+                            };
+                            favouritesDatabase.getItems(userId, favouritesCallback);
+
+
+
                         } else {
                             loginBtn.setCompoundDrawables(null, null, null, null);
                             loginBtn.setEnabled(true);

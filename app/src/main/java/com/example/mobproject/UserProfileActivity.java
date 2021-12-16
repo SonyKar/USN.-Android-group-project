@@ -11,15 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mobproject.constants.Other;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.constants.UserType;
-import com.example.mobproject.db.EnrolledCoursesDatabase;
-import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
-import com.example.mobproject.models.Course;
 import com.example.mobproject.models.User;
 import com.example.mobproject.navigation.MenuDrawer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -62,24 +58,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 userEmail.setText(user.getEmail());
                 int userType = Integer.parseInt(userInfo.getUserType());
                 userStatus.setText(UserType.values()[userType].toString());
+                userFavourites.setText(String.valueOf(userInfo.getUserFavouritesNo()));
+                userCourses.setText(String.valueOf(userInfo.getUserCoursesNo()));
 
-                FavouriteCoursesDatabase favouritesDatabase = new FavouriteCoursesDatabase();
-                Callback<DocumentReference> favouritesCallback = new Callback<DocumentReference>() {
-                    @Override
-                    public void OnFinish(ArrayList<DocumentReference> favouritesList) {
-                        userFavourites.setText(String.valueOf(favouritesList.size()));
-                    }
-                };
-                favouritesDatabase.getItems(userID, favouritesCallback);
-
-                EnrolledCoursesDatabase enrolledDatabase = new EnrolledCoursesDatabase();
-                Callback<Course> enrolledCallback = new Callback<Course>() {
-                    @Override
-                    public void OnFinish(ArrayList<Course> enrolledList) {
-                        userCourses.setText(String.valueOf(enrolledList.size()));
-                    }
-                };
-                enrolledDatabase.getItems(userID, enrolledCallback);
             }
         });
         //setting the profile picture
