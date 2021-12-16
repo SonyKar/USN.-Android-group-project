@@ -3,10 +3,6 @@ package com.example.mobproject.db;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mobproject.EditProfileActivity;
 import com.example.mobproject.constants.DatabaseCollections;
@@ -14,10 +10,7 @@ import com.example.mobproject.constants.Other;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Error;
 import com.example.mobproject.models.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -66,7 +59,7 @@ public class UserDatabase extends Database<User> {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Context appContext = EditProfileActivity.getContextOfApplication();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext);
-        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(user.getEmail()), sharedPreferences.getString(Other.SHARED_PREF_PASSWORD, Other.SHARED_PREF_NODATA));
+        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(user.getEmail()), sharedPreferences.getString(Other.SHARED_PREF_PASSWORD, Other.SHARED_PREF_NODATA_STRING));
 
         user.reauthenticate(credential).addOnSuccessListener(unused -> user.updateEmail(item.getEmail())
                 .addOnSuccessListener(unused1 -> db.collection(DatabaseCollections.USER_COLLECTION).document(id)

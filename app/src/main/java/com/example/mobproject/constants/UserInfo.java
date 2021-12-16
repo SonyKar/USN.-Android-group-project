@@ -18,11 +18,11 @@ public class UserInfo {
     }
 
     public String getUserId() {
-        return sharedPreferences.getString(Other.SHARED_PREF_USERID, Other.SHARED_PREF_NODATA);
+        return sharedPreferences.getString(Other.SHARED_PREF_USERID, Other.SHARED_PREF_NODATA_STRING);
     }
 
     public String getUserType() {
-        return sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA);
+        return sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA_STRING);
     }
 
     public void setUserId(String uid) {
@@ -33,7 +33,24 @@ public class UserInfo {
         sharedPreferences.edit().putString(Other.SHARED_PREF_USERTYPE, userType).apply();
     }
 
+    public int getUserCoursesNo(){
+        return sharedPreferences.getInt(Other.SHARED_PREF_ENROLLED, Other.SHARED_PREF_NODATA_INT);
+    }
+
+    public void setUserCoursesNo(int number){
+        sharedPreferences.edit().putInt(Other.SHARED_PREF_ENROLLED, number).apply();
+    }
+
+    public int getUserFavouritesNo(){
+        return sharedPreferences.getInt(Other.SHARED_PREF_FAVOURITES, Other.SHARED_PREF_NODATA_INT);
+    }
+
+    public void setUserFavouritesNo(int number){
+        sharedPreferences.edit().putInt(Other.SHARED_PREF_FAVOURITES, number).apply();
+    }
+
     public void resetUserInfo() {
         sharedPreferences.edit().clear().apply();
     }
+
 }

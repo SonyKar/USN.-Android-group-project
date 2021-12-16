@@ -21,6 +21,7 @@ import com.example.mobproject.CoursePageActivity;
 import com.example.mobproject.R;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.models.Course;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,12 +41,14 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
     private final String[] difficulties;
     private final String userId;
     private boolean isFavourite = true;
+    private final UserInfo userInfo;
 
     public FavouriteListAdapter(Context context, ArrayList<Course> data, String userId) {
         this.layoutInflater = LayoutInflater.from(context);
         this.data = data;
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
         this.userId = userId;
+        this.userInfo = new UserInfo(context.getApplicationContext());
     }
 
     @NonNull
@@ -142,14 +145,16 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
             addToFav.setOnClickListener(view -> {
                 FavouriteCoursesDatabase favouritesDatabase = new FavouriteCoursesDatabase();
                 String courseId = data.get(getAbsoluteAdapterPosition()).getId();
-                if (isFavourite) {
+                if (!isFavourite) {
                     addToFav.setImageResource(R.drawable.ic_favourite_red);
                     favouritesDatabase.insertItem(userId, courseId);
-                    isFavourite = false;
+                    isFavourite = true;
+                    userInfo.setUserFavouritesNo(userInfo.getUserFavouritesNo()+1);
                 } else {
                     addToFav.setImageResource(R.drawable.ic_favourite_black);
                     favouritesDatabase.removeItem(userId, courseId);
-                    isFavourite = true;
+                    userInfo.setUserFavouritesNo(userInfo.getUserFavouritesNo()-1);
+                    isFavourite = false;
                 }
 //                itemView.setVisibility(View.GONE);
 

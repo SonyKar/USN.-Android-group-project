@@ -20,6 +20,7 @@ import com.example.mobproject.CoursePageActivity;
 import com.example.mobproject.R;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.models.Course;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,6 +41,7 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
     private final String userId;
     private final ArrayList<DocumentReference> favouriteReferences;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final UserInfo userInfo;
 
     public MyCoursesAdapter(Context context, ArrayList<Course> data, ArrayList<DocumentReference> favouriteReferences,
                             String userId){
@@ -48,7 +50,7 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
         this.favouriteReferences = favouriteReferences;
         this.userId = userId;
-
+        this.userInfo = new UserInfo(context.getApplicationContext());
     }
 
 
@@ -119,10 +121,12 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
                 holder.addToFav.setImageResource(R.drawable.ic_favourite_red);
                 favouriteDatabase.insertItem(userId, courseId);
                 favouriteReferences.add(courseRef);
+                userInfo.setUserFavouritesNo(userInfo.getUserFavouritesNo()+1);
             } else {
                 holder.addToFav.setImageResource(R.drawable.ic_favourite_black);
                 favouriteDatabase.removeItem(userId, courseId);
                 favouriteReferences.remove(courseRef);
+                userInfo.setUserFavouritesNo(userInfo.getUserFavouritesNo()-1);
             }
         });
 
@@ -151,7 +155,6 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
         TextView courseTitle, courseDifficulty, courseFinalScore, coursePeriod, coursePrice, courseEnroll;
         ImageView courseImage;
         ImageButton addToFav;
-        Integer addedToFav;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

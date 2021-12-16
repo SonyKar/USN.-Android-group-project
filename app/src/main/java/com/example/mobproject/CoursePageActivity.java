@@ -208,12 +208,14 @@ public class CoursePageActivity extends AppCompatActivity {
 
     private final View.OnClickListener onFavouriteHandler = view -> {
         FavouriteCoursesDatabase favouriteDatabase = new FavouriteCoursesDatabase();
-        if (isFavourite) {
+        if (!isFavourite) {
             addToFav.setImageResource(R.drawable.ic_favourite_red);
             favouriteDatabase.insertItem(userId, courseId);
+            userInfo.setUserFavouritesNo(userInfo.getUserFavouritesNo()+1);
         } else {
             addToFav.setImageResource(R.drawable.ic_favourite_purple);
             favouriteDatabase.removeItem(userId, courseId);
+            userInfo.setUserFavouritesNo(userInfo.getUserFavouritesNo()-1);
         }
         isFavourite = !isFavourite;
     };
@@ -226,6 +228,7 @@ public class CoursePageActivity extends AppCompatActivity {
         CourseDatabase courseDatabase = new CourseDatabase();
         courseDatabase.incrementStudentCounter(courseId);
         incrementStudentCounter();
+        userInfo.setUserCoursesNo(userInfo.getUserCoursesNo()+1);
 
         enrollMe.setEnabled(false);
     };

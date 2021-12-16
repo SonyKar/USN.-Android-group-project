@@ -20,6 +20,7 @@ import com.example.mobproject.CoursePageActivity;
 import com.example.mobproject.R;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
+import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.models.Course;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,6 +41,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private final String[] difficulties;
     private final String userId;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final UserInfo userInfo;
 
     public CourseAdapter(Context context, ArrayList<Course> data,
                          ArrayList<DocumentReference> favouriteReferences, String userId) {
@@ -48,6 +50,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         this.difficulties = context.getResources().getStringArray(R.array.difficulties);
         this.userId = userId;
         this.favouriteReferences = favouriteReferences;
+        this.userInfo = new UserInfo(context.getApplicationContext());
     }
 
     @NonNull
@@ -116,10 +119,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
                 holder.addToFav.setImageResource(R.drawable.ic_favourite_red);
                 favouriteDatabase.insertItem(userId, courseId);
                 favouriteReferences.add(courseRef);
+                userInfo.setUserFavouritesNo(userInfo.getUserFavouritesNo()+1);
             } else {
                 holder.addToFav.setImageResource(R.drawable.ic_favourite_black);
                 favouriteDatabase.removeItem(userId, courseId);
                 favouriteReferences.remove(courseRef);
+                userInfo.setUserFavouritesNo(userInfo.getUserFavouritesNo()-1);
             }
         });
 
