@@ -20,7 +20,7 @@ import com.example.mobproject.LoginActivity;
 import com.example.mobproject.MyCoursesListActivity;
 import com.example.mobproject.R;
 import com.example.mobproject.UserProfileActivity;
-import com.example.mobproject.constants.Other;
+import com.example.mobproject.constants.SharedPreferencesInfo;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.PictureController;
 import com.example.mobproject.db.UserDatabase;
@@ -28,9 +28,6 @@ import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -82,9 +79,9 @@ public class MenuDrawer {
         final int LOG_OUT = R.id.nav_log_out;
 
         //check userType
-        SharedPreferences sharedPreferences = context.getSharedPreferences(Other.sharedPrefFile, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SharedPreferencesInfo.sharedPrefFile, Context.MODE_PRIVATE);
 
-        if (sharedPreferences.getString(Other.SHARED_PREF_USERTYPE, Other.SHARED_PREF_NODATA_STRING).equals("0"))
+        if (sharedPreferences.getString(SharedPreferencesInfo.SHARED_PREF_USERTYPE, SharedPreferencesInfo.SHARED_PREF_NODATA_STRING).equals("0"))
 
         navigationView.getMenu().findItem(R.id.nav_create_course).setVisible(false);
 

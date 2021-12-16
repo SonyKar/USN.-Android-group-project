@@ -23,7 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
 import com.example.mobproject.constants.DatabaseCollections;
-import com.example.mobproject.constants.Other;
+import com.example.mobproject.constants.Pictures;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.PictureController;
 import com.example.mobproject.db.UserDatabase;
@@ -163,16 +163,16 @@ public class EditProfileActivity extends AppCompatActivity {
     };
 
     private void pictureUpload(Uri imageUri) {
-        StorageReference fileRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId() + Other.PROFILE_PHOTO_EXTENSION);
+        StorageReference fileRef = storageReference.child(Pictures.PROFILE_STORAGE_FOLDER)
+                .child(userInfo.getUserId() + Pictures.PROFILE_PHOTO_EXTENSION);
         UploadTask uploadTask = fileRef.putFile(imageUri);
         uploadTask.addOnFailureListener(e ->
                 Toast.makeText(EditProfileActivity.this, getResources().getString(R.string.upload_error), Toast.LENGTH_LONG).show());
     }
 
     public void encodeBitmapAndSave(Bitmap bitmap) {
-        StorageReference fileRef = storageReference.child(Other.PROFILE_STORAGE_FOLDER)
-                .child(userInfo.getUserId() + Other.PROFILE_PHOTO_EXTENSION);
+        StorageReference fileRef = storageReference.child(Pictures.PROFILE_STORAGE_FOLDER)
+                .child(userInfo.getUserId() + Pictures.PROFILE_PHOTO_EXTENSION);
         ByteArrayOutputStream biteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, biteArrayOutputStream);
         byte[] data = biteArrayOutputStream.toByteArray();
@@ -187,7 +187,7 @@ public class EditProfileActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                Other.TEMPORARY_PHOTO_EXTENSION,         /* suffix */
+                Pictures.TEMPORARY_PHOTO_EXTENSION,         /* suffix */
                 storageDir      /* directory */
         );
         uri = FileProvider.getUriForFile(this,
