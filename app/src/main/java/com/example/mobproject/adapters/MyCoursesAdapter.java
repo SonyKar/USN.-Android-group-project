@@ -20,13 +20,11 @@ import com.example.mobproject.CoursePageActivity;
 import com.example.mobproject.R;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
-import com.example.mobproject.constants.Other;
 import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.models.Course;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -129,11 +127,19 @@ public class MyCoursesAdapter extends RecyclerView.Adapter<MyCoursesAdapter.View
         });
 
         String categoryId = data.get(position).getCategoryId().getId();
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference profileImgRef = storageReference.child(Other.CATEGORY_STORAGE_FOLDER)
-                .child(categoryId+Other.CATEGORY_PHOTO_EXTENSION);
-        profileImgRef.getDownloadUrl().addOnSuccessListener(uri ->
-                Picasso.get().load(uri).into(holder.courseImage));
+        DocumentReference categoryRef = FirebaseFirestore.getInstance()
+                .collection(DatabaseCollections.CATEGORIES_COLLECTION).document(categoryId);
+        categoryRef.get().addOnCompleteListener(task ->{
+            if ( task.isSuccessful() ) {
+                DocumentSnapshot documentSnapshot = task.getResult();
+                if ( documentSnapshot != null && documentSnapshot.exists() ){
+                    String categoryName = (String) documentSnapshot.get("fileName");
+                    Context context = holder.courseImage.getContext();
+                    int drawableId = context.getResources().getIdentifier(categoryName, "drawable", context.getPackageName());
+                    Picasso.get().load(drawableId).into(holder.courseImage);
+                }
+            }
+        });
     }
 
     @Override
