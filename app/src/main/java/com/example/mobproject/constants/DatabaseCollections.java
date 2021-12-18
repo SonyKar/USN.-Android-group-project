@@ -8,5 +8,6 @@ public class DatabaseCollections {
     public static final String CATEGORIES_COLLECTION = "Categories";
     public static final String FAVOURITES_COLLECTION = "FavouriteCourses";
     public static final String ENROLLED_COLLECTION = "EnrolledCourses";
+    public static final String TOKENS_COLLECTION = "Tokens";
 
 }

@@ -63,7 +63,9 @@ public class UserDatabase extends Database<User> {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Context appContext = EditProfileActivity.getContextOfApplication();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext);
-        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(Objects.requireNonNull(user).getEmail()), sharedPreferences.getString(SharedPreferencesInfo.SHARED_PREF_PASSWORD, SharedPreferencesInfo.SHARED_PREF_NODATA_STRING));
+        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(
+                Objects.requireNonNull(user).getEmail()), sharedPreferences.getString(
+                        SharedPreferencesInfo.SHARED_PREF_PASSWORD, SharedPreferencesInfo.SHARED_PREF_NODATA_STRING));
 
         user.reauthenticate(credential).addOnSuccessListener(unused -> user.updateEmail(item.getEmail())
                 .addOnSuccessListener(unused1 -> db.collection(DatabaseCollections.USER_COLLECTION).document(id)

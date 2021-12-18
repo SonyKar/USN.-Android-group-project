@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,14 +14,15 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobproject.adapters.CommentAdapter;
+import com.example.mobproject.constants.Course;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.Intents;
-import com.example.mobproject.constants.Course;
 import com.example.mobproject.constants.UserInfo;
 import com.example.mobproject.controllers.CourseController;
 import com.example.mobproject.controllers.PictureController;
@@ -31,16 +33,33 @@ import com.example.mobproject.db.FavouriteCoursesDatabase;
 import com.example.mobproject.db.UserDatabase;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
+import com.example.mobproject.notifications.APIService;
+import com.example.mobproject.notifications.Data;
+import com.example.mobproject.notifications.NotificationSender;
+import com.example.mobproject.notifications.Receiver;
+import com.example.mobproject.notifications.Response;
+import com.example.mobproject.notifications.Token;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import retrofit2.Call;
 
 public class CoursePageActivity extends AppCompatActivity {
     private RatingBar finalRating;
@@ -56,6 +75,8 @@ public class CoursePageActivity extends AppCompatActivity {
     private String userId;
     private String categoryName;
     private boolean isFavourite = false;
+    private APIService apiService;
+    private DocumentReference ownerId;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +105,8 @@ public class CoursePageActivity extends AppCompatActivity {
         no_students = findViewById(R.id.no_students);
         teacherName = findViewById(R.id.teacher_name);
 
+        apiService = Receiver.getReceiver("https://fcm.googleapis.com/").create(APIService.class);
+
         userInfo = new UserInfo(this);
         userId = userInfo.getUserId();
 
@@ -106,6 +129,7 @@ public class CoursePageActivity extends AppCompatActivity {
         String userTypeString = userInfo.getUserType();
         if (userTypeString.equals("0"))
             editCourse.setVisibility(View.GONE);
+
 
         initFavouriteButton();
         initEnrolledButton();
@@ -240,7 +264,8 @@ public class CoursePageActivity extends AppCompatActivity {
             no_students.setText(getResources().getString(R.string.student_counter, courseInfo.getStudentCounter()));
 
             UserDatabase userDatabase = new UserDatabase();
-            userDatabase.getItem(courseInfo.getOwnerId().getId(), new Callback<User>() {
+            ownerId = courseInfo.getOwnerId();
+            userDatabase.getItem(ownerId.getId(), new Callback<User>() {
                 @Override
                 public void OnFinish(ArrayList<User> arrayList) {
                     teacherName.setText(arrayList.get(0).getName());
@@ -275,10 +300,8 @@ public class CoursePageActivity extends AppCompatActivity {
             }
             courseMeetingDays.setText(meetingDaysString.toString());
 
-            DocumentReference ownerId = courseInfo.getOwnerId();
             if (userId.equals(ownerId.getId()))
                 editCourse.setVisibility(View.VISIBLE);
-
             updateComments();
             updateTotalRating();
 
@@ -331,8 +354,70 @@ public class CoursePageActivity extends AppCompatActivity {
             courseInfo = courseController.addComment(courseInfo, userInfo.getUserId(), commentMessage);
             commentTextView.setText("");
             updateComments();
+//            handleNotification();
+
         } else {
             Toast.makeText(this, R.string.comment_error, Toast.LENGTH_SHORT);
         }
     };
+
+
+//    private void handleNotification(){
+//        FirebaseDatabase.getInstance().getReference().child(DatabaseCollections.TOKENS_COLLECTION)
+//                .child(ownerId.getId()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String userToken=dataSnapshot.getValue(String.class);
+//                FirebaseFirestore.getInstance().collection(DatabaseCollections.USER_COLLECTION)
+//                        .document(userId).get().addOnSuccessListener(documentSnapshot -> {
+//                            String userName = (String) documentSnapshot.get("name");
+//                            sendNotifications(userToken, courseInfo.getName(),userName);
+//                        });
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
+//        updateToken();
+//    }
+
+//    private void updateToken(){
+//        FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+//            @Override
+//            public void onComplete(@NonNull Task<String> task) {
+//                if (!task.isSuccessful()) {
+//                    Log.w("tokenFetch", "Fetching FCM registration token failed", task.getException());
+//                    return;
+//                }
+//                String refreshToken = task.getResult();
+//                Token token= new Token(refreshToken);
+//                FirebaseDatabase.getInstance().getReference(DatabaseCollections.TOKENS_COLLECTION)
+//                        .child(firebaseUser.getUid()).setValue(token);
+//            }
+//        });
+//    }
+
+//    public void sendNotifications(String userToken, String courseName, String senderName){
+//        Data data = new Data(courseName, senderName);
+//        Log.d("notificationSend","sending Notif");
+//        NotificationSender notificationSender = new NotificationSender(data, userToken);
+//        Log.d("notificationSend","made sender");
+//        apiService.sendNotification(notificationSender).enqueue(new retrofit2.Callback<Response>() {
+//            @Override
+//            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+//                Log.d("notificationSend","onResponse");
+//                Log.d("notificationSend","response code"+String.valueOf(response.code()));
+////                Log.d("notificationSend","response body"+String.valueOf(response.body().success));
+//                Log.d("notificationSend","onResponse");
+//                if(response.code() == 200 && response.body().success != 1){
+//                    Log.d("notificationSending","sent successfully");
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<Response> call, Throwable t) {
+//                Log.d("notificationSending","failure sending");
+//            }
+//        });
+//    }
 }
