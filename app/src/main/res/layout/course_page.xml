@@ -188,7 +188,7 @@
                     android:layout_marginEnd="@dimen/padding"
                     android:layout_marginBottom="@dimen/course_page_field_distance"
                     android:gravity="start|top"
-                    android:maxLines="5"
+                    android:maxLines="100"
                     android:scrollbars="vertical"
                     android:text=""
                     android:textColor="@color/black" />
