@@ -51,7 +51,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
@@ -303,7 +302,6 @@ public class CoursePageActivity extends AppCompatActivity {
 
             if (userId.equals(ownerId.getId()))
                 editCourse.setVisibility(View.VISIBLE);
-
             updateComments();
             updateTotalRating();
 
@@ -356,8 +354,7 @@ public class CoursePageActivity extends AppCompatActivity {
             courseInfo = courseController.addComment(courseInfo, userInfo.getUserId(), commentMessage);
             commentTextView.setText("");
             updateComments();
-            handleNotification();
-
+//            handleNotification();
 
         } else {
             Toast.makeText(this, R.string.comment_error, Toast.LENGTH_SHORT);
@@ -365,58 +362,62 @@ public class CoursePageActivity extends AppCompatActivity {
     };
 
 
-    private void handleNotification(){
-        FirebaseDatabase.getInstance().getReference().child(DatabaseCollections.TOKENS_COLLECTION)
-                .child(ownerId.getId()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String userToken=dataSnapshot.getValue(String.class);
-                FirebaseFirestore.getInstance().collection(DatabaseCollections.USER_COLLECTION)
-                        .document(userId).get().addOnSuccessListener(documentSnapshot -> {
-                            String userName = (String) documentSnapshot.get("name");
-                            sendNotifications(userToken, courseInfo.getName(),userName);
-                        });
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-        UpdateToken();
-    }
+//    private void handleNotification(){
+//        FirebaseDatabase.getInstance().getReference().child(DatabaseCollections.TOKENS_COLLECTION)
+//                .child(ownerId.getId()).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                String userToken=dataSnapshot.getValue(String.class);
+//                FirebaseFirestore.getInstance().collection(DatabaseCollections.USER_COLLECTION)
+//                        .document(userId).get().addOnSuccessListener(documentSnapshot -> {
+//                            String userName = (String) documentSnapshot.get("name");
+//                            sendNotifications(userToken, courseInfo.getName(),userName);
+//                        });
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
+//        updateToken();
+//    }
 
-    private void UpdateToken(){
-        FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (!task.isSuccessful()) {
-                    Log.w("tokenFetch", "Fetching FCM registration token failed", task.getException());
-                    return;
-                }
-                String refreshToken = task.getResult();
-                Token token= new Token(refreshToken);
-                FirebaseDatabase.getInstance().getReference(DatabaseCollections.TOKENS_COLLECTION)
-                        .child(firebaseUser.getUid()).setValue(token);
-            }
-        });
+//    private void updateToken(){
+//        FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+//            @Override
+//            public void onComplete(@NonNull Task<String> task) {
+//                if (!task.isSuccessful()) {
+//                    Log.w("tokenFetch", "Fetching FCM registration token failed", task.getException());
+//                    return;
+//                }
+//                String refreshToken = task.getResult();
+//                Token token= new Token(refreshToken);
+//                FirebaseDatabase.getInstance().getReference(DatabaseCollections.TOKENS_COLLECTION)
+//                        .child(firebaseUser.getUid()).setValue(token);
+//            }
+//        });
+//    }
 
-
-    }
-
-    public void sendNotifications(String userToken, String courseName, String senderName){
-        Data data = new Data(courseName, senderName);
-        NotificationSender notificationSender = new NotificationSender(data, userToken);
-        apiService.sendNotifcation(notificationSender).enqueue(new retrofit2.Callback<Response>() {
-            @Override
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                if(response.code() == 200 && response.body().success != 1){
-                    Log.d("notificationSending","sent successfully");
-                }
-            }
-            @Override
-            public void onFailure(Call<Response> call, Throwable t) {
-                Log.d("notificationSending","failure sending");
-            }
-        });
-    }
+//    public void sendNotifications(String userToken, String courseName, String senderName){
+//        Data data = new Data(courseName, senderName);
+//        Log.d("notificationSend","sending Notif");
+//        NotificationSender notificationSender = new NotificationSender(data, userToken);
+//        Log.d("notificationSend","made sender");
+//        apiService.sendNotification(notificationSender).enqueue(new retrofit2.Callback<Response>() {
+//            @Override
+//            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+//                Log.d("notificationSend","onResponse");
+//                Log.d("notificationSend","response code"+String.valueOf(response.code()));
+////                Log.d("notificationSend","response body"+String.valueOf(response.body().success));
+//                Log.d("notificationSend","onResponse");
+//                if(response.code() == 200 && response.body().success != 1){
+//                    Log.d("notificationSending","sent successfully");
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<Response> call, Throwable t) {
+//                Log.d("notificationSending","failure sending");
+//            }
+//        });
+//    }
 }
