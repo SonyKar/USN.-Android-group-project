@@ -70,7 +70,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                     if (task1.isSuccessful()) {
                                         //disable savePassword button
                                         savePassword.setEnabled(false);
-
+                                        userInfo.setUserPassword(newPassword);
                                         Toast.makeText(getApplicationContext(), getString(R.string.password_change_message), Toast.LENGTH_SHORT).show();
                                         goToProfile();
                                     } else { // updating password was not successful
