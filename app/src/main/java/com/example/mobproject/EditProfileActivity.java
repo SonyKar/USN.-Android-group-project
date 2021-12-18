@@ -226,9 +226,13 @@ public class EditProfileActivity extends AppCompatActivity {
                     DocumentReference userType = FirebaseFirestore.getInstance()
                             .collection(DatabaseCollections.USERTYPES_COLLECTION).document(userInfo.getUserType());
                     User user = new User(name, email, userType);
-                    UserDatabase userDatabase = new UserDatabase();
-                    userDatabase.updateItem(userInfo.getUserId(), user);
-                    goToProfile();
+
+                    userDatabase.updateItem(userInfo.getUserId(), user, new Callback<User>() {
+                        @Override
+                        public void OnFinish(ArrayList<User> arrayList) {
+                            goToProfile();
+                        }
+                    });
                 }
             }
         });

@@ -49,6 +49,10 @@ public class UserInfo {
         sharedPreferences.edit().putInt(SharedPreferencesInfo.SHARED_PREF_FAVOURITES, number).apply();
     }
 
+    public void setUserPassword(String password) {
+        sharedPreferences.edit().putString(SharedPreferencesInfo.SHARED_PREF_PASSWORD, password).apply();
+    }
+
     public void resetUserInfo() {
         sharedPreferences.edit().clear().apply();
     }

@@ -43,6 +43,11 @@ public class CommentDatabase extends Database<Comment> {
         newCommentRef.set(item);
     }
 
+    @Override
+    public void updateItem(String id, Comment item, Callback<Comment> callback) {
+
+    }
+
     public DocumentReference insertItem(Comment item, Callback<DocumentReference> callback) {
         DocumentReference newCommentRef = db.collection(DatabaseCollections.COMMENTS_COLLECTION).document();
         newCommentRef.set(item);
@@ -53,10 +58,5 @@ public class CommentDatabase extends Database<Comment> {
         });
 
         return newCommentRef;
-    }
-
-    @Override
-    public void updateItem(String id, Comment item) {
-
     }
 }

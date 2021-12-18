@@ -1,8 +1,12 @@
 package com.example.mobproject.db;
 
+import androidx.annotation.NonNull;
+
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.Course;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -50,8 +54,12 @@ public class CourseDatabase extends Database<Course> {
     }
 
     @Override
-    public void updateItem(String id, Course item) {
+    public void updateItem(String id, Course item, Callback<Course> callback) {
         DocumentReference courseRef = db.collection(DatabaseCollections.COURSES_COLLECTION).document(id);
-        courseRef.set(item);
+        courseRef.set(item).addOnCompleteListener(task -> {
+           if (task.isSuccessful()) {
+               callback.OnFinish(null);
+           }
+        });
     }
 }

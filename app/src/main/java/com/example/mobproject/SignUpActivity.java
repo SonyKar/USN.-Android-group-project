@@ -90,6 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
                             userInfo.setUserType(String.valueOf(selectedStatusId));
                             userInfo.setUserCoursesNo(0);
                             userInfo.setUserFavouritesNo(0);
+                            userInfo.setUserPassword(password);
 
                             docRef.set(user).addOnFailureListener(e -> Log.d("addUserData",
                                     "onFailure: " + e.toString()));

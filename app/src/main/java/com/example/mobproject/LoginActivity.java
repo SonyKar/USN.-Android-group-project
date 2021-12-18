@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String userId = auth.getUid();
                             userInfo.setUserId(userId);
+                            userInfo.setUserPassword(password);
                             UserDatabase userDatabase = new UserDatabase();
                             userDatabase.getItem(auth.getUid(), new Callback<User>() {
                                 @Override

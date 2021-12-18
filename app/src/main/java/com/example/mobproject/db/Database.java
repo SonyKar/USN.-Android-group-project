@@ -9,5 +9,5 @@ public abstract class Database<T> {
     public abstract void getItem(String id, Callback<T> callback);
     public abstract void getItems(Callback<T> callback);
     public abstract void insertItem(T item);
-    public abstract void updateItem(String id, T item);
+    public abstract void updateItem(String id, T item, Callback<T> callback);
 }

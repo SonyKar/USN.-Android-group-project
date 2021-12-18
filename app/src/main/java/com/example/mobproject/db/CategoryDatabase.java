@@ -44,7 +44,7 @@ public class CategoryDatabase extends Database<Category> {
     }
 
     @Override
-    public void updateItem(String id, Category item) {
+    public void updateItem(String id, Category item, Callback<Category> callback) {
 
     }
 }

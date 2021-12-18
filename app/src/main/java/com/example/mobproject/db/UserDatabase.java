@@ -3,12 +3,17 @@ package com.example.mobproject.db;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.example.mobproject.EditProfileActivity;
 import com.example.mobproject.constants.DatabaseCollections;
 import com.example.mobproject.constants.SharedPreferencesInfo;
 import com.example.mobproject.interfaces.Callback;
 import com.example.mobproject.models.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,7 +59,7 @@ public class UserDatabase extends Database<User> {
     }
 
     @Override
-    public void updateItem(String id, User item) {
+    public void updateItem(String id, User item, Callback<User> callback) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Context appContext = EditProfileActivity.getContextOfApplication();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext);
@@ -66,6 +71,7 @@ public class UserDatabase extends Database<User> {
                                 "name", item.getName(),
                                 "email", item.getEmail(),
                                 "userType", item.getUserType()
-                        )));
+                        ).addOnSuccessListener(unused2 -> callback.OnFinish(null))
+                )).addOnFailureListener(e -> Log.d("update user", e.getMessage()));
     }
 }

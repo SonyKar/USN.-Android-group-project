@@ -326,9 +326,14 @@ public class CreateCourseActivity extends AppCompatActivity implements DatePicke
                 CourseDatabase courseDatabase = new CourseDatabase();
                 if (isEdit == Course.CREATE_MODE) {
                     courseDatabase.insertItem(course);
-                    userInfo.setUserCoursesNo(userInfo.getUserCoursesNo()+1);
+                    userInfo.setUserCoursesNo(userInfo.getUserCoursesNo() + 1);
                 } else {
-                    courseDatabase.updateItem(courseId, course);
+                    courseDatabase.updateItem(courseId, course, new Callback<com.example.mobproject.models.Course>() {
+                        @Override
+                        public void OnFinish(ArrayList<com.example.mobproject.models.Course> arrayList) {
+
+                        }
+                    });
                 }
             } else {
                 Toast.makeText(this, getResources().getString(R.string.something_wrong_error), Toast.LENGTH_SHORT).show();
